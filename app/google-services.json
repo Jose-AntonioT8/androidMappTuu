@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "894446902771",
+    "project_id": "maptuu-e0f68",
+    "storage_bucket": "maptuu-e0f68.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894446902771:android:0c9108e1dbc21bfc218686",
+        "android_client_info": {
+          "package_name": "com.example.mapptuu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAbUzg96SX93qGexUo_Kksa1KgMoGT5CQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

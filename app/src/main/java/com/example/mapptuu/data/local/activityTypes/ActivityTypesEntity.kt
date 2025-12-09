@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.mapptuu.data.model.ActivityTypes
 
-@Entity("activityTypes")
+@Entity("activityType")
 data class ActivityTypesEntity(
     @PrimaryKey
     val id:String,

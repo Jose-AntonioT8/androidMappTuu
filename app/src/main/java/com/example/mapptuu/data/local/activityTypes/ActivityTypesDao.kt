@@ -13,12 +13,12 @@ interface ActivityTypesDao{
     suspend fun insert(activityType: ActivityTypesEntity)
     @Delete
     suspend fun delete(id: String)
-    @Query("SELECT * FROM activityTypes")
+    @Query("SELECT * FROM activityType")
     fun getAll(): List<ActivityTypesEntity>
 
-    @Query("SELECT * FROM activityTypes")
+    @Query("SELECT * FROM activityType")
     fun observeAll(): Flow<List<ActivityTypesEntity>>
 
-    @Query("SELECT * FROM activityTypes WHERE id = :id")
+    @Query("SELECT * FROM activityType WHERE id = :id")
     suspend fun readActivityTypesById(id: String): ActivityTypesEntity?
 }

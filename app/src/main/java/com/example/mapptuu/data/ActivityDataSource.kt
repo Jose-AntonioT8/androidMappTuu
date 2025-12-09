@@ -12,4 +12,7 @@ interface ActivityDataSource {
     suspend fun insert(activity: Activity)
 
     suspend fun delete(id:String)
+
+    suspend fun update(id:String, activity: Activity)
+
 }

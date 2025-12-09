@@ -60,4 +60,12 @@ class ActivityLocalDataSource @Inject constructor(
 
     }
 
+    override suspend fun update(
+        id: String,
+        activity: Activity
+    ) {
+        activityDao.update(id, activity.toEntity())
+
+    }
+
 }

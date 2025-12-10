@@ -1,6 +1,16 @@
 package com.example.mapptuu.di
 
 
+import com.example.mapptuu.data.ActivityDataSource
+import com.example.mapptuu.data.ActivityTypesDataSource
+import com.example.mapptuu.data.local.activity.ActivityLocalDataSource
+import com.example.mapptuu.data.local.activityTypes.ActivityTypesLocalDataSource
+import com.example.mapptuu.data.remote.activity.ActivityRemoteDataSource
+import com.example.mapptuu.data.remote.activity.model.ActivityRemote
+import com.example.mapptuu.data.repository.activity.ActivityRepository
+import com.example.mapptuu.data.repository.activity.ActivityRepositoryImpl
+import com.example.mapptuu.data.repository.activityType.ActivityTypeRepository
+import com.example.mapptuu.data.repository.activityType.ActivityTypeRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Binds
 import dagger.Module
@@ -12,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+abstract class AppModule {
 
     @Provides
     @Singleton
@@ -22,16 +32,30 @@ object AppModule {
     @Binds
     @Singleton
     @RemoteDataSource
-    abstract fun bindsRemotePokemonDataSource(ds: ActivityRemote): CharacterDataSource
+    abstract fun bindsRemoteActivityDataSource(ds: ActivityRemoteDataSource): ActivityDataSource
 
     @Binds
     @Singleton
     @LocalDataSource
-    abstract fun bindsLocalPokemonDataSource(ds: CharacterLocalDataSource): CharacterDataSource
+    abstract fun bindsLocalActivityDataSource(ds: ActivityLocalDataSource): ActivityDataSource
 
     @Binds
     @Singleton
-    abstract  fun bindPokemonRepository(repository: CharacterRepositoryImpl): CharacterRepository
+    abstract  fun bindActivityRepository(repository: ActivityRepositoryImpl): ActivityRepository
+    @Binds
+    @Singleton
+    @RemoteDataSource
+    abstract fun bindsRemoteActivityTypesDataSource(ds: ActivityTypeRemoteDataSource): ActivityTypesDataSource
+
+    @Binds
+    @Singleton
+    @LocalDataSource
+    abstract fun bindsLocalActivityTypesDataSource(ds: ActivityTypesLocalDataSource): ActivityTypesDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindActivityTypesRepository(repository: ActivityTypeRepositoryImpl): ActivityTypeRepository
+
     @Binds
     @Singleton
     @RemoteDataSource
@@ -45,8 +69,6 @@ object AppModule {
     @Binds
     @Singleton
     abstract fun bindPlanetRepository(repository: PlanetRepositoryImpl): PlanetRepository
-    //abstract fun bindPokemonRepository(repository: PokemonFakeRemoteRepository): PokemonRepository
-    //abstract fun bindPokemonRepository(repository: PokemonInMemoryRepository): PokemonRepository
 }
 
 @Qualifier

@@ -24,6 +24,9 @@ class ActivityRepositoryImpl  @Inject constructor(
         return localDataSource.readOne(id)
     }
 
+    override suspend fun readdOneByName(name: String): Result<List<Activity>> {
+        return localDataSource.readOneByName(name)
+    }
 
 
     override fun observe(): Flow<Result<List<Activity>>> {

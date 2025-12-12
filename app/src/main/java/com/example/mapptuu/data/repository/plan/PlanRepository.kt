@@ -7,6 +7,7 @@ interface PlanRepository {
     suspend fun readAll(): Result<List<Plans>>
     suspend fun readOne(id:String): Result<Plans>
 
+    suspend fun readdOneByName(name:String): Result<List<Plans>>
 
     fun observe(): Flow<Result<List<Plans>>>
     suspend fun delete(id:String)

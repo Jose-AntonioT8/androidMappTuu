@@ -22,6 +22,10 @@ class PlanRepositoryImpl @Inject constructor(
         return localDataSource.readOne(id)
     }
 
+    override suspend fun readdOneByName(name: String): Result<List<Plans>> {
+        return localDataSource.readOneByName(name)
+    }
+
     override fun observe(): Flow<Result<List<Plans>>> {
         return localDataSource.observe()
     }

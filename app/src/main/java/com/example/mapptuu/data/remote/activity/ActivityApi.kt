@@ -17,7 +17,7 @@ interface ActivityApi {
     @GET("/api/activities/{id}")
     suspend fun readOne(@Path("id") id: String): Response<ActivityRemote>
     @GET("/api/activities?name={name}")
-    suspend fun readOneByName(@Query("name") name: String): Response<List<ActivityRemote>>
+    suspend fun readOneByName(@Query("name") name: String): Response<ActivityListRemote>
 
 
     @DELETE("/api/activities/{id}")

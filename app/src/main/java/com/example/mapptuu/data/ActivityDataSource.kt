@@ -8,6 +8,7 @@ interface ActivityDataSource {
     fun observe(): Flow<Result<List<Activity>>>
     suspend fun readAll(): Result<List<Activity>>
     suspend fun readOne(id: String): Result<Activity>
+    suspend fun readOneByName(name: String): Result<List<Activity>>
     suspend fun isError()
     suspend fun insert(activity: Activity)
 

@@ -63,6 +63,28 @@ class ActivityRemoteDataSource  @Inject constructor(
         }
     }
 
+    override suspend fun readOneByName(name: String): Result<List<Activity>> {
+        try {
+            val response = api.readOneByName(name)
+            val finalList = mutableListOf<Activity>()
+            return if (response.isSuccessful) {
+                val body = response.body()!!
+                for (result in body.items) {
+                    val remoteActivity = readOne(id = result.id)
+                    remoteActivity.let {
+                        finalList.add(remoteActivity.toActivity())
+                    }
+                }
+                Result.success(finalList)
+            } else {
+                Result.failure(RuntimeException("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
+
     override suspend fun isError() {
         TODO("Not yet implemented")
     }

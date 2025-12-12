@@ -9,6 +9,8 @@ interface PlansDataSource {
     fun observe(): Flow<Result<List<Plans>>>
     suspend fun readAll(): Result<List<Plans>>
     suspend fun readOne(id: String): Result<Plans>
+
+    suspend fun readOneByName(name: String): Result<List<Plans>>
     suspend fun isError()
     suspend fun insert(plans: Plans)
 

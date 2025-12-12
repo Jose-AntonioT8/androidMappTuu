@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
-import kotlin.text.insert
 
 class PlanRemoteDataSource @Inject constructor(
     private val api: PlanApi,
@@ -60,6 +59,27 @@ class PlanRemoteDataSource @Inject constructor(
             val response = api.readOne(id)
             return response.body().let {
                 Result.success(it!!.toExternal())
+            }
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
+    override suspend fun readOneByName(name: String): Result<List<Plans>> {
+        try {
+            val response = api.readOneByName(name)
+            val finalList = mutableListOf<Plans>()
+            return if (response.isSuccessful) {
+                val body = response.body()!!
+                for (result in body.items) {
+                    val remotePlans = readOne(id = result.id)
+                    remotePlans.let {
+                        finalList.add(remotePlans.toPlans())
+                    }
+                }
+                Result.success(finalList)
+            } else {
+                Result.failure(RuntimeException("Error code: ${response.code()}"))
             }
         } catch (e: Exception) {
             return Result.failure(e)

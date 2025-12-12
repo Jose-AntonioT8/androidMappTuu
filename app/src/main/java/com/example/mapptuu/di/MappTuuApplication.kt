@@ -1,4 +1,8 @@
 package com.example.mapptuu.di
 
-class MappTuuApplication {
-}
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+
+@HiltAndroidApp
+class MappTuuApplication() : Application()

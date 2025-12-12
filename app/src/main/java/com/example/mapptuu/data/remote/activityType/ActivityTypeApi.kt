@@ -15,18 +15,18 @@ interface ActivityTypeApi  {
     @GET("/api/activityTypes")
     suspend fun readAll(): Response<ActivityTypesListRemote>
     @GET("/api/activityTypes/{id}")
-    suspend fun readOne(@Path("id") id: Long): Response<ActivityTypesRemote>
+    suspend fun readOne(@Path("id") id: String): Response<ActivityTypesRemote>
     @GET("/api/activityTypes?name={name}")
-    suspend fun readOne(@Query("name") name: String): Response<List<ActivityTypesRemote>>
+    suspend fun readOneByName(@Query("name") name: String): Response<List<ActivityTypesRemote>>
 
 
     @DELETE("/api/activityTypes/{id}")
-    suspend fun delete(@Path("id") id: Long)
+    suspend fun delete(@Path("id") id: String)
 
     @POST("/api/activityTypes")
     suspend fun insert(@Body activityTypes: ActivityTypesRemote): Response<ActivityTypesRemote>
 
     @PATCH("/api/activityTypes/{id}")
-    suspend fun update(@Path("id") id: Long, @Body activityTypes: ActivityTypesRemote): Response<ActivityTypesRemote>
+    suspend fun update(@Path("id") id: String, @Body activityTypes: ActivityTypesRemote): Response<ActivityTypesRemote>
 
 }

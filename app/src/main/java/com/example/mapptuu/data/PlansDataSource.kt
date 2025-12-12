@@ -13,4 +13,7 @@ interface PlansDataSource {
     suspend fun insert(plans: Plans)
 
     suspend fun delete(id:String)
+
+    suspend fun update(id:String, plans: Plans)
+
 }

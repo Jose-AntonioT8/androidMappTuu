@@ -4,7 +4,7 @@ package com.example.mapptuu.data.local.plans
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.mapptuu.data.model.Plans
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
 
 @Entity("plans")
 data class PlansEntity(

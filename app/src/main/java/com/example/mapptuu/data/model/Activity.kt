@@ -1,5 +1,6 @@
 package com.example.mapptuu.data.model
-import java.sql.Timestamp
+
+import com.google.firebase.Timestamp
 
 data class Activity(
     val id:String,

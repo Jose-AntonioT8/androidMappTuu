@@ -2,7 +2,7 @@ package com.example.mapptuu.data.local.activity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
 import com.example.mapptuu.data.model.Activity
 
 @Entity("activity")

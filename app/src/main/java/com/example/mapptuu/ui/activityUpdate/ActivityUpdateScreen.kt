@@ -1,0 +1,94 @@
+package com.example.mapptuu.ui.activityUpdate
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+
+@Composable
+fun ActivityUpdateScreen(
+    modifier : Modifier = Modifier,
+    viewModel : ActivityUpdateViewModel = hiltViewModel(),
+    onNavigateToDetails:(String)->Unit
+){
+    Card(
+        modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp)
+    ) {
+        Column(modifier = Modifier.padding(8.dp)  .verticalScroll(rememberScrollState())) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()                    .padding(start = 8.dp),
+                value = viewModel.name,
+                singleLine = true,
+                isError = viewModel.isError,
+                label = { Text("Nombre") },
+                onValueChange = { viewModel.name = it }
+
+            )
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(start = 8.dp).fillMaxWidth(),
+                value = viewModel.description,
+                singleLine = false,
+                isError = viewModel.isError,
+                label = { Text("Descripcion") },
+                onValueChange = { viewModel.description = it }
+            )
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(start = 8.dp).fillMaxWidth(),
+                value = viewModel.activityTypeId,
+                singleLine = false,
+                isError = viewModel.isError,
+                label = { Text("ID del tipo de actividad") },
+                onValueChange = { viewModel.activityTypeId = it }
+            )
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(start = 8.dp).fillMaxWidth(),
+                value = viewModel.longitude,
+                singleLine = false,
+                isError = viewModel.isError,
+                label = { Text("Longitud ") },
+                onValueChange = { viewModel.longitude = it }
+            )
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(start = 8.dp).fillMaxWidth(),
+                value = viewModel.latitude,
+                singleLine = false,
+                isError = viewModel.isError,
+                label = { Text("Latitud ") },
+                onValueChange = { viewModel.latitude = it }
+            )
+            Row(modifier = Modifier.padding(8.dp)){
+                Button(
+                    onClick={
+                        viewModel.update()
+                        onNavigateToDetails(viewModel.activityId)
+                    },
+                ){
+                    Text("Actualizar")
+                }
+                Button(
+                    onClick={
+                        onNavigateToDetails(viewModel.activityId)
+                    },
+                ){
+                    Text("Cancelar")
+                }
+            }
+        }
+
+    }
+}

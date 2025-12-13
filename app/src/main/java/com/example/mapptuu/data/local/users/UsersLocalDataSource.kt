@@ -1,8 +1,6 @@
 package com.example.mapptuu.data.local.users
 
 import com.example.mapptuu.data.UsersDataSource
-import com.example.mapptuu.data.local.plans.PlansNotFoundException
-import com.example.mapptuu.data.local.plans.toEntity
 import com.example.mapptuu.data.model.Users
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +38,7 @@ class UsersLocalDataSource @Inject constructor(
     override suspend fun readOne(id: String): Result<Users> {
         val entity = usersDao.readUserById(id)
         return if (entity == null) {
-            Result.failure(PlansNotFoundException())
+            Result.failure(UsersNotFoundException())
         } else
             Result.success(entity.toModel())
     }
@@ -58,5 +56,9 @@ class UsersLocalDataSource @Inject constructor(
     override suspend fun delete(id: String) {
         usersDao.delete(id)
 
+    }
+
+    override suspend fun update(id: String, user: Users) {
+        usersDao.update(id, user.toEntity())
     }
 }

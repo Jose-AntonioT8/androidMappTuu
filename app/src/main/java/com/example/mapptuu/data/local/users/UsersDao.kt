@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import com.example.mapptuu.data.local.users.UsersEntity
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,4 +22,7 @@ interface UsersDao {
 
     @Query("SELECT * FROM users WHERE id = :id")
     suspend fun readUserById(id: String): UsersEntity?
+
+    @Update
+    suspend fun update(id: String, user: UsersEntity)
 }

@@ -1,7 +1,7 @@
 package com.example.mapptuu.data.remote.user.model
 
+import com.google.firebase.Timestamp
 
-import java.sql.Timestamp
 
 data class UsersListRemote(
     val items:List<UsersListItemRemote>
@@ -9,7 +9,7 @@ data class UsersListRemote(
 
 data class UsersListItemRemote(
     val id:String,
-    val createdAt:Timestamp,
+    val createdAt: Timestamp,
     val email:String,
     val name:String,
 )

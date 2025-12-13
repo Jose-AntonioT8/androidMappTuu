@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -21,4 +22,7 @@ interface ActivityTypesDao{
 
     @Query("SELECT * FROM activityType WHERE id = :id")
     suspend fun readActivityTypesById(id: String): ActivityTypesEntity?
+
+    @Update
+    suspend fun update(id: String, activityType: ActivityTypesEntity)
 }

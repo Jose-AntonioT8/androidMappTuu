@@ -44,6 +44,10 @@ class ActivityLocalDataSource @Inject constructor(
         else
             Result.success(entity.toModel())    }
 
+    override suspend fun readOneByName(name: String): Result<List<Activity>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun isError() {
         TODO("Not yet implemented")
     }

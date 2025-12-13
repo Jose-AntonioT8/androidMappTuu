@@ -44,6 +44,10 @@ class PlansLocalDataSource @Inject constructor(
             Result.success(entity.toModel())
     }
 
+    override suspend fun readOneByName(name: String): Result<List<Plans>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun isError() {
         TODO("Not yet implemented")
     }
@@ -57,6 +61,10 @@ class PlansLocalDataSource @Inject constructor(
     override suspend fun delete(id: String) {
         plansDao.delete(id)
 
+    }
+
+    override suspend fun update(id: String, plans: Plans) {
+        plansDao.update(id, plans.toEntity())
     }
 }
 

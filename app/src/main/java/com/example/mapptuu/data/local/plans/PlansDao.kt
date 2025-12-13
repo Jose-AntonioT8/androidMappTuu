@@ -6,7 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import com.example.mapptuu.data.local.plans.PlansEntity
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -23,4 +23,7 @@ interface PlansDao{
 
     @Query("SELECT * FROM plans WHERE id = :id")
     suspend fun readPlanById(id: String): PlansEntity?
+
+    @Update
+    suspend fun update(id: String, plan: PlansEntity)
 }

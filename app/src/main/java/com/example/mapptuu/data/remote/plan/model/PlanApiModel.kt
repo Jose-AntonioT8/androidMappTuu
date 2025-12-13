@@ -1,6 +1,6 @@
 package com.example.mapptuu.data.remote.plan.model
 
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
 
 data class PlanListRemote(
     val items:List<PlansListItemRemote>

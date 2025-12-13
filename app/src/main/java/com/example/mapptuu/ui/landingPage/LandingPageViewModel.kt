@@ -2,6 +2,7 @@ package com.example.mapptuu.ui.landingPage
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,18 +20,23 @@ class LandingPageViewModel@Inject constructor(
     private val authRepository: AuthRepository
 
 ): ViewModel() {
-    var isLogged =false
-    init{
+    var isLogged by mutableStateOf(false)
+        private set
+
+    init {
+        checkAuthenticationStatus()
+    }
+
+    private fun checkAuthenticationStatus() {
         viewModelScope.launch {
-            isLogged=authRepository.isAuthenticated()
+            isLogged = authRepository.isAuthenticated()
         }
     }
 
-
-    fun onLogOut(){
+    fun onLogOut() {
         viewModelScope.launch {
-
             authRepository.logout()
+            isLogged = false
         }
     }
 }

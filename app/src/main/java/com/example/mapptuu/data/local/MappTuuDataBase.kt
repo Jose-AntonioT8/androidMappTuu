@@ -2,6 +2,7 @@ package com.example.mapptuu.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.mapptuu.data.local.activity.ActivityDao
 import com.example.mapptuu.data.local.activity.ActivityEntity
 import com.example.mapptuu.data.local.activityTypes.ActivityTypesDao
@@ -15,6 +16,7 @@ import com.example.mapptuu.data.local.users.UsersEntity
     entities = [UsersEntity::class, ActivityEntity::class, ActivityTypesEntity::class, PlansEntity::class],
     version = 1,
     exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class MappTuuDataBase: RoomDatabase() {
 
     abstract fun getUserDao(): UsersDao

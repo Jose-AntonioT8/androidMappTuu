@@ -1,6 +1,5 @@
 package com.example.mapptuu.di
 
-
 import com.example.mapptuu.data.ActivityDataSource
 import com.example.mapptuu.data.ActivityTypesDataSource
 import com.example.mapptuu.data.PlansDataSource
@@ -10,7 +9,6 @@ import com.example.mapptuu.data.local.activityTypes.ActivityTypesLocalDataSource
 import com.example.mapptuu.data.local.plans.PlansLocalDataSource
 import com.example.mapptuu.data.local.users.UsersLocalDataSource
 import com.example.mapptuu.data.remote.activity.ActivityRemoteDataSource
-import com.example.mapptuu.data.remote.activity.model.ActivityRemote
 import com.example.mapptuu.data.remote.activityType.ActivityTypeRemoteDataSource
 import com.example.mapptuu.data.remote.plan.PlanRemoteDataSource
 import com.example.mapptuu.data.remote.user.UserRemoteDataSource
@@ -31,15 +29,23 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+// NEW MODULE for @Provides
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class AppModule {
+object AppModule { // Renamed from your original AppModule, now an object
 
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
     }
+}
+
+// RENAMED MODULE for @Binds
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class BindingsModule { // Renamed to avoid confusion
+
     @Binds
     @Singleton
     @RemoteDataSource
@@ -52,7 +58,7 @@ abstract class AppModule {
 
     @Binds
     @Singleton
-    abstract  fun bindActivityRepository(repository: ActivityRepositoryImpl): ActivityRepository
+    abstract fun bindActivityRepository(repository: ActivityRepositoryImpl): ActivityRepository
     @Binds
     @Singleton
     @RemoteDataSource
@@ -95,6 +101,7 @@ abstract class AppModule {
     @Singleton
     abstract fun bindUserRepository(repository: UserRepositoryImpl): UserRepository
 }
+
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

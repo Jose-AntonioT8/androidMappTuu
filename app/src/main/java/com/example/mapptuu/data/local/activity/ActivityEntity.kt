@@ -7,8 +7,8 @@ import com.example.mapptuu.data.model.Activity
 
 @Entity("activity")
 data class ActivityEntity(
-    @PrimaryKey
-    val id:String,
+    @PrimaryKey(autoGenerate = true)
+    val id:Long,
     val activityTypeId:String,
     val createdAt: Timestamp,
     val description:String,

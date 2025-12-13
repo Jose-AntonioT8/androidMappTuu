@@ -32,9 +32,7 @@ fun LoginScreen(
     // Navegar cuando el login sea exitoso
     LaunchedEffect(uiState.isLoginSuccessful) {
         if (uiState.isLoginSuccessful) {
-            navController.navigate("landing_page") {
-                popUpTo("login") { inclusive = true }
-            }
+            navController.navigate("landing_page")
             viewModel.resetLoginSuccess()
         }
     }

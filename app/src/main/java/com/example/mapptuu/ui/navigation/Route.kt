@@ -27,25 +27,25 @@ sealed class Route(val route:String) {
     @Serializable
     data object ActivityList:Route("activity_list")
     @Serializable
-    data class ActivityDetail(val id:String):Route(route = "activity_detail[$id]")
+    data class ActivityDetail(val id:Long):Route(route = "activity_detail[$id]")
 
     @Serializable
     data object ActivityCreation:Route("activity_creation")
 
     @Serializable
-    data class ActivityUpdate(val id:String):Route(route = "activity_update[$id]")
+    data class ActivityUpdate(val id:Long):Route(route = "activity_update[$id]")
 
     @Serializable
     data object PlanList:Route("plan_list")
 
     @Serializable
-    data class PlanDetail(val id: String):Route(route = "plan_detail[$id]")
+    data class PlanDetail(val id: Long):Route(route = "plan_detail[$id]")
 
     @Serializable
     data object PlanCreation:Route("plan_creation")
 
     @Serializable
-    data class PlanUpdate(val id:String):Route(route = "plan_update[$id]")
+    data class PlanUpdate(val id:Long):Route(route = "plan_update[$id]")
 
     @Serializable
     data object Login: Route("login")
@@ -58,22 +58,22 @@ sealed class Route(val route:String) {
 
 
 }
-fun NavController.navigateToPlanDetail(id:String) {
+fun NavController.navigateToPlanDetail(id:Long) {
     this.navigate(Route.PlanDetail(id))
 }
 fun NavController.navigateToPlanCreation(){
     this.navigate(Route.PlanCreation)
 }
-fun NavController.navigateToPlanUpdate(id: String) {
+fun NavController.navigateToPlanUpdate(id: Long) {
     this.navigate(Route.PlanUpdate(id))
 }
 fun NavController.navigateToPlanList(){
     this.navigate(Route.PlanList)
 }
-fun NavController.navigateToActivityUpdate(id:String) {
+fun NavController.navigateToActivityUpdate(id:Long) {
     this.navigate(Route.ActivityUpdate(id))
 }
-fun NavController.navigateToActivityDetail(id:String) {
+fun NavController.navigateToActivityDetail(id:Long) {
     this.navigate(Route.ActivityDetail(id))
 }
 fun NavController.navigateToActivityCreation(){
@@ -111,7 +111,7 @@ fun NavGraphBuilder.activityCreationDestination(
 fun NavGraphBuilder.activityDetailDestination(
     modifier:Modifier = Modifier,
     onNavegationBack:()->Unit,
-    onNavegateToUpdate:(String)->Unit,
+    onNavegateToUpdate:(Long)->Unit,
 
 
     ) {
@@ -135,7 +135,7 @@ fun NavGraphBuilder.activityDetailDestination(
 
 fun NavGraphBuilder.activityUpdateDestination(
     modifier:Modifier = Modifier,
-    onNavigateToDetails:(String)->Unit,
+    onNavigateToDetails:(Long)->Unit,
 ){
     composable<Route.ActivityUpdate>{
             backStackEntry ->
@@ -150,7 +150,7 @@ fun NavGraphBuilder.activityUpdateDestination(
 }
 fun NavGraphBuilder.activityListDestination(
     modifier: Modifier = Modifier,
-    onNavigateToDetails: (String) -> Unit,
+    onNavigateToDetails: (Long) -> Unit,
     onNavigateToCreation: () -> Unit,
     onNavigateToPlanList: () -> Unit
 
@@ -194,7 +194,7 @@ fun NavGraphBuilder.planCreationDestination(
 fun NavGraphBuilder.planDetailDestination(
     modifier:Modifier = Modifier,
     onNavegationBack:()->Unit,
-    onNavegateToUpdate:(String)->Unit,
+    onNavegateToUpdate:(Long)->Unit,
 
 
     ) {
@@ -218,7 +218,7 @@ fun NavGraphBuilder.planDetailDestination(
 
 fun NavGraphBuilder.planUpdateDestination(
     modifier:Modifier = Modifier,
-    onNavigateToDetails:(String)->Unit,
+    onNavigateToDetails:(Long)->Unit,
 ){
     composable<Route.PlanUpdate>{
             backStackEntry ->
@@ -233,7 +233,7 @@ fun NavGraphBuilder.planUpdateDestination(
 }
 fun NavGraphBuilder.planListDestination(
     modifier: Modifier = Modifier,
-    onNavigateToDetails: (String) -> Unit,
+    onNavigateToDetails: (Long) -> Unit,
     onNavigateToCreation: () -> Unit,
     onActivityList: () -> Unit
 

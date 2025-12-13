@@ -35,7 +35,7 @@ class UsersLocalDataSource @Inject constructor(
         return result
     }
 
-    override suspend fun readOne(id: String): Result<Users> {
+    override suspend fun readOne(id: Long): Result<Users> {
         val entity = usersDao.readUserById(id)
         return if (entity == null) {
             Result.failure(UsersNotFoundException())
@@ -53,12 +53,12 @@ class UsersLocalDataSource @Inject constructor(
     }
 
 
-    override suspend fun delete(id: String) {
+    override suspend fun delete(id: Long) {
         usersDao.delete(id)
 
     }
 
-    override suspend fun update(id: String, user: Users) {
-        usersDao.update(id, user.toEntity())
+    override suspend fun update( user: Users) {
+        usersDao.update(user.toEntity())
     }
 }

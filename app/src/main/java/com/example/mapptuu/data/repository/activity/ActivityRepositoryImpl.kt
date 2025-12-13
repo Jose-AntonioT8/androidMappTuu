@@ -20,7 +20,7 @@ class ActivityRepositoryImpl  @Inject constructor(
         return remoteDataSource.readAll()
     }
 
-    override suspend fun readOne(id: String): Result<Activity> {
+    override suspend fun readOne(id: Long): Result<Activity> {
         return localDataSource.readOne(id)
     }
 
@@ -33,7 +33,7 @@ class ActivityRepositoryImpl  @Inject constructor(
         return localDataSource.observe()
     }
 
-    override suspend fun delete(id: String) {
+    override suspend fun delete(id: Long) {
         localDataSource.delete(id)
     }
 

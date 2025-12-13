@@ -8,13 +8,13 @@ data class UsersListRemote(
 )
 
 data class UsersListItemRemote(
-    val id:String,
+    val id:Long,
     val createdAt: Timestamp,
     val email:String,
     val name:String,
 )
 data class UsersRemote(
-    val id:String,
+    val id:Long,
     val createdAt:Timestamp,
     val email:String,
     val name:String,

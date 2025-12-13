@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 interface UsersDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(users: UsersEntity)
-    @Delete
-    suspend fun delete(id: String)
+    @Query("DELETE FROM activity WHERE id = :id")
+    suspend fun delete(id: Long)
     @Query("SELECT * FROM users")
     fun getAll(): List<UsersEntity>
 
@@ -21,8 +21,8 @@ interface UsersDao {
     fun observeAll(): Flow<List<UsersEntity>>
 
     @Query("SELECT * FROM users WHERE id = :id")
-    suspend fun readUserById(id: String): UsersEntity?
+    suspend fun readUserById(id: Long): UsersEntity?
 
     @Update
-    suspend fun update(id: String, user: UsersEntity)
+    suspend fun update(user: UsersEntity)
 }

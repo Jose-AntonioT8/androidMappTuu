@@ -12,8 +12,8 @@ interface ActivityDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(activity: ActivityEntity)
 
-    @Delete
-    suspend fun delete(id: String)
+    @Query("DELETE FROM activity WHERE id = :id")
+    suspend fun delete(id: Long)
 
     @Query("SELECT * FROM activity")
     fun getAll(): List<ActivityEntity>
@@ -22,9 +22,9 @@ interface ActivityDao {
     fun observeAll(): Flow<List<ActivityEntity>>
 
     @Query("SELECT * FROM activity WHERE id = :id")
-    suspend fun readActivityById(id: String): ActivityEntity?
+    suspend fun readActivityById(id: Long): ActivityEntity?
 
     @Update
-    suspend fun update(id: String, activity: ActivityEntity)
+    suspend fun update( activity: ActivityEntity)
 
 }

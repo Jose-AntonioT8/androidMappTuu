@@ -28,7 +28,7 @@ fun PlanDetailScreen(
     modifier : Modifier = Modifier,
     viewModel : ActivityDetailViewModel = hiltViewModel(),
     onNavegationBack:()->Unit,
-    onUpdatePlan: (String) -> Unit,
+    onUpdatePlan: (Long) -> Unit,
 
     ){
     val uiState by viewModel.uiState.collectAsState()
@@ -78,7 +78,7 @@ fun PlanDetailScreen(
 fun PlanDetailScreen(
     modifier: Modifier,
 
-     id:String,
+     id:Long,
      activitiesIds:List<String>,
      createdAt: Timestamp,
      description:String,

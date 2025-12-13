@@ -4,7 +4,7 @@ import com.google.firebase.Timestamp
 
 
 data class Users(
-    val id:String,
+    val id:Long,
     val createdAt: Timestamp,
     val email:String,
     val name:String,

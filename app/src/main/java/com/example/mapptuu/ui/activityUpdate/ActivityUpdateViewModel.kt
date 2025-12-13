@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 
 data class DetailUiState(
-    val id:String="",
+    val id:Long=0L,
     val activityTypeId:String="",
     val createdAt: Timestamp =Timestamp.now(),
     val description:String="",
@@ -42,7 +42,7 @@ class ActivityUpdateViewModel @Inject constructor(
     private val activityRepository : ActivityRepository
 ): ViewModel() {
     var isError =false
-    var activityId = ""
+    var activityId = 0L
     var name by mutableStateOf("")
     var description by mutableStateOf("")
     var activityTypeId by mutableStateOf("")
@@ -63,8 +63,8 @@ class ActivityUpdateViewModel @Inject constructor(
     val uiState : StateFlow<DetailUiState> = _uiState.asStateFlow()
     init {
         viewModelScope.launch {
-            val route = savedStateHandle.toRoute<Route.Detail>()
-            activityId = route.id.toString()
+            val route = savedStateHandle.toRoute<Route.ActivityUpdate>()
+            activityId = route.id.toLong()
             val activity = activityRepository.readOne(activityId)
             activity.let{activity ->
                 name = activity.getOrNull()!!.name

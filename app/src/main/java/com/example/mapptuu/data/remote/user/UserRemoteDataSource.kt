@@ -51,7 +51,7 @@ class UserRemoteDataSource @Inject constructor(
         }
     }
 
-    override suspend fun readOne(id: String): Result<Users> {
+    override suspend fun readOne(id: Long): Result<Users> {
         try {
             val response = api.readOne(id)
             return response.body().let {
@@ -70,12 +70,12 @@ class UserRemoteDataSource @Inject constructor(
         api.insert(users.toRemote())
     }
 
-    override suspend fun delete(id: String) {
+    override suspend fun delete(id: Long) {
         api.delete(id)
     }
 
-    override suspend fun update(id: String, user: Users) {
-        api.update(id, user.toRemote())
+    override suspend fun update( user: Users) {
+        api.update(user.id, user.toRemote())
     }
 
     private fun Users.toRemote(): UsersRemote {

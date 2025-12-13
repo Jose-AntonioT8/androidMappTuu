@@ -15,18 +15,18 @@ interface UserApi {
     @GET("/api/users")
     suspend fun readAll(): Response<UsersListRemote>
     @GET("/api/users/{id}")
-    suspend fun readOne(@Path("id") id: String): Response<UsersRemote>
+    suspend fun readOne(@Path("id") id: Long): Response<UsersRemote>
     @GET("/api/users?name={name}")
     suspend fun readOneByName(@Query("name") name: String): Response<List<UsersRemote>>
 
 
     @DELETE("/api/users/{id}")
-    suspend fun delete(@Path("id") id: String)
+    suspend fun delete(@Path("id") id: Long)
 
     @POST("/api/users")
     suspend fun insert(@Body users: UsersRemote): Response<UsersRemote>
 
     @PATCH("/api/users/{id}")
-    suspend fun update(@Path("id") id: String, @Body users: UsersRemote): Response<UsersRemote>
+    suspend fun update(@Path("id") id: Long, @Body users: UsersRemote): Response<UsersRemote>
 
 }

@@ -9,7 +9,7 @@ data class ActivityListRemote(
 
 data class ActivityListItemRemote(
 
-    val id:String,
+    val id:Long,
     val activityTypeId:String,
     val createdAt: Timestamp,
     val description:String,
@@ -21,7 +21,7 @@ data class ActivityListItemRemote(
     val rating:Int
 )
 data class ActivityRemote(
-    val id:String,
+    val id:Long,
     val activityTypeId:String,
     val createdAt: Timestamp,
     val description:String,

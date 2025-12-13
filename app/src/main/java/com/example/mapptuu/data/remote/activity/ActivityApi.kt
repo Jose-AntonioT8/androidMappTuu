@@ -15,18 +15,18 @@ interface ActivityApi {
     @GET("/api/activities")
     suspend fun readAll(): Response<ActivityListRemote>
     @GET("/api/activities/{id}")
-    suspend fun readOne(@Path("id") id: String): Response<ActivityRemote>
+    suspend fun readOne(@Path("id") id: Long): Response<ActivityRemote>
     @GET("/api/activities?name={name}")
     suspend fun readOneByName(@Query("name") name: String): Response<ActivityListRemote>
 
 
     @DELETE("/api/activities/{id}")
-    suspend fun delete(@Path("id") id: String)
+    suspend fun delete(@Path("id") id: Long)
 
     @POST("/api/activities")
     suspend fun insert(@Body activity: ActivityRemote): Response<ActivityRemote>
 
     @PATCH("/api/activities/{id}")
-    suspend fun update(@Path("id") id: String, @Body activity: ActivityRemote): Response<ActivityRemote>
+    suspend fun update(@Path("id") id: Long, @Body activity: ActivityRemote): Response<ActivityRemote>
 
 }

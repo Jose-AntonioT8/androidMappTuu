@@ -19,7 +19,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 fun ActivityUpdateScreen(
     modifier : Modifier = Modifier,
     viewModel : ActivityUpdateViewModel = hiltViewModel(),
-    onNavigateToDetails:(String)->Unit
+    onNavigateToDetails:(Long)->Unit
 ){
     Card(
         modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp)

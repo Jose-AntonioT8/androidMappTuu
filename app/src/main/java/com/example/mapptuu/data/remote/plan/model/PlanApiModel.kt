@@ -7,7 +7,7 @@ data class PlanListRemote(
 )
 
 data class PlansListItemRemote(
-    val id:String,
+    val id:Long,
     val activitiesIds:List<String>,
     val createdAt:Timestamp,
     val description:String,
@@ -18,7 +18,7 @@ data class PlansListItemRemote(
     val visibility:Boolean
 )
 data class PlansRemote(
-    val id:String,
+    val id:Long,
     val activitiesIds:List<String>,
     val createdAt:Timestamp,
     val description:String,

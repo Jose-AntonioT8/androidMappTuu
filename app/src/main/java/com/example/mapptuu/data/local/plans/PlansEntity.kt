@@ -8,8 +8,8 @@ import com.google.firebase.Timestamp
 
 @Entity("plans")
 data class PlansEntity(
-    @PrimaryKey
-    val id:String,
+    @PrimaryKey(autoGenerate = true)
+    val id:Long,
     val activitiesIds:List<String>,
     val createdAt:Timestamp,
     val description:String,

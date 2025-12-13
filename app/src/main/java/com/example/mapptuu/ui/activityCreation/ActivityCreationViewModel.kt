@@ -41,7 +41,7 @@ class ActivityCreationViewModel @Inject constructor(
         viewModelScope.launch {
             val newId = getLastId()
             val activity = Activity(
-                id = newId.toString(),
+                id = newId,
                 name = name,
                 description = description,
                 imageRef = "https://dragonball-api.com/characters/vegeta_normal.webp",
@@ -57,8 +57,8 @@ class ActivityCreationViewModel @Inject constructor(
     }
     private suspend fun getLastId(): Long {
         val characters = activityRepository.observe().first().getOrNull()
-        val maxId = characters?.maxOfOrNull { it.id } ?: ""
-        return maxId.toLong() + 1
+        val maxId = characters?.maxOfOrNull { it.id } ?: 0L
+        return maxId + 1
     }
     var isError =false
     var name by mutableStateOf("")

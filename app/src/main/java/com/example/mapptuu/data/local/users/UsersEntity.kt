@@ -9,8 +9,8 @@ import com.google.firebase.Timestamp
 
 @Entity("users")
 data class UsersEntity(
-    @PrimaryKey
-    val id:String,
+    @PrimaryKey(autoGenerate = true)
+    val id:Long,
     val createdAt:Timestamp,
     val email:String,
     val name:String,

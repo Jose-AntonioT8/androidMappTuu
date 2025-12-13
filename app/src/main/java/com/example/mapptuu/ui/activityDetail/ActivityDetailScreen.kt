@@ -30,7 +30,7 @@ fun ActivityDetailScreen(
     modifier : Modifier = Modifier,
     viewModel : ActivityDetailViewModel = hiltViewModel(),
     onNavegationBack:()->Unit,
-    onUpdateActivity: (String) -> Unit,
+    onUpdateActivity: (Long) -> Unit,
 
     ){
     val uiState by viewModel.uiState.collectAsState()
@@ -81,7 +81,7 @@ fun ActivityDetailScreen(
 fun ActivityDetailScreen(
     modifier: Modifier,
 
-    id:String,
+    id:Long,
     activityTypeId:String,
     createdAt: Timestamp,
     description:String,

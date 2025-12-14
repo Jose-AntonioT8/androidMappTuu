@@ -8,6 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Activity
+import com.example.mapptuu.ui.planList.asListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,27 +27,31 @@ class ActivityListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _uiState.value = ListUiState.Loading
-            activityRepository.observe().collect { result ->
-                if (result.isSuccess) {
-                    val activities = result.getOrNull()!!
-                    if (activities.isNotEmpty()){
-                        val uiActivities = activities.asListUiState()
-                        _uiState.value = ListUiState.Succes(uiActivities)
-                    }else {
-                        activityRepository.refresh()
-                        activityRepository.observe().collect { result ->
-                            val activities = result.getOrNull()!!
-                            if (activities.isNotEmpty()) {
-                                val uiActivities = activities.asListUiState()
-                                _uiState.value = ListUiState.Succes(uiActivities)
-                            }
-                        }
+            try {
+                activityRepository.observe().collect { result ->
+                    if (result.isSuccess) {
+                        val activities = result.getOrNull()!!
+                        if (activities.isNotEmpty()){
+                            val uiActivities = activities.asListUiState()
+                            _uiState.value = ListUiState.Succes(uiActivities)
+                        }else {
+                            activityRepository.refresh()
+                            activityRepository.observe().collect { result ->
+                                val activities = result.getOrNull()!!
+                                if (activities.isNotEmpty()) {
+                                    val uiActivities = activities.asListUiState()
+                                    _uiState.value = ListUiState.Succes(uiActivities)
+                                }
+                            }                        }
+                    } else {
+                        val error = result.exceptionOrNull()?.message ?: "Error desconocido"
+                        _uiState.value = ListUiState.Error("Error al cargar actividades: $error")
                     }
-
-                } else {
-                    _uiState.value = ListUiState.Error("No se han cargado las actividades")
                 }
+            } catch (e: Exception) {
+                _uiState.value = ListUiState.Error("Excepción al cargar actividades: ${e.message}")
             }
+            activityRepository.refresh()
         }
     }
 
@@ -93,7 +98,7 @@ sealed class ListUiState{
     ): ListUiState()
 }
 data class ListItemUiState(
-    val id:Long,
+    val id:String,
     val name:String,
     val image: String
 )

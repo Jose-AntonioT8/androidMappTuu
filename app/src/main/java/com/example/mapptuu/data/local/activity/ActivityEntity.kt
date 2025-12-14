@@ -7,8 +7,8 @@ import com.example.mapptuu.data.model.Activity
 
 @Entity("activity")
 data class ActivityEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id:Long,
+    @PrimaryKey
+    val id:String,
     val activityTypeId:String,
     val createdAt: Timestamp,
     val description:String,
@@ -17,7 +17,7 @@ data class ActivityEntity(
     val longitude:String,
     val name:String,
     val ownerId:String,
-    val rating:Int
+    val rating:Float
 )
 
 fun Activity.toEntity(): ActivityEntity{

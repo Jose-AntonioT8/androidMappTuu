@@ -23,7 +23,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 fun PlanUpdateScreen(
     modifier : Modifier = Modifier,
     viewModel : PlanUpdateViewModel = hiltViewModel(),
-    onNavigateToDetails:(Long)->Unit
+    onNavigateToDetails:(String)->Unit
 ){
     Card(
         modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp)

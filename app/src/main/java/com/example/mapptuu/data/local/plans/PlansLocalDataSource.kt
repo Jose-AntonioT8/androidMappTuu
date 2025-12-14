@@ -36,7 +36,7 @@ class PlansLocalDataSource @Inject constructor(
         return result
     }
 
-    override suspend fun readOne(id: Long): Result<Plans> {
+    override suspend fun readOne(id: String): Result<Plans> {
         val entity = plansDao.readPlanById(id)
         return if (entity == null) {
             Result.failure(PlansNotFoundException())
@@ -58,13 +58,13 @@ class PlansLocalDataSource @Inject constructor(
     }
 
 
-    override suspend fun delete(id: Long) {
+    override suspend fun delete(id: String) {
         plansDao.delete(id)
 
     }
 
     override suspend fun update( plans: Plans) {
-        plansDao.update( plans.toEntity())
+        plansDao.update(plans.toEntity())
     }
 }
 

@@ -13,7 +13,7 @@ interface ActivityDao {
     suspend fun insert(activity: ActivityEntity)
 
     @Query("DELETE FROM activity WHERE id = :id")
-    suspend fun delete(id: Long)
+    suspend fun delete(id: String)
 
     @Query("SELECT * FROM activity")
     fun getAll(): List<ActivityEntity>
@@ -22,7 +22,7 @@ interface ActivityDao {
     fun observeAll(): Flow<List<ActivityEntity>>
 
     @Query("SELECT * FROM activity WHERE id = :id")
-    suspend fun readActivityById(id: Long): ActivityEntity?
+    suspend fun readActivityById(id: String): ActivityEntity?
 
     @Update
     suspend fun update( activity: ActivityEntity)

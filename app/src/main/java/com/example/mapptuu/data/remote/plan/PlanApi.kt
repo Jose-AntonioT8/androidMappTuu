@@ -15,18 +15,18 @@ interface PlanApi {
     @GET("/api/plans")
     suspend fun readAll(): Response<PlanListRemote>
     @GET("/api/plans/{id}")
-    suspend fun readOne(@Path("id") id: Long): Response<PlansRemote>
+    suspend fun readOne(@Path("id") id: String): Response<PlansRemote>
     @GET("/api/plans?name={name}")
     suspend fun readOneByName(@Query("name") name: String): Response<PlanListRemote>
 
 
     @DELETE("/api/plans/{id}")
-    suspend fun delete(@Path("id") id: Long)
+    suspend fun delete(@Path("id") id: String)
 
     @POST("/api/plans")
     suspend fun insert(@Body plans: PlansRemote): Response<PlansRemote>
 
     @PATCH("/api/plans/{id}")
-    suspend fun update(@Path("id") id: Long, @Body plans: PlansRemote): Response<PlansRemote>
+    suspend fun update(@Path("id") id: String, @Body plans: PlansRemote): Response<PlansRemote>
 
 }

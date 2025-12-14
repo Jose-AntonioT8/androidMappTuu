@@ -6,13 +6,13 @@ data class ActivityTypesListRemote(
 )
 
 data class ActivityTypesListItemRemote(
-    val id:Long,
+    val id:String,
     val color:String,
     val description:String,
     val name:String,
 )
 data class ActivityTypesRemote(
-    val id:Long,
+    val id:String,
     val color:String,
     val description:String,
     val name:String,

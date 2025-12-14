@@ -3,12 +3,16 @@ package com.example.mapptuu.data.remote.activity
 import com.example.mapptuu.data.ActivityDataSource
 import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.remote.activity.model.ActivityRemote
+import com.example.mapptuu.data.remote.activity.model.ActivityListItemRemote
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
+import android.util.Log
+
+const val TAG = "ActivityRemoteDataSource"
 
 class ActivityRemoteDataSource  @Inject constructor(
     private val api: ActivityApi,
@@ -33,26 +37,27 @@ class ActivityRemoteDataSource  @Inject constructor(
 
     override suspend fun readAll(): Result<List<Activity>> {
         try {
+            Log.d(TAG, "Iniciando readAll()")
             val response = api.readAll()
-            val finalList = mutableListOf<Activity>()
+            Log.d(TAG, "Response code: ${response.code()}, isSuccessful: ${response.isSuccessful}")
             return if (response.isSuccessful) {
                 val body = response.body()!!
-                for (result in body.items) {
-                    val remoteActivity = readOne(id = result.id)
-                    remoteActivity.let {
-                        finalList.add(remoteActivity.toActivity())
-                    }
-                }
+                Log.d(TAG, "Body obtenido, items: ${body.size}")
+                val finalList = body.map { it.toActivity() }
+                Log.d(TAG, "readAll() completado, final list size: ${finalList.size}")
                 Result.success(finalList)
             } else {
-                Result.failure(RuntimeException("Error code: ${response.code()}"))
+                val errorMsg = "Error code: ${response.code()}"
+                Log.e(TAG, errorMsg)
+                Result.failure(RuntimeException(errorMsg))
             }
         } catch (e: Exception) {
+            Log.e(TAG, "Excepción en readAll(): ${e.message}", e)
             return Result.failure(e)
         }
     }
 
-    override suspend fun readOne(id: Long): Result<Activity> {
+    override suspend fun readOne(id: String): Result<Activity> {
         try {
             val response = api.readOne(id)
             return response.body().let {
@@ -65,21 +70,22 @@ class ActivityRemoteDataSource  @Inject constructor(
 
     override suspend fun readOneByName(name: String): Result<List<Activity>> {
         try {
+            Log.d(TAG, "Iniciando readOneByName(name=$name)")
             val response = api.readOneByName(name)
-            val finalList = mutableListOf<Activity>()
+            Log.d(TAG, "Response code: ${response.code()}, isSuccessful: ${response.isSuccessful}")
             return if (response.isSuccessful) {
                 val body = response.body()!!
-                for (result in body.items) {
-                    val remoteActivity = readOne(id = result.id)
-                    remoteActivity.let {
-                        finalList.add(remoteActivity.toActivity())
-                    }
-                }
+                Log.d(TAG, "Body obtenido, items: ${body.size}")
+                val finalList = body.map { it.toActivity() }
+                Log.d(TAG, "readOneByName() completado, final list size: ${finalList.size}")
                 Result.success(finalList)
             } else {
-                Result.failure(RuntimeException("Error code: ${response.code()}"))
+                val errorMsg = "Error code: ${response.code()}"
+                Log.e(TAG, errorMsg)
+                Result.failure(RuntimeException(errorMsg))
             }
         } catch (e: Exception) {
+            Log.e(TAG, "Excepción en readOneByName(): ${e.message}", e)
             return Result.failure(e)
         }
     }
@@ -93,7 +99,7 @@ class ActivityRemoteDataSource  @Inject constructor(
         api.insert(activity.toRemote())
     }
 
-    override suspend fun delete(id: Long) {
+    override suspend fun delete(id: String) {
         api.delete(id)
     }
 
@@ -133,6 +139,21 @@ class ActivityRemoteDataSource  @Inject constructor(
 
     }
     fun ActivityRemote.toExternal():Activity {
+        return Activity(
+            id = this.id,
+            activityTypeId = this.activityTypeId,
+            createdAt = this.createdAt,
+            description = this.description,
+            imageRef = this.imageRef,
+            latitude = this.latitude,
+            longitude = this.longitude,
+            name = this.name,
+            ownerId = this.ownerId,
+            rating = this.rating
+        )
+    }
+
+    fun ActivityListItemRemote.toActivity(): Activity {
         return Activity(
             id = this.id,
             activityTypeId = this.activityTypeId,

@@ -36,7 +36,7 @@ class ActivityLocalDataSource @Inject constructor(
         return result
     }
 
-    override suspend fun readOne(id: Long): Result<Activity> {
+    override suspend fun readOne(id: String): Result<Activity> {
         val entity = activityDao.readActivityById(id)
         return if(entity==null){
             Result.failure(ActivityNotFoundException())
@@ -59,7 +59,7 @@ class ActivityLocalDataSource @Inject constructor(
 
 
 
-    override suspend fun delete(id: Long) {
+    override suspend fun delete(id: String) {
         activityDao.delete(id)
 
     }

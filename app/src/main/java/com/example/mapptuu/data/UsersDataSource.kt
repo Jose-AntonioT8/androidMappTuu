@@ -8,11 +8,11 @@ interface UsersDataSource {
     suspend fun addAll(usersList: List<Users>)
     fun observe(): Flow<Result<List<Users>>>
     suspend fun readAll(): Result<List<Users>>
-    suspend fun readOne(id: Long): Result<Users>
+    suspend fun readOne(id: String): Result<Users>
     suspend fun isError()
     suspend fun insert(users: Users)
 
-    suspend fun delete(id:Long)
+    suspend fun delete(id:String)
 
     suspend fun update(user: Users)
 

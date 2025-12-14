@@ -3,7 +3,7 @@ package com.example.mapptuu.data.model
 import com.google.firebase.Timestamp
 
 data class Activity(
-    val id:Long,
+    val id:String,
     val activityTypeId:String,
     val createdAt: Timestamp,
     val description:String,
@@ -12,5 +12,5 @@ data class Activity(
     val longitude:String,
     val name:String,
     val ownerId:String,
-    val rating:Int
+    val rating:Float
 )

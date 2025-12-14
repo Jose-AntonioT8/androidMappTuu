@@ -21,7 +21,7 @@ import com.google.firebase.Timestamp
 
 
 data class DetailUiState(
-    val id:Long=0L,
+    val id:String="",
     val activitiesIds:List<String> = listOf(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
@@ -29,7 +29,7 @@ data class DetailUiState(
     val visibility:Boolean=false,
     val name:String="",
     val ownerId:String="",
-    val rating:Int=0
+    val rating:Float=0F
 )
 
 @HiltViewModel
@@ -44,7 +44,7 @@ class ActivityDetailViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val route = savedStateHandle.toRoute<Route.PlanDetail>()
-            val activityId = route.id.toLong()
+            val activityId = route.id
             val activity = planRepository.readOne(activityId)
             activity.let{
                 _uiState.value = activity.getOrNull()!!.toDetailUiState()
@@ -54,7 +54,7 @@ class ActivityDetailViewModel @Inject constructor(
     }
     val exceptionHandler = CoroutineExceptionHandler { _, exception ->
     }
-    fun delete(id:Long){
+    fun delete(id:String){
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             planRepository.delete(id)
         }

@@ -50,7 +50,7 @@ class ActivityTypeRemoteDataSource   @Inject constructor(
             return Result.failure(e)
         }    }
 
-    override suspend fun readOne(id: Long): Result<ActivityTypes> {
+    override suspend fun readOne(id: String): Result<ActivityTypes> {
         try {
             val response = api.readOne(id)
             return response.body().let {
@@ -69,7 +69,7 @@ class ActivityTypeRemoteDataSource   @Inject constructor(
         api.insert(activityTypes.toRemote())
     }
 
-    override suspend fun delete(id: Long) {
+    override suspend fun delete(id: String) {
         api.delete(id)
     }
 

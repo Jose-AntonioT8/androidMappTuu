@@ -28,7 +28,7 @@ fun PlanDetailScreen(
     modifier : Modifier = Modifier,
     viewModel : ActivityDetailViewModel = hiltViewModel(),
     onNavegationBack:()->Unit,
-    onUpdatePlan: (Long) -> Unit,
+    onUpdatePlan: (String) -> Unit,
 
     ){
     val uiState by viewModel.uiState.collectAsState()
@@ -78,15 +78,15 @@ fun PlanDetailScreen(
 fun PlanDetailScreen(
     modifier: Modifier,
 
-     id:Long,
-     activitiesIds:List<String>,
-     createdAt: Timestamp,
-     description:String,
+    id:String,
+    activitiesIds:List<String>,
+    createdAt: Timestamp,
+    description:String,
     imageRef:String,
-     name:String,
-     ownerId:String,
-     rating:Int,
-     visibility:Boolean
+    name:String,
+    ownerId:String,
+    rating: Float,
+    visibility:Boolean
 ){
     Card(
         modifier = modifier

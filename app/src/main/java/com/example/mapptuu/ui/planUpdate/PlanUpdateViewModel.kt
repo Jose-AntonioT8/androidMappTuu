@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 
 data class DetailUiState(
-    val id:Long=0L,
+    val id:String="",
     val activitiesIds:List<String> = listOf(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
@@ -32,7 +32,7 @@ data class DetailUiState(
     val visibility:Boolean=false,
     val name:String="",
     val ownerId:String="",
-    val rating:Int=0
+    val rating:Float=0F
 )
 
 @HiltViewModel
@@ -48,17 +48,17 @@ class PlanUpdateViewModel @Inject constructor(
 
     var createdAt= Timestamp.now()
 
-    var rating =0
+    var rating =0F
     var ownerId by mutableStateOf("")
     var imgRef by mutableStateOf("")
-    var planId =0L
+    var planId =""
     private val _uiState : MutableStateFlow<DetailUiState> =
         MutableStateFlow(DetailUiState())
     val uiState : StateFlow<DetailUiState> = _uiState.asStateFlow()
     init {
         viewModelScope.launch {
             val route = savedStateHandle.toRoute<Route.PlanUpdate>()
-            planId = route.id.toLong()
+            planId = route.id
             val plan = planRepository.readOne(planId)
             plan.let{plan ->
                 name = plan.getOrNull()!!.name
@@ -86,7 +86,7 @@ class PlanUpdateViewModel @Inject constructor(
             .filter { it.isNotEmpty() }
         viewModelScope.launch {
             val plan = Plans(
-                id = planId.toLong(),
+                id = planId,
                 name = name,
                 description = description,
                 imgRef = imgRef,

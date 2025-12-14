@@ -34,7 +34,7 @@ import coil3.compose.AsyncImage
 @Composable
 fun PlanListScreen (
     onCreate:()->Unit,
-    onShowDetail: (Long) -> Unit,
+    onShowDetail: (String) -> Unit,
     onActivityList:()->Unit,
     modifier: Modifier = Modifier,
     viewModel: PlanListViewModel = hiltViewModel()
@@ -156,7 +156,7 @@ private fun ListLoading() {
 @Composable
 private fun PlanList(
     plans: List<ListItemUiState>,
-    onShowDetail: (Long) -> Unit
+    onShowDetail: (String) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp),

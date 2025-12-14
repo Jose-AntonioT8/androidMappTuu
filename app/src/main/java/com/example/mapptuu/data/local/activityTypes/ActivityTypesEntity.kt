@@ -6,8 +6,8 @@ import com.example.mapptuu.data.model.ActivityTypes
 
 @Entity("activityType")
 data class ActivityTypesEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id:Long,
+    @PrimaryKey
+    val id:String,
     val name:String,
     val color:String,
     val description:String

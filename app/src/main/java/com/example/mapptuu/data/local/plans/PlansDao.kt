@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.Flow
 interface PlansDao{
     @Insert(onConflict = REPLACE)
     suspend fun insert(plans: PlansEntity)
-    @Query("DELETE FROM activity WHERE id = :id")
-    suspend fun delete(id: Long)
+    @Query("DELETE FROM plans WHERE id = :id")
+    suspend fun delete(id: String)
     @Query("SELECT * FROM plans")
     fun getAll(): List<PlansEntity>
 
@@ -22,7 +22,7 @@ interface PlansDao{
     fun observeAll(): Flow<List<PlansEntity>>
 
     @Query("SELECT * FROM plans WHERE id = :id")
-    suspend fun readPlanById(id: Long): PlansEntity?
+    suspend fun readPlanById(id: String): PlansEntity?
 
     @Update
     suspend fun update(plan: PlansEntity)

@@ -17,7 +17,7 @@ class UserRepositoryImpl@Inject constructor(
         return remoteDataSource.readAll()
     }
 
-    override suspend fun readOne(id: Long): Result<Users> {
+    override suspend fun readOne(id: String): Result<Users> {
         return localDataSource.readOne(id)
     }
 
@@ -25,7 +25,7 @@ class UserRepositoryImpl@Inject constructor(
         return localDataSource.observe()
     }
 
-    override suspend fun delete(id: Long) {
+    override suspend fun delete(id: String) {
         localDataSource.delete(id)
     }
 

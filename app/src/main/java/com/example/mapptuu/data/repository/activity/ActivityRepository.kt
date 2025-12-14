@@ -5,12 +5,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface ActivityRepository {
     suspend fun readAll(): Result<List<Activity>>
-    suspend fun readOne(id:Long): Result<Activity>
+    suspend fun readOne(id:String): Result<Activity>
 
     suspend fun readdOneByName(name:String): Result<List<Activity>>
 
     fun observe(): Flow<Result<List<Activity>>>
-    suspend fun delete(id:Long)
+    suspend fun delete(id:String)
 
     suspend fun refresh()
 

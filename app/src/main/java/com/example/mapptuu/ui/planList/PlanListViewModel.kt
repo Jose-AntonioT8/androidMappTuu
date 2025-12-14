@@ -26,27 +26,32 @@ class PlanListViewModel@Inject constructor(
     init {
         viewModelScope.launch {
             _uiState.value = ListUiState.Loading
-            planRepository.observe().collect { result ->
-                if (result.isSuccess) {
-                    val plans = result.getOrNull()!!
-                    if (plans.isNotEmpty()){
-                        val uiPlans = plans.asListUiState()
-                        _uiState.value = ListUiState.Succes(uiPlans)
-                    }else {
-                        planRepository.refresh()
-                        planRepository.observe().collect { result ->
-                            val plans = result.getOrNull()!!
-                            if (plans.isNotEmpty()) {
-                                val uiPlans = plans.asListUiState()
-                                _uiState.value = ListUiState.Succes(uiPlans)
+            try {
+                planRepository.observe().collect { result ->
+                    if (result.isSuccess) {
+                        val plans = result.getOrNull()!!
+                        if (plans.isNotEmpty()){
+                            val uiPlans = plans.asListUiState()
+                            _uiState.value = ListUiState.Succes(uiPlans)
+                        }else {
+                            planRepository.refresh()
+                            planRepository.observe().collect { result ->
+                                val plans = result.getOrNull()!!
+                                if (plans.isNotEmpty()) {
+                                    val uiPlans = plans.asListUiState()
+                                    _uiState.value = ListUiState.Succes(uiPlans)
+                                }
                             }
                         }
+                    } else {
+                        val error = result.exceptionOrNull()?.message ?: "Error desconocido"
+                        _uiState.value = ListUiState.Error("Error al cargar planes: $error")
                     }
-
-                } else {
-                    _uiState.value = ListUiState.Error("No se han cargado los planes")
                 }
+            } catch (e: Exception) {
+                _uiState.value = ListUiState.Error("Excepción al cargar planes: ${e.message}")
             }
+            planRepository.refresh()
         }
     }
 
@@ -93,7 +98,7 @@ sealed class ListUiState{
     ): ListUiState()
 }
 data class ListItemUiState(
-    val id:Long,
+    val id:String,
     val name:String,
     val image: String
 )

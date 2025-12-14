@@ -13,7 +13,7 @@ interface ActivityTypesDao{
     @Insert(onConflict = REPLACE)
     suspend fun insert(activityType: ActivityTypesEntity)
     @Query("DELETE FROM activity WHERE id = :id")
-    suspend fun delete(id: Long)
+    suspend fun delete(id: String)
     @Query("SELECT * FROM activityType")
     fun getAll(): List<ActivityTypesEntity>
 
@@ -21,7 +21,7 @@ interface ActivityTypesDao{
     fun observeAll(): Flow<List<ActivityTypesEntity>>
 
     @Query("SELECT * FROM activityType WHERE id = :id")
-    suspend fun readActivityTypesById(id: Long): ActivityTypesEntity?
+    suspend fun readActivityTypesById(id: String): ActivityTypesEntity?
 
     @Update
     suspend fun update( activityType: ActivityTypesEntity)

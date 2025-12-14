@@ -2,14 +2,11 @@ package com.example.mapptuu.data.remote.activity.model
 
 import com.google.firebase.Timestamp
 
-
-data class ActivityListRemote(
-    val items:List<ActivityListItemRemote>
-)
+// Typealias para que ActivityListRemote sea directamente un array
+typealias ActivityListRemote = List<ActivityListItemRemote>
 
 data class ActivityListItemRemote(
-
-    val id:Long,
+    val id:String,
     val activityTypeId:String,
     val createdAt: Timestamp,
     val description:String,
@@ -18,10 +15,10 @@ data class ActivityListItemRemote(
     val longitude:String,
     val name:String,
     val ownerId:String,
-    val rating:Int
+    val rating:Float
 )
 data class ActivityRemote(
-    val id:Long,
+    val id:String,
     val activityTypeId:String,
     val createdAt: Timestamp,
     val description:String,
@@ -30,5 +27,5 @@ data class ActivityRemote(
     val longitude:String,
     val name:String,
     val ownerId:String,
-    val rating:Int
+    val rating:Float
 )

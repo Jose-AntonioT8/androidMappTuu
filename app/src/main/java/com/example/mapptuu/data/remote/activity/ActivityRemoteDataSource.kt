@@ -4,6 +4,10 @@ import com.example.mapptuu.data.ActivityDataSource
 import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.remote.activity.model.ActivityRemote
 import com.example.mapptuu.data.remote.activity.model.ActivityListItemRemote
+import com.google.firebase.Timestamp
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import java.util.Date
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -113,7 +117,7 @@ class ActivityRemoteDataSource  @Inject constructor(
         return ActivityRemote(
             id = this.id,
             activityTypeId = this.activityTypeId,
-            createdAt = this.createdAt,
+            createdAt = com.google.gson.JsonPrimitive(this.createdAt.toDate().time),
             description = this.description,
             imageRef = this.imageRef,
             latitude = this.latitude,
@@ -142,7 +146,7 @@ class ActivityRemoteDataSource  @Inject constructor(
         return Activity(
             id = this.id,
             activityTypeId = this.activityTypeId,
-            createdAt = this.createdAt,
+            createdAt = this.createdAt.toFirebaseTimestamp(),
             description = this.description,
             imageRef = this.imageRef,
             latitude = this.latitude,
@@ -157,7 +161,7 @@ class ActivityRemoteDataSource  @Inject constructor(
         return Activity(
             id = this.id,
             activityTypeId = this.activityTypeId,
-            createdAt = this.createdAt,
+            createdAt = this.createdAt.toFirebaseTimestamp(),
             description = this.description,
             imageRef = this.imageRef,
             latitude = this.latitude,
@@ -166,6 +170,32 @@ class ActivityRemoteDataSource  @Inject constructor(
             ownerId = this.ownerId,
             rating = this.rating
         )
+    }
+
+    private fun JsonElement.toFirebaseTimestamp(): Timestamp {
+        return if (this.isJsonPrimitive && this.asJsonPrimitive.isNumber) {
+            val millis = this.asLong
+            Timestamp(Date(millis))
+        } else if (this.isJsonObject) {
+            val obj: JsonObject = this.asJsonObject
+            // Support structures like {"seconds": 123, "nanoseconds": 0} or Firestore export
+            val seconds = when {
+                obj.has("seconds") -> obj.get("seconds").asLong
+                obj.has("_seconds") -> obj.get("_seconds").asLong
+                else -> 0L
+            }
+            val nanos = when {
+                obj.has("nanoseconds") -> obj.get("nanoseconds").asInt
+                obj.has("_nanoseconds") -> obj.get("_nanoseconds").asInt
+                else -> 0
+            }
+            // Convert seconds/nanos to Date millis
+            val millis = seconds * 1000 + (nanos / 1_000_000)
+            Timestamp(Date(millis))
+        } else {
+            // Fallback to now if unexpected
+            Timestamp.now()
+        }
     }
 
 }

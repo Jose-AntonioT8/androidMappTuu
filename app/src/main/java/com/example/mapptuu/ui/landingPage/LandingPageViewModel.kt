@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 
-class LandingPageViewModel@Inject constructor(
+class LandingPageViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val authRepository: AuthRepository
 

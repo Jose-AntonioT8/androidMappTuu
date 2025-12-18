@@ -115,6 +115,11 @@ private fun SearchBar(
             ) {
                 Text("Buscar")
             }
+
+
+
+        }
+        Row{
             Button(
                 modifier = Modifier.padding(start = 8.dp),
                 onClick = {
@@ -124,18 +129,17 @@ private fun SearchBar(
             ) {
                 Text("Crear actividad")
             }
+            Button(
+                modifier = Modifier.padding(start = 8.dp),
+                onClick = {
+                    onPlanList()
 
-
-        }
-        Button(
-            modifier = Modifier.padding(start = 8.dp),
-            onClick = {
-                onPlanList()
-
+                }
+            ) {
+                Text("Planes")
             }
-        ) {
-            Text("Planes")
         }
+
     }
 
 }

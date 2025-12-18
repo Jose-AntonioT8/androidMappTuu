@@ -90,7 +90,7 @@ fun ActivityDetailScreen(
     longitude:String,
     name:String,
     ownerId:String,
-    rating:Int
+    rating:Float
 ){
     Card(
         modifier = modifier

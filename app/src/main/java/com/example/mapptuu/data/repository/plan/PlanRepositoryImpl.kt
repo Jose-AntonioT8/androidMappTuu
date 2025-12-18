@@ -30,7 +30,7 @@ class PlanRepositoryImpl @Inject constructor(
         return localDataSource.observe()
     }
 
-    override suspend fun delete(id: String) {
+    override suspend fun delete(id:String) {
         localDataSource.delete(id)
     }
 

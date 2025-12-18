@@ -14,7 +14,7 @@ import com.example.mapptuu.data.local.users.UsersEntity
 
 @Database(
     entities = [UsersEntity::class, ActivityEntity::class, ActivityTypesEntity::class, PlansEntity::class],
-    version = 1,
+    version = 3,
     exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class MappTuuDataBase: RoomDatabase() {

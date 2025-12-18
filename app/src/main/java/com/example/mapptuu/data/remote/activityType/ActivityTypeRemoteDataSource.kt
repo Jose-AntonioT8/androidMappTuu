@@ -74,10 +74,9 @@ class ActivityTypeRemoteDataSource   @Inject constructor(
     }
 
     override suspend fun update(
-        id: String,
         activityType: ActivityTypes
     ) {
-        api.update(id, activityType.toRemote())
+        api.update(activityType.id, activityType.toRemote())
     }
 
     private fun ActivityTypes.toRemote(): ActivityTypesRemote {

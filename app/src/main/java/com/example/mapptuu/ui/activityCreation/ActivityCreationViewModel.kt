@@ -39,9 +39,8 @@ class ActivityCreationViewModel @Inject constructor(
     }
     fun create(){
         viewModelScope.launch {
-            val newId = getLastId()
             val activity = Activity(
-                id = newId.toString(),
+                id = "",
                 name = name,
                 description = description,
                 imageRef = "https://dragonball-api.com/characters/vegeta_normal.webp",
@@ -50,15 +49,10 @@ class ActivityCreationViewModel @Inject constructor(
                 latitude = latitude,
                 longitude = longitude,
                 ownerId = authRepository.getCurrentUserToken()!!,
-                rating = 0,
+                rating = 0F,
             )
             activityRepository.insert(activity)
         }
-    }
-    private suspend fun getLastId(): Long {
-        val characters = activityRepository.observe().first().getOrNull()
-        val maxId = characters?.maxOfOrNull { it.id } ?: ""
-        return maxId.toLong() + 1
     }
     var isError =false
     var name by mutableStateOf("")

@@ -29,7 +29,7 @@ data class DetailUiState(
     val visibility:Boolean=false,
     val name:String="",
     val ownerId:String="",
-    val rating:Int=0
+    val rating:Float=0F
 )
 
 @HiltViewModel
@@ -43,8 +43,8 @@ class ActivityDetailViewModel @Inject constructor(
         get()= _uiState.asStateFlow()
     init {
         viewModelScope.launch {
-            val route = savedStateHandle.toRoute<Route.Detail>()
-            val activityId = route.id.toString()
+            val route = savedStateHandle.toRoute<Route.PlanDetail>()
+            val activityId = route.id
             val activity = planRepository.readOne(activityId)
             activity.let{
                 _uiState.value = activity.getOrNull()!!.toDetailUiState()

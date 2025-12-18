@@ -45,7 +45,13 @@ class PlansLocalDataSource @Inject constructor(
     }
 
     override suspend fun readOneByName(name: String): Result<List<Plans>> {
-        TODO("Not yet implemented")
+        val entities = plansDao.readPlanByName(name)
+        return if (entities.isEmpty()) {
+            Result.failure(PlansNotFoundException())
+        } else {
+            val modelList = entities.map { it!!.toModel()  }
+            Result.success(modelList)
+        }
     }
 
     override suspend fun isError() {
@@ -63,8 +69,8 @@ class PlansLocalDataSource @Inject constructor(
 
     }
 
-    override suspend fun update(id: String, plans: Plans) {
-        plansDao.update(id, plans.toEntity())
+    override suspend fun update( plans: Plans) {
+        plansDao.update(plans.toEntity())
     }
 }
 

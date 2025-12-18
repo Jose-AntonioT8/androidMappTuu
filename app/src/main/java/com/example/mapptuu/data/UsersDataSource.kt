@@ -14,6 +14,6 @@ interface UsersDataSource {
 
     suspend fun delete(id:String)
 
-    suspend fun update(id:String, user: Users)
+    suspend fun update(user: Users)
 
 }

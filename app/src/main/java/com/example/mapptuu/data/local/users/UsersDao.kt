@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface UsersDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(users: UsersEntity)
-    @Delete
+    @Query("DELETE FROM activity WHERE id = :id")
     suspend fun delete(id: String)
     @Query("SELECT * FROM users")
     fun getAll(): List<UsersEntity>
@@ -24,5 +24,5 @@ interface UsersDao {
     suspend fun readUserById(id: String): UsersEntity?
 
     @Update
-    suspend fun update(id: String, user: UsersEntity)
+    suspend fun update(user: UsersEntity)
 }

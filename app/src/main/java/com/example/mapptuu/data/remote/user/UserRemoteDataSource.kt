@@ -74,8 +74,8 @@ class UserRemoteDataSource @Inject constructor(
         api.delete(id)
     }
 
-    override suspend fun update(id: String, user: Users) {
-        api.update(id, user.toRemote())
+    override suspend fun update( user: Users) {
+        api.update(user.id, user.toRemote())
     }
 
     private fun Users.toRemote(): UsersRemote {

@@ -37,7 +37,7 @@ fun NavGraph(){
                     navController.navigateToActivityCreation()
                 },
                 onNavigateToPlanList={
-                    navController.navigateToActivityList()
+                    navController.navigateToPlanList()
                 })
             activityCreationDestination(contentModifier,
                 onNavegationBack={

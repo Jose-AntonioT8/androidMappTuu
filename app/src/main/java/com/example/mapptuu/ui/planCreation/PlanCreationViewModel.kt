@@ -46,25 +46,19 @@ class PlanCreationViewModel @Inject constructor(
             .map { it.trim() }
             .filter { it.isNotEmpty() }
         viewModelScope.launch {
-            val newId = getLastId()
             val plan = Plans(
-                id = newId.toString(),
+                id = "",
                 name = name,
                 description = description,
                 imgRef = "https://dragonball-api.com/characters/vegeta_normal.webp",
                 createdAt = Timestamp.now(),
                 ownerId = authRepository.getCurrentUserToken()!!,
-                rating = 0,
+                rating = 0F,
                 activitiesIds = activitiesIds,
                 visibility = visibility,
             )
             planRepository.insert(plan)
         }
-    }
-    private suspend fun getLastId(): Long {
-        val plans = planRepository.observe().first().getOrNull()
-        val maxId = plans?.maxOfOrNull { it.id } ?: ""
-        return maxId.toLong() + 1
     }
     var isError =false
     var visibility by mutableStateOf(false)

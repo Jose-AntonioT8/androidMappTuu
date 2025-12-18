@@ -12,6 +12,6 @@ interface ActivityTypesDataSource {
     suspend fun insert(activityTypes: ActivityTypes)
 
     suspend fun delete(id:String)
-    suspend fun update(id:String, activityType: ActivityTypes)
+    suspend fun update(activityType: ActivityTypes)
 
 }

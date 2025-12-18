@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
+import android.util.Log
+
+const val TAG_PLAN = "PlanRemoteDataSource"
 
 class PlanRemoteDataSource @Inject constructor(
     private val api: PlanApi,
@@ -35,21 +38,22 @@ class PlanRemoteDataSource @Inject constructor(
 
     override suspend fun readAll(): Result<List<Plans>> {
         try {
+            Log.d(TAG_PLAN, "Iniciando readAll()")
             val response = api.readAll()
-            val finalList = mutableListOf<Plans>()
+            Log.d(TAG_PLAN, "Response code: ${response.code()}, isSuccessful: ${response.isSuccessful}")
             return if (response.isSuccessful) {
                 val body = response.body()!!
-                for (result in body.items) {
-                    val remotePlans = readOne(id = result.id)
-                    remotePlans.let {
-                        finalList.add(remotePlans.toPlans())
-                    }
-                }
+                Log.d(TAG_PLAN, "Body obtenido, items: ${body.size}")
+                val finalList = body.map { it.toPlans() }
+                Log.d(TAG_PLAN, "readAll() completado, final list size: ${finalList.size}")
                 Result.success(finalList)
             } else {
-                Result.failure(RuntimeException("Error code: ${response.code()}"))
+                val errorMsg = "Error code: ${response.code()}"
+                Log.e(TAG_PLAN, errorMsg)
+                Result.failure(RuntimeException(errorMsg))
             }
         } catch (e: Exception) {
+            Log.e(TAG_PLAN, "Excepción en readAll(): ${e.message}", e)
             return Result.failure(e)
         }
     }
@@ -67,21 +71,22 @@ class PlanRemoteDataSource @Inject constructor(
 
     override suspend fun readOneByName(name: String): Result<List<Plans>> {
         try {
+            Log.d(TAG_PLAN, "Iniciando readOneByName(name=$name)")
             val response = api.readOneByName(name)
-            val finalList = mutableListOf<Plans>()
+            Log.d(TAG_PLAN, "Response code: ${response.code()}, isSuccessful: ${response.isSuccessful}")
             return if (response.isSuccessful) {
                 val body = response.body()!!
-                for (result in body.items) {
-                    val remotePlans = readOne(id = result.id)
-                    remotePlans.let {
-                        finalList.add(remotePlans.toPlans())
-                    }
-                }
+                Log.d(TAG_PLAN, "Body obtenido, items: ${body.size}")
+                val finalList = body.map { it.toPlans() }
+                Log.d(TAG_PLAN, "readOneByName() completado, final list size: ${finalList.size}")
                 Result.success(finalList)
             } else {
-                Result.failure(RuntimeException("Error code: ${response.code()}"))
+                val errorMsg = "Error code: ${response.code()}"
+                Log.e(TAG_PLAN, errorMsg)
+                Result.failure(RuntimeException(errorMsg))
             }
         } catch (e: Exception) {
+            Log.e(TAG_PLAN, "Excepción en readOneByName(): ${e.message}", e)
             return Result.failure(e)
         }
     }
@@ -98,8 +103,8 @@ class PlanRemoteDataSource @Inject constructor(
         api.delete(id)
     }
 
-    override suspend fun update(id: String, plans: Plans) {
-        api.update(id, plans.toRemote())
+    override suspend fun update( plans: Plans) {
+        api.update(plans.id, plans.toRemote())
     }
 
     private fun Plans.toRemote(): PlansRemote {

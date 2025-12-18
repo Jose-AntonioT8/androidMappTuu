@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.mapptuu.ui.navigation.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,9 +31,8 @@ fun SignUpScreen(
     // Navegar cuando el registro sea exitoso
     LaunchedEffect(uiState.isSignUpSuccessful) {
         if (uiState.isSignUpSuccessful) {
-            navController.navigate("landing_page") {
-                popUpTo("signup") { inclusive = true }
-            }
+            navController.navigate(Route.LandingPage)
+
             viewModel.resetSignUpSuccess()
         }
     }
@@ -313,7 +313,7 @@ fun SignUpScreen(
                         fontSize = 14.sp
                     )
                     TextButton(
-                        onClick = { navController.navigate("login") },
+                        onClick = { navController.navigate(Route.Login) },
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(

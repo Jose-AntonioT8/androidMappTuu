@@ -58,7 +58,7 @@ class UsersLocalDataSource @Inject constructor(
 
     }
 
-    override suspend fun update(id: String, user: Users) {
-        usersDao.update(id, user.toEntity())
+    override suspend fun update( user: Users) {
+        usersDao.update(user.toEntity())
     }
 }

@@ -12,5 +12,5 @@ data class Activity(
     val longitude:String,
     val name:String,
     val ownerId:String,
-    val rating:Int
+    val rating:Float
 )

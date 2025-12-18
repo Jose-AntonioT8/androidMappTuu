@@ -10,6 +10,6 @@ data class Plans(
  val imgRef:String,
  val name:String,
  val ownerId:String,
- val rating:Int,
+ val rating:Float,
  val visibility:Boolean
 )

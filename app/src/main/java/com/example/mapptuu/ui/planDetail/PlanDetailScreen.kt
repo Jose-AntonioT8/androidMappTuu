@@ -78,15 +78,15 @@ fun PlanDetailScreen(
 fun PlanDetailScreen(
     modifier: Modifier,
 
-     id:String,
-     activitiesIds:List<String>,
-     createdAt: Timestamp,
-     description:String,
+    id:String,
+    activitiesIds:List<String>,
+    createdAt: Timestamp,
+    description:String,
     imageRef:String,
-     name:String,
-     ownerId:String,
-     rating:Int,
-     visibility:Boolean
+    name:String,
+    ownerId:String,
+    rating: Float,
+    visibility:Boolean
 ){
     Card(
         modifier = modifier

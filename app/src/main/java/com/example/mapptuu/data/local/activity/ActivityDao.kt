@@ -12,7 +12,7 @@ interface ActivityDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(activity: ActivityEntity)
 
-    @Delete
+    @Query("DELETE FROM activity WHERE id = :id")
     suspend fun delete(id: String)
 
     @Query("SELECT * FROM activity")
@@ -23,8 +23,9 @@ interface ActivityDao {
 
     @Query("SELECT * FROM activity WHERE id = :id")
     suspend fun readActivityById(id: String): ActivityEntity?
-
+    @Query("SELECT * FROM activity WHERE name = :name")
+    suspend fun readActivityByName(name: String): List<ActivityEntity?>
     @Update
-    suspend fun update(id: String, activity: ActivityEntity)
+    suspend fun update( activity: ActivityEntity)
 
 }

@@ -16,6 +16,6 @@ interface PlansDataSource {
 
     suspend fun delete(id:String)
 
-    suspend fun update(id:String, plans: Plans)
+    suspend fun update( plans: Plans)
 
 }

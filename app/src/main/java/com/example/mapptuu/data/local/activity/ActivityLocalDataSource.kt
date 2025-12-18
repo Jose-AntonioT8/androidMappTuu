@@ -45,8 +45,16 @@ class ActivityLocalDataSource @Inject constructor(
             Result.success(entity.toModel())    }
 
     override suspend fun readOneByName(name: String): Result<List<Activity>> {
-        TODO("Not yet implemented")
+        val entities = activityDao.readActivityByName(name)
+        return if (entities.isEmpty()) {
+            Result.failure(ActivityNotFoundException())
+        } else {
+            val modelList = entities.map { it!!.toModel()  }
+            Result.success(modelList)
+        }
     }
+
+
 
     override suspend fun isError() {
         TODO("Not yet implemented")
@@ -65,10 +73,9 @@ class ActivityLocalDataSource @Inject constructor(
     }
 
     override suspend fun update(
-        id: String,
         activity: Activity
     ) {
-        activityDao.update(id, activity.toEntity())
+        activityDao.update(activity.toEntity())
 
     }
 

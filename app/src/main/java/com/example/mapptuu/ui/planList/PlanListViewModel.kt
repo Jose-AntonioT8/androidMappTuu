@@ -8,15 +8,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Plans
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+@HiltViewModel
 
 class PlanListViewModel@Inject constructor(
     private val planRepository: PlanRepository,
-    private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
     private val _uiState : MutableStateFlow<ListUiState> =
         MutableStateFlow( ListUiState.Initial)
@@ -25,27 +26,32 @@ class PlanListViewModel@Inject constructor(
     init {
         viewModelScope.launch {
             _uiState.value = ListUiState.Loading
-            planRepository.observe().collect { result ->
-                if (result.isSuccess) {
-                    val plans = result.getOrNull()!!
-                    if (plans.isNotEmpty()){
-                        val uiPlans = plans.asListUiState()
-                        _uiState.value = ListUiState.Succes(uiPlans)
-                    }else {
-                        planRepository.refresh()
-                        planRepository.observe().collect { result ->
-                            val plans = result.getOrNull()!!
-                            if (plans.isNotEmpty()) {
-                                val uiPlans = plans.asListUiState()
-                                _uiState.value = ListUiState.Succes(uiPlans)
+            try {
+                planRepository.observe().collect { result ->
+                    if (result.isSuccess) {
+                        val plans = result.getOrNull()!!
+                        if (plans.isNotEmpty()){
+                            val uiPlans = plans.asListUiState()
+                            _uiState.value = ListUiState.Succes(uiPlans)
+                        }else {
+                            planRepository.refresh()
+                            planRepository.observe().collect { result ->
+                                val plans = result.getOrNull()!!
+                                if (plans.isNotEmpty()) {
+                                    val uiPlans = plans.asListUiState()
+                                    _uiState.value = ListUiState.Succes(uiPlans)
+                                }
                             }
                         }
+                    } else {
+                        val error = result.exceptionOrNull()?.message ?: "Error desconocido"
+                        _uiState.value = ListUiState.Error("Error al cargar planes: $error")
                     }
-
-                } else {
-                    _uiState.value = ListUiState.Error("No se han cargado los planes")
                 }
+            } catch (e: Exception) {
+                _uiState.value = ListUiState.Error("Excepción al cargar planes: ${e.message}")
             }
+            planRepository.refresh()
         }
     }
 

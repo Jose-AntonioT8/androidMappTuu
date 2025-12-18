@@ -3,6 +3,7 @@ package com.example.mapptuu.ui.activityUpdate
 
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -33,7 +34,7 @@ data class DetailUiState(
     val longitude:String="",
     val name:String="",
     val ownerId:String="",
-    val rating:Int=0
+    val rating:Float=0F
 )
 
 @HiltViewModel
@@ -52,7 +53,7 @@ class ActivityUpdateViewModel @Inject constructor(
     var imageRef by mutableStateOf("")
 
     var ownerId by mutableStateOf("")
-    var rating by mutableIntStateOf(0)
+    var rating by mutableFloatStateOf(0F)
 
     val createdAt= Timestamp.now()
 
@@ -63,8 +64,8 @@ class ActivityUpdateViewModel @Inject constructor(
     val uiState : StateFlow<DetailUiState> = _uiState.asStateFlow()
     init {
         viewModelScope.launch {
-            val route = savedStateHandle.toRoute<Route.Detail>()
-            activityId = route.id.toString()
+            val route = savedStateHandle.toRoute<Route.ActivityUpdate>()
+            activityId = route.id
             val activity = activityRepository.readOne(activityId)
             activity.let{activity ->
                 name = activity.getOrNull()!!.name

@@ -99,6 +99,9 @@ fun NavGraph(){
                 },
                 onNavigateToActivities = {
                     navController.navigateToActivityList()
+                },
+                onNavigateToProfile = {
+                    navController.navigateToProfile()
                 }
             )
 

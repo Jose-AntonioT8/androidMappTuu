@@ -48,6 +48,9 @@ sealed class Route(val route:String) {
     data class PlanUpdate(val id:String):Route(route = "plan_update[$id]")
 
     @Serializable
+    data object Profile: Route("profile")
+
+    @Serializable
     data object Login: Route("login")
 
     @Serializable
@@ -84,6 +87,10 @@ fun NavController.navigateToActivityList(){
 }
 fun NavController.navigateToLandingPage(){
     this.navigate(Route.LandingPage)
+}
+
+fun NavController.navigateToProfile(){
+    this.navigate(Route.Profile)
 }
 fun NavController.navigateToLogin(){
     this.navigate(Route.Login)
@@ -264,6 +271,7 @@ fun NavGraphBuilder.landingPageDestination(
     onNavigateToRegister: () -> Unit,
     onNavigateToActivities:() -> Unit,
     onNavigateToPlans:() -> Unit,
+    onNavigateToProfile: () -> Unit,
 
 ){
     composable<Route.LandingPage> {
@@ -280,8 +288,10 @@ fun NavGraphBuilder.landingPageDestination(
             },
             onNavigateToPlans = {
                 onNavigateToPlans()
+            },
+            onNavigateToProfile = {
+                onNavigateToProfile()
             }
-
         )
     }
 }

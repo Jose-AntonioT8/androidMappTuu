@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.serialize)
     id("com.google.gms.google-services")
+
+    //google maps
+    // ...
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 android {
     namespace = "com.example.mapptuu"
@@ -53,6 +57,10 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
+    // Maps SDK for Android
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.maps.android:maps-compose:7.0.0")
+
     // Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
@@ -67,6 +75,9 @@ dependencies {
 
     // View Model
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+
+
     // Navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)

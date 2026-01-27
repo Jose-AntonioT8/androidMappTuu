@@ -12,6 +12,7 @@ import com.example.mapptuu.ui.activityList.ActivityListScreen
 import com.example.mapptuu.ui.activityUpdate.ActivityUpdateScreen
 import com.example.mapptuu.ui.landingPage.LandingPageScreen
 import com.example.mapptuu.ui.login.LoginScreen
+import com.example.mapptuu.ui.map.MapScreen
 import com.example.mapptuu.ui.planCreation.PlanCreationScreen
 import com.example.mapptuu.ui.planDetail.PlanDetailScreen
 import com.example.mapptuu.ui.planList.PlanListScreen
@@ -45,10 +46,16 @@ sealed class Route(val route:String) {
     data object PlanCreation:Route("plan_creation")
 
     @Serializable
+    data object Setting:Route("setting")
+
+    @Serializable
     data class PlanUpdate(val id:String):Route(route = "plan_update[$id]")
 
     @Serializable
     data object Profile: Route("profile")
+
+    @Serializable
+    data object Map: Route("map")
 
     @Serializable
     data object Login: Route("login")
@@ -92,11 +99,41 @@ fun NavController.navigateToLandingPage(){
 fun NavController.navigateToProfile(){
     this.navigate(Route.Profile)
 }
+
+fun NavController.navigateToMap(){
+    this.navigate(Route.Map)
+}
+
+fun NavController.navigateToSetting(){
+    this.navigate(Route.Setting)
+}
+
 fun NavController.navigateToLogin(){
     this.navigate(Route.Login)
 }
 fun NavController.navigateToRegister(){
     this.navigate(Route.Register)
+}
+
+fun NavGraphBuilder.mapDestination(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    onNavigateToPlanList: () -> Unit,
+    onNavigateToProfile: () -> Unit,
+    onNavigateToActivities: () -> Unit,
+    onNavigateToSetting: () -> Unit
+){
+    composable<Route.Map>{
+        MapScreen(
+            modifier = modifier,
+            navController = navController,
+            onPlanList = onNavigateToPlanList,
+            onNavigateToProfile = onNavigateToProfile,
+            onNavigateToActivities = onNavigateToActivities,
+            onNavigateToSetting = onNavigateToSetting,
+        )
+    }
+
 }
 
 fun NavGraphBuilder.activityCreationDestination(
@@ -157,29 +194,43 @@ fun NavGraphBuilder.activityUpdateDestination(
 }
 fun NavGraphBuilder.activityListDestination(
     modifier: Modifier = Modifier,
+    navController: NavController,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToCreation: () -> Unit,
-    onNavigateToPlanList: () -> Unit
+    onNavigateToPlanList: () -> Unit,
+    onNavigateToSetting: () -> Unit,
+    onNavigateToMap: () -> Unit,
+    onNavigateToProfile: () -> Unit
 
 ) {
     composable<Route.ActivityList> {
 
         ActivityListScreen(
-            modifier = modifier,
             onCreate = {
                 onNavigateToCreation()
+            },
+            onShowDetail = { id ->
+                onNavigateToDetails(id)
             },
             onPlanList = {
                 onNavigateToPlanList()
             },
-            onShowDetail = { id ->
-                onNavigateToDetails(id)
-            }
+            onNavigateToSetting = {
+                onNavigateToSetting()
+            },
+            onNavigateToMap = {
+                onNavigateToMap()
+            },
+            navController = navController,
+            onNavigateToProfile = {
+                onNavigateToProfile()
+            },
         )
 
 
     }
 }
+
 
 
 fun NavGraphBuilder.planCreationDestination(
@@ -240,9 +291,12 @@ fun NavGraphBuilder.planUpdateDestination(
 }
 fun NavGraphBuilder.planListDestination(
     modifier: Modifier = Modifier,
+    navController: NavController,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToCreation: () -> Unit,
-    onActivityList: () -> Unit
+    onActivityList: () -> Unit,
+    onNavigateToSetting: () -> Unit,
+    onNavigateToMap: () -> Unit,
 
 ) {
     composable<Route.PlanList> {
@@ -252,12 +306,19 @@ fun NavGraphBuilder.planListDestination(
             onCreate = {
                 onNavigateToCreation()
             },
-            onActivityList = {
-                onActivityList()
-            },
             onShowDetail = { id ->
                 onNavigateToDetails(id)
-            }
+            },
+            onNavigateActivityList = {
+                onActivityList()
+            },
+            onNavigateToSetting = {
+                onNavigateToSetting()
+            },
+            navController = navController,
+            onNavigateToMap = {
+                onNavigateToMap()
+            },
         )
 
 

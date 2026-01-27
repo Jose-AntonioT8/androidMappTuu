@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,9 +35,11 @@ fun ActivityDetailScreen(
 
     ){
     val uiState by viewModel.uiState.collectAsState()
+    Scaffold() {innerPading ->
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(8.dp)) {
+        .padding(8.dp)
+        .padding(innerPading)) {
         ActivityDetailScreen(
 
             modifier = modifier.weight(1f),
@@ -51,19 +54,19 @@ fun ActivityDetailScreen(
             ownerId = uiState.ownerId,
             rating = uiState.rating,
         )
-        Button( modifier = Modifier.fillMaxWidth(), onClick = {
+        Button(modifier = Modifier.fillMaxWidth(), onClick = {
             onUpdateActivity(uiState.id)
         }
         )
-        {Text("Modificar actividad") }
-        Button( modifier = Modifier.fillMaxWidth(), onClick = {
+        { Text("Modificar actividad") }
+        Button(modifier = Modifier.fillMaxWidth(), onClick = {
             viewModel.delete(uiState.id)
             onNavegationBack()
         }
         )
-        {Text("Borrar actividad") }
+        { Text("Borrar actividad") }
         Button(
-            onClick={
+            onClick = {
                 onNavegationBack()
             },
             modifier = Modifier.fillMaxWidth()
@@ -71,6 +74,7 @@ fun ActivityDetailScreen(
         ) {
             Text("Volver atrás")
         }
+    }
     }
 
 

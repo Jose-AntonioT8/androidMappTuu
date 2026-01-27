@@ -11,6 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.mapptuu.ui.component.Header
 
 @Composable
 fun PlanUpdateScreen(
@@ -25,11 +27,18 @@ fun PlanUpdateScreen(
     viewModel : PlanUpdateViewModel = hiltViewModel(),
     onNavigateToDetails:(String)->Unit
 ){
+    Scaffold(
+        topBar = {
+            Header() {  }
+        },
+    ) { innerPadding ->
     Card(
-        modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp).padding(innerPadding)
     ) {
-        Column(modifier = Modifier.padding(8.dp)
-            .verticalScroll(rememberScrollState())) {
+        Column(
+            modifier = Modifier.padding(8.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -90,24 +99,24 @@ fun PlanUpdateScreen(
                 onValueChange = { viewModel.description = it }
 
             )
-            Row(modifier = Modifier.padding(8.dp)){
+            Row(modifier = Modifier.padding(8.dp)) {
                 Button(
-                    onClick={
+                    onClick = {
                         viewModel.update()
                         onNavigateToDetails(viewModel.planId)
                     },
-                ){
+                ) {
                     Text("Actualizar")
                 }
                 Button(
-                    onClick={
+                    onClick = {
                         onNavigateToDetails(viewModel.planId)
                     },
-                ){
+                ) {
                     Text("Cancelar")
                 }
             }
         }
-
+    }
     }
 }

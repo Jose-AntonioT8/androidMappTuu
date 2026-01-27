@@ -9,11 +9,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.mapptuu.ui.component.Header
 
 @Composable
 fun ActivityUpdateScreen(
@@ -21,13 +23,18 @@ fun ActivityUpdateScreen(
     viewModel : ActivityUpdateViewModel = hiltViewModel(),
     onNavigateToDetails:(String)->Unit
 ){
+    Scaffold (
+        topBar = {
+            Header() {  }
+        },
+    ){ innerPadding ->
     Card(
-        modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp).padding(innerPadding)
     ) {
-        Column(modifier = Modifier.padding(8.dp)  .verticalScroll(rememberScrollState())) {
+        Column(modifier = Modifier.padding(8.dp).verticalScroll(rememberScrollState())) {
             OutlinedTextField(
                 modifier = Modifier
-                    .fillMaxWidth()                    .padding(start = 8.dp),
+                    .fillMaxWidth().padding(start = 8.dp),
                 value = viewModel.name,
                 singleLine = true,
                 isError = viewModel.isError,
@@ -71,24 +78,25 @@ fun ActivityUpdateScreen(
                 label = { Text("Latitud ") },
                 onValueChange = { viewModel.latitude = it }
             )
-            Row(modifier = Modifier.padding(8.dp)){
+            Row(modifier = Modifier.padding(8.dp)) {
                 Button(
-                    onClick={
+                    onClick = {
                         viewModel.update()
                         onNavigateToDetails(viewModel.activityId)
                     },
-                ){
+                ) {
                     Text("Actualizar")
                 }
                 Button(
-                    onClick={
+                    onClick = {
                         onNavigateToDetails(viewModel.activityId)
                     },
-                ){
+                ) {
                     Text("Cancelar")
                 }
             }
         }
+    }
 
     }
 }

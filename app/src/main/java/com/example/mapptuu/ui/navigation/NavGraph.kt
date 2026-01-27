@@ -28,17 +28,29 @@ fun NavGraph(){
             navController = navController,
             startDestination = startDestination
         ){
-            activityListDestination(contentModifier,
 
-                onNavigateToDetails={
+            activityListDestination(
+                contentModifier,
+
+                navController = navController,
+                onNavigateToDetails = {
                     navController.navigateToActivityDetail(it)
                 },
-                onNavigateToCreation={
+                onNavigateToCreation = {
                     navController.navigateToActivityCreation()
                 },
-                onNavigateToPlanList={
+                onNavigateToPlanList = {
                     navController.navigateToPlanList()
-                })
+                },
+                onNavigateToSetting = {
+                    navController.navigateToSetting()
+                },
+                onNavigateToMap = {
+                    navController.navigateToMap()
+                }
+            ) {
+                navController.navigateToMap()
+            }
             activityCreationDestination(contentModifier,
                 onNavegationBack={
                     navController.navigateToActivityList()
@@ -58,16 +70,24 @@ fun NavGraph(){
 
                 }
             )
-            planListDestination(contentModifier,
-                onNavigateToDetails={
+            planListDestination(
+                contentModifier,
+                onNavigateToDetails = {
                     navController.navigateToPlanDetail(it)
                 },
-                onNavigateToCreation={
+                onNavigateToCreation = {
                     navController.navigateToPlanCreation()
                 },
-                onActivityList ={
+                onActivityList = {
                     navController.navigateToActivityList()
-                }
+                },
+                onNavigateToSetting = {
+                    navController.navigateToSetting()
+                },
+                onNavigateToMap = {
+                    navController.navigateToMap()
+                },
+                navController = navController
             )
             planDetailDestination(contentModifier,
                 onNavegationBack={
@@ -107,6 +127,24 @@ fun NavGraph(){
 
             loginPageDestination(navController)
             registerPageDestination(navController)
+
+            mapDestination(
+                navController = navController,
+                onNavigateToPlanList = {
+                    navController.navigateToPlanList()
+                },
+                onNavigateToProfile = {
+                    navController.navigateToProfile()
+                },
+                onNavigateToActivities = {
+                    navController.navigateToActivityList()
+                },
+
+                onNavigateToSetting = {
+                    navController.navigateToSetting()
+                }
+            )
+
 
         }
     }

@@ -20,6 +20,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -29,52 +30,83 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.example.mapptuu.ui.component.Footer
+import com.example.mapptuu.ui.component.Header
 
 @Composable
 fun PlanListScreen (
     onCreate:()->Unit,
     onShowDetail: (String) -> Unit,
-    onActivityList:()->Unit,
+    onNavigateToSetting:() -> Unit,
+    onNavigateToMap:() -> Unit,
+    onNavigateActivityList:() -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PlanListViewModel = hiltViewModel()
+    viewModel: PlanListViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ) {
-        SearchBar(
-            viewModel = viewModel,
-            onActivityList = onActivityList,
-            onCreate = onCreate,
-            isError = uiState is ListUiState.Error,
 
+    Scaffold(
+        topBar = {
+            Header() {  }
+        },
+        bottomBar = {
+            Footer(
+                activeRoute = "plans",
+                onNavigate = { route ->
+                    when (route) {
+                        "mapa" -> onNavigateToMap()
+                        "ajustes" -> onNavigateToSetting()
+                    }
+
+                },
+                navController = navController
             )
+        }
+    )
+    { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(8.dp)
+                .padding(innerPadding)
+        ) {
+            SearchBar(
+                viewModel = viewModel,
+                onActivityList = onNavigateActivityList,
+                onCreate = onCreate,
+                isError = uiState is ListUiState.Error,
 
-        when (val currentState = uiState) {
-            is ListUiState.Initial -> {
-            }
-            is ListUiState.Loading -> {
-                ListLoading()
-            }
-            is ListUiState.Error -> {
-                Text(
-                    text = currentState.message,
-                    color = MaterialTheme.colorScheme.error,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
                 )
-            }
-            is ListUiState.Succes -> {
-                PlanList(
-                    plans = currentState.plans,
-                    onShowDetail = onShowDetail
-                )
+
+            when (val currentState = uiState) {
+                is ListUiState.Initial -> {
+                }
+
+                is ListUiState.Loading -> {
+                    ListLoading()
+                }
+
+                is ListUiState.Error -> {
+                    Text(
+                        text = currentState.message,
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    )
+                }
+
+                is ListUiState.Succes -> {
+                    PlanList(
+                        plans = currentState.plans,
+                        onShowDetail = onShowDetail
+                    )
+                }
             }
         }
     }

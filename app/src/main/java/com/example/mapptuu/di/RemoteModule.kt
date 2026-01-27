@@ -23,7 +23,7 @@ class RemoteModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000")
+            .baseUrl("https://vercel-node-mapp-tuu.vercel.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

@@ -11,8 +11,7 @@ import javax.inject.Inject
 
 class PlanRepositoryImpl @Inject constructor(
     @RemoteDataSource private val remoteDataSource: PlansDataSource,
-    @LocalDataSource private val localDataSource: PlansDataSource,
-    private val scope: CoroutineScope
+    @LocalDataSource private val localDataSource: PlansDataSource
 ): PlanRepository {
     override suspend fun readAll(): Result<List<Plans>> {
         return remoteDataSource.readAll()

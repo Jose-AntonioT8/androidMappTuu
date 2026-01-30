@@ -13,8 +13,7 @@ import kotlin.text.insert
 
 class ActivityTypeRepositoryImpl  @Inject constructor(
     @RemoteDataSource private val remoteDataSource: ActivityTypesDataSource,
-    @LocalDataSource private val localDataSource: ActivityTypesDataSource,
-    private val scope: CoroutineScope
+    @LocalDataSource private val localDataSource: ActivityTypesDataSource
 ): ActivityTypeRepository {
     override suspend fun readAll(): Result<List<ActivityTypes>> {
         return remoteDataSource.readAll()

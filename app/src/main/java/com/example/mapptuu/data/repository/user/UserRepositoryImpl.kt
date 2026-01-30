@@ -10,8 +10,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl@Inject constructor(
     @RemoteDataSource private val remoteDataSource: UsersDataSource,
-    @LocalDataSource private val localDataSource: UsersDataSource,
-    private val scope: CoroutineScope
+    @LocalDataSource private val localDataSource: UsersDataSource
 ): UserRepository {
     override suspend fun readAll(): Result<List<Users>> {
         return remoteDataSource.readAll()

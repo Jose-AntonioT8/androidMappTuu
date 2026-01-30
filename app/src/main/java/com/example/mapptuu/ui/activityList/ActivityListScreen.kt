@@ -122,6 +122,8 @@ private fun SearchBar(
     onCreate:()->Unit,
     isError: Boolean)
 {
+
+
     Column {
         Row(
             modifier = Modifier
@@ -129,7 +131,8 @@ private fun SearchBar(
                 .padding(horizontal = 8.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Buscar por nombre: ")
+
+
             OutlinedTextField(
                 modifier = Modifier
                     .width(100.dp)
@@ -140,7 +143,7 @@ private fun SearchBar(
                 },
                 singleLine = true,
                 isError = isError,
-                label = { Text("Nombre") }
+                label = { Text("Buscar") }
             )
             Button(
                 modifier = Modifier.padding(start = 8.dp),
@@ -154,26 +157,7 @@ private fun SearchBar(
 
 
         }
-        Row{
-            Button(
-                modifier = Modifier.padding(start = 8.dp),
-                onClick = {
-                    onCreate()
 
-                }
-            ) {
-                Text("Crear actividad")
-            }
-            Button(
-                modifier = Modifier.padding(start = 8.dp),
-                onClick = {
-                    onPlanList()
-
-                }
-            ) {
-                Text("Planes")
-            }
-        }
 
     }
 
@@ -221,8 +205,8 @@ private fun ActivityList(
                         modifier = Modifier.size(60.dp)
                     )
                     Column {
-                        Text(text = "Id: ${activity.id}")
                         Text(text = "Nombre: ${activity.name}")
+                        Text("${activity.rating}★")
                     }
                 }
             }

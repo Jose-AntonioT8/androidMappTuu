@@ -1,6 +1,7 @@
 package com.example.mapptuu.ui.planList
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,11 +28,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.example.mapptuu.R
 import com.example.mapptuu.ui.component.Footer
 import com.example.mapptuu.ui.component.Header
 
@@ -127,10 +130,11 @@ private fun SearchBar(
                 .padding(horizontal = 8.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Buscar por nombre: ")
+
+
             OutlinedTextField(
                 modifier = Modifier
-                    .width(100.dp)
+                    .width(200.dp)
                     .padding(start = 8.dp),
                 value = viewModel.busquedaParametros,
                 onValueChange = { nuevoTexto ->
@@ -138,7 +142,7 @@ private fun SearchBar(
                 },
                 singleLine = true,
                 isError = isError,
-                label = { Text("Nombre") }
+                label = { Text("Buscar") }
             )
             Button(
                 modifier = Modifier.padding(start = 8.dp),
@@ -146,30 +150,16 @@ private fun SearchBar(
                     viewModel.search()
                 }
             ) {
-                Text("Buscar")
+
+                Image(
+                    painter = painterResource(id = R.drawable.lupa),
+                    contentDescription = "Plans",
+                    Modifier.size(18.dp)
+                )
             }
+
+
         }
-        Row{
-            Button(
-                modifier = Modifier.padding(start = 8.dp),
-                onClick = {
-                    onCreate()
-
-                }
-            ) {
-                Text("Crear plan")
-            }
-            Button(
-                modifier = Modifier.padding(start = 8.dp),
-                onClick = {
-                    onActivityList()
-
-                }
-            ) {
-                Text("Actividades")
-            }
-        }
-
     }
 
 }

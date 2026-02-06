@@ -33,6 +33,7 @@
                             val activities = result.getOrNull()!!
                             if (activities.isNotEmpty()){
                                 val uiActivities = activities.asListUiState()
+                                fullList = uiActivities
                                 _uiState.value = ListUiState.Succes(uiActivities)
                             }else {
                                 activityRepository.refresh()
@@ -76,7 +77,7 @@
 
                 val resultadosFiltrados = fullList.filter { actividad ->
                     val nombreActividad = actividad.name.lowercase()
-                    palabras.all{ palabras ->
+                    palabras.any{ palabras ->
                         nombreActividad.contains(palabras)
                     }
                 }
@@ -106,6 +107,7 @@
         val name: String,
         val image: String,
         val rating: Float,
+        val location: String,
     )
 
     fun Result<List<Activity>>.toModel(): List<ListItemUiState>{
@@ -117,6 +119,7 @@
             name = this.name,
             image = this.imageRef,
             rating = this.rating,
+            location = this.longitude,
         )
     }
     fun List<Activity>.asListUiState():List<ListItemUiState>

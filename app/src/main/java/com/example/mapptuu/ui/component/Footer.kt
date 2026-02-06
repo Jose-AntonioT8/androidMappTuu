@@ -85,8 +85,8 @@ fun Footer(
                     Modifier.size(38.dp)
                 )
             },
-            selected = activeRoute == "ajustes",
-            onClick = { onNavigate("ajustes") }
+            selected = activeRoute == "profile",
+            onClick = { onNavigate("profile") }
         )
     }
 }

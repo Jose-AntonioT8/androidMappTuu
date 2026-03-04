@@ -207,8 +207,10 @@ private fun PlanList(
                         modifier = Modifier.size(60.dp)
                     )
                     Column {
-                        Text(text = "Id: ${plan.id}")
-                        Text(text = "Nombre: ${plan.name}")
+                        Text(text = " ${plan.name}")
+                        Row {
+                            Text("${plan.rating}★")
+                        }
                     }
                 }
             }

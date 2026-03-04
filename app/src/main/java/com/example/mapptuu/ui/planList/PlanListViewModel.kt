@@ -109,7 +109,8 @@ sealed class ListUiState{
 data class ListItemUiState(
     val id:String,
     val name:String,
-    val image: String
+    val image: String,
+    val rating: Float
 )
 
 fun Result<List<Plans>>.toModel(): List<ListItemUiState>{
@@ -119,7 +120,8 @@ fun Plans.asListItemUiState(): ListItemUiState{
     return ListItemUiState(
         id = this.id,
         name = this.name,
-        image = this.imgRef
+        image = this.imgRef,
+        rating = this.rating
     )
 }
 fun List<Plans>.asListUiState():List<ListItemUiState>

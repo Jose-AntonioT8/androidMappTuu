@@ -59,17 +59,6 @@ fun PlanDetailScreen(
                 visibility = uiState.visibility,
                 rating = uiState.rating,
             )
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                onUpdatePlan(uiState.id)
-            }
-            )
-            { Text("Modificar plan") }
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                viewModel.delete(uiState.id)
-                onNavegationBack()
-            }
-            )
-            { Text("Borrar plan") }
             Button(
                 onClick = {
                     onNavegationBack()

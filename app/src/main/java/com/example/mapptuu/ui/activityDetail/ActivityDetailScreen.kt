@@ -54,17 +54,7 @@ fun ActivityDetailScreen(
             ownerId = uiState.ownerId,
             rating = uiState.rating,
         )
-        Button(modifier = Modifier.fillMaxWidth(), onClick = {
-            onUpdateActivity(uiState.id)
-        }
-        )
-        { Text("Modificar actividad") }
-        Button(modifier = Modifier.fillMaxWidth(), onClick = {
-            viewModel.delete(uiState.id)
-            onNavegationBack()
-        }
-        )
-        { Text("Borrar actividad") }
+
         Button(
             onClick = {
                 onNavegationBack()

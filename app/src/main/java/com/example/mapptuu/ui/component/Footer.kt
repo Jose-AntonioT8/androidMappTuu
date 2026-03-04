@@ -39,21 +39,29 @@ fun Footer(
         DynamicNavItem("mapa", R.drawable.map, Route.Map, isToggleBtn = true)
     }
 
+    val toggleActivityPlan = if (activeRoute == "plans") {
+        DynamicNavItem("lista", R.drawable.lista, Route.ActivityList, isToggleBtn = true)
+    } else {
+        DynamicNavItem("plans", R.drawable.plan, Route.Map, isToggleBtn = true)
+    }
+
     NavigationBar(
 
     ) {
+        val isLeftSelected = currentRoute == Route.PlanList.route || currentRoute == Route.ActivityList.route
+
 
         NavigationBarItem(
 
             icon = {
                 Image(
-                    painter = painterResource(id = R.drawable.plan),
+                    painter = painterResource(id = toggleActivityPlan.icon),
                     contentDescription = "Plans",
                     Modifier.size(38.dp)
                 )
             },
-            selected = activeRoute == "plans",
-            onClick = { onNavigate("plans") }
+            selected = isLeftSelected,
+            onClick = { onNavigate(toggleActivityPlan.label) }
         )
 
         // Primero calculamos qué debe mostrar este botón

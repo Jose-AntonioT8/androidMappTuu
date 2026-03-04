@@ -19,6 +19,8 @@ import javax.inject.Inject
 class PlanListViewModel@Inject constructor(
     private val planRepository: PlanRepository,
 ): ViewModel() {
+    private var fullList: List<ListItemUiState> = emptyList()
+
     private val _uiState : MutableStateFlow<ListUiState> =
         MutableStateFlow( ListUiState.Initial)
     val uiState : StateFlow<ListUiState>
@@ -32,6 +34,7 @@ class PlanListViewModel@Inject constructor(
                         val plans = result.getOrNull()!!
                         if (plans.isNotEmpty()){
                             val uiPlans = plans.asListUiState()
+                            fullList = uiPlans
                             _uiState.value = ListUiState.Succes(uiPlans)
                         }else {
                             planRepository.refresh()
@@ -71,15 +74,21 @@ class PlanListViewModel@Inject constructor(
         if(acceptSearch()){
             viewModelScope.launch {
                 _uiState.value = ListUiState.Loading
-                try {
-                    val nombre = busquedaParametros.toString()
-                    val plansByName = planRepository.readdOneByName(nombre)
-                    val respuestaCorrecta = ListUiState.Succes(
-                        plansByName.toModel()
-                    )
-                    _uiState.value = respuestaCorrecta
-                } catch (e: Exception) {
-                    _uiState.value = ListUiState.Error("Error al cargar, no hay ningun plan con ese nombre: ${e.message}")
+                val query = busquedaParametros.trim().lowercase()
+
+                val palabras = query.split("\\s+".toRegex()).filter { it.isNotEmpty()}
+
+
+                val resultadosFiltrados = fullList.filter { plan ->
+                    val nombrePlan = plan.name.lowercase()
+                    palabras.any{ palabras ->
+                        nombrePlan.contains(palabras)
+                    }
+                }
+                if (resultadosFiltrados.isEmpty()) {
+                    _uiState.value = ListUiState.Error("No se encontraron planes")
+                } else {
+                    _uiState.value = ListUiState.Succes(resultadosFiltrados)
                 }
             }
         } else {

@@ -61,6 +61,7 @@ fun PlanListScreen (
                 activeRoute = "plans",
                 onNavigate = { route ->
                     when (route) {
+                        "lista" -> onNavigateActivityList()
                         "mapa" -> onNavigateToMap()
                         "ajustes" -> onNavigateToSetting()
                     }

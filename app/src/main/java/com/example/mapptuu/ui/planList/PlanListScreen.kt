@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -142,7 +143,7 @@ private fun SearchBar(
                 },
                 singleLine = true,
                 isError = isError,
-                label = { Text("Buscar") }
+                label = { Text(stringResource(R.string.search)) }
             )
             Button(
                 modifier = Modifier.padding(start = 8.dp),
@@ -153,9 +154,15 @@ private fun SearchBar(
 
                 Image(
                     painter = painterResource(id = R.drawable.lupa),
-                    contentDescription = "Plans",
+                    contentDescription = stringResource(R.string.plan),
                     Modifier.size(18.dp)
                 )
+            }
+            Button(
+                modifier = Modifier.padding(start = 8.dp),
+                onClick = onCreate
+            ) {
+                Text(stringResource(R.string.create_plan))
             }
 
 
@@ -206,8 +213,10 @@ private fun PlanList(
                         modifier = Modifier.size(60.dp)
                     )
                     Column {
-                        Text(text = "Id: ${plan.id}")
-                        Text(text = "Nombre: ${plan.name}")
+                        Text(text =plan.name)
+                        Row {
+                            Text("${plan.rating}★")
+                        }
                     }
                 }
             }

@@ -25,7 +25,6 @@ class PlanListViewModel@Inject constructor(
         get()= _uiState.asStateFlow()
     init {
         viewModelScope.launch {
-            _uiState.value = ListUiState.Loading
             try {
                 planRepository.observe().collect { result ->
                     if (result.isSuccess) {
@@ -51,7 +50,6 @@ class PlanListViewModel@Inject constructor(
             } catch (e: Exception) {
                 _uiState.value = ListUiState.Error("Excepción al cargar planes: ${e.message}")
             }
-            planRepository.refresh()
         }
     }
 
@@ -100,6 +98,7 @@ sealed class ListUiState{
 data class ListItemUiState(
     val id:String,
     val name:String,
+    val rating: Float,
     val image: String
 )
 
@@ -110,7 +109,8 @@ fun Plans.asListItemUiState(): ListItemUiState{
     return ListItemUiState(
         id = this.id,
         name = this.name,
-        image = this.imgRef
+        image = this.imgRef,
+        rating = this.rating,
     )
 }
 fun List<Plans>.asListUiState():List<ListItemUiState>

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -48,7 +49,7 @@ fun Footer(
             icon = {
                 Image(
                     painter = painterResource(id = R.drawable.plan),
-                    contentDescription = "Plans",
+                    contentDescription = stringResource(R.string.plans),
                     Modifier.size(38.dp)
                 )
             },
@@ -67,7 +68,7 @@ fun Footer(
             icon = {
                 Image(
                     painter = painterResource(id = toggleItem.icon),
-                    contentDescription = "Mapa/Lista",
+                    contentDescription = stringResource(R.string.map_list),
                     Modifier.size(38.dp)
                 )
             },
@@ -81,7 +82,7 @@ fun Footer(
             icon = {
                 Image(
                     painter = painterResource(id = R.drawable.perso_colorida),
-                    contentDescription = "user",
+                    contentDescription = stringResource(R.string.user),
                     Modifier.size(38.dp)
                 )
             },

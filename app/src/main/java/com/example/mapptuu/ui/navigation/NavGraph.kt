@@ -144,6 +144,8 @@ fun NavGraph(){
                     navController.navigateToSetting()
                 }
             )
+            profileDestination(navController)
+
 
 
         }

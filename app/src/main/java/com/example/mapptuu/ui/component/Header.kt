@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.mapptuu.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,12 +29,11 @@ fun Header(
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            // Solo mostramos el icono si nos pasan una función para ir atrás
             if (onBackClick != null) {
                 IconButton(onClick = onBackClick) {
                     Image(
                         painterResource(id = R.drawable.logo),
-                        contentDescription = "logo",
+                        contentDescription = stringResource(R.string.logo),
                     )
                 }
             }
@@ -43,7 +43,7 @@ fun Header(
                 menuExpanded = true }){
                 Image(
                     painterResource(id = R.drawable.menu_burguer),
-                    contentDescription = "menu hamburguesa",
+                    contentDescription = stringResource(R.string.menu),
                 )
             }
             DropdownMenu(
@@ -51,20 +51,20 @@ fun Header(
                 onDismissRequest = { menuExpanded = false } // Cerrar si tocas fuera
             ) {
                 DropdownMenuItem(
-                    text = { Text("Perfil") },
+                    text = { Text(stringResource(R.string.profile)) },
                     onClick = {
                         menuExpanded = false
 
                     }
                 )
                 DropdownMenuItem(
-                    text = { Text("Ajustes") },
+                    text = { Text(stringResource(R.string.settings)) },
                     onClick = {
                         menuExpanded = false
 
                     }
                 )
-                // ... más opciones
+
             }
         }
     )

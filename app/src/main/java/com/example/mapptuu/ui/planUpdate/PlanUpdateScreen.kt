@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.mapptuu.R
 import com.example.mapptuu.ui.component.Header
 
 @Composable
@@ -46,30 +48,8 @@ fun PlanUpdateScreen(
                 value = viewModel.name,
                 singleLine = true,
                 isError = viewModel.isError,
-                label = { Text("Nombre") },
+                label = { Text(stringResource(R.string.name),) },
                 onValueChange = { viewModel.name = it }
-
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 8.dp),
-                value = viewModel.name,
-                singleLine = true,
-                isError = viewModel.isError,
-                label = { Text("Nombre") },
-                onValueChange = { viewModel.name = it }
-
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 8.dp),
-                value = viewModel.activitiesIdsInput,
-                singleLine = true,
-                isError = viewModel.isError,
-                label = { Text("Id de las actividades: ") },
-                onValueChange = { viewModel.activitiesIdsInput = it }
 
             )
             Row(
@@ -80,7 +60,7 @@ fun PlanUpdateScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Público: ",
+                    text = stringResource(R.string.is_public)+":",
                     modifier = Modifier.weight(1f)
                 )
                 Switch(
@@ -95,7 +75,7 @@ fun PlanUpdateScreen(
                 value = viewModel.description,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("Descripcion") },
+                label = { Text(stringResource(R.string.description)) },
                 onValueChange = { viewModel.description = it }
 
             )
@@ -106,14 +86,14 @@ fun PlanUpdateScreen(
                         onNavigateToDetails(viewModel.planId)
                     },
                 ) {
-                    Text("Actualizar")
+                    Text(stringResource(R.string.update))
                 }
                 Button(
                     onClick = {
                         onNavigateToDetails(viewModel.planId)
                     },
                 ) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         }

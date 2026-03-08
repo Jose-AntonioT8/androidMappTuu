@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MappTuu</string>
+
+    <string name="title">Your companion for adventures</string>
+    <string name="explore_activities">Explore Activities</string>
+    <string name="expri">Discover unique places and experiences.</string>
+    <string name="org">Organize and manage your next adventures.</string>
+
+
+
+
+
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="search">Search</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="update">Update</string>
+    <string name="back">Back</string>
+
+    <string name="activity_type_id">Activity type id:</string>
+    <string name="activities">Activities</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="modify_activity">Modify activity</string>
+    <string name="delete_activity">Delete activity</string>
+    <string name="activities_ids">Activities ids:</string>
+
+    <string name="rating">Rating</string>
+    <string name="created_at">Created at</string>
+
+    <string name="my_plans">My plans</string>
+    <string name="create_plan">Create plan</string>
+    <string name="plan">Plan</string>
+    <string name="modify_plan">Modify plan</string>
+    <string name="delete_plan">Delete plan</string>
+    <string name="is_public">Public</string>
+    <string name="is_private">Private</string>
+    <string name="name_activities">Name of the activities</string>
+
+
+
+
+
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+
+    <string name="logout">Log out</string>
+    <string name="login">Log in</string>
+    <string name="signup">Sign up</string>
+    <string name="create_account">Create an account</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="no_have_account">Don\'t have an account?</string>
+
+
+
+    <string name="email_placeholder">you@gmail.com</string>
+    <string name="email">Email</string>
+    <string name="password_placeholder">************</string>
+    <string name="password">Password</string>
+    <string name="user_placeholder">User_mapptuu</string>
+    <string name="repeat_password">Repeat password</string>
+
+    <string name="journey">Start your journey</string>
+    <string name="logo">App logo</string>
+    <string name="profile_desc">Profile</string>
+    <string name="menu">Menu</string>
+    <string name="plans">Plans</string>
+    <string name="map_list">Map or list</string>
+    <string name="user">User</string>
+    <string name="id">Id:</string>
+    <string name="owner">Owner ID:</string>
+</resources>

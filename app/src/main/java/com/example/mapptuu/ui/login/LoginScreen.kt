@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.mapptuu.R
 import com.example.mapptuu.ui.navigation.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +47,7 @@ fun LoginScreen(
                 navigationIcon = {
                     TextButton(onClick = { navController.popBackStack() }) {
                         Text(
-                            text = "← Volver",
+                            text = stringResource(R.string.back),
                             color = Color.Black,
                             fontSize = 16.sp
                         )
@@ -91,7 +93,7 @@ fun LoginScreen(
 
                 // Título
                 Text(
-                    text = "Login",
+                    text = stringResource(R.string.login),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF1E3A8A) // blue-900
@@ -104,7 +106,7 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Email",
+                        text = stringResource(R.string.email),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF1E3A8A),
@@ -115,7 +117,7 @@ fun LoginScreen(
                         value = uiState.email,
                         onValueChange = { viewModel.onEmailChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("tu@gmail.com") },
+                        placeholder = { Text(stringResource(R.string.email_placeholder)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         isError = uiState.emailError != null,
@@ -143,7 +145,7 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Password",
+                        text = stringResource(R.string.password),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF1E3A8A),
@@ -154,7 +156,7 @@ fun LoginScreen(
                         value = uiState.password,
                         onValueChange = { viewModel.onPasswordChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("************") },
+                        placeholder = { Text(stringResource(R.string.password_placeholder)) },
                         singleLine = true,
                         visualTransformation = if (passwordVisible)
                             VisualTransformation.None
@@ -212,7 +214,7 @@ fun LoginScreen(
                         )
                     } else {
                         Text(
-                            text = "Log in",
+                            text = stringResource(R.string.login),
                             fontWeight = FontWeight.SemiBold
                         )
                     }
@@ -233,7 +235,7 @@ fun LoginScreen(
                 // Link a Sign Up
                 Row {
                     Text(
-                        text = "Don't have an account? ",
+                        text = stringResource(R.string.no_have_account),
                         color = Color(0xFF1E3A8A),
                         fontSize = 14.sp
                     )
@@ -242,7 +244,7 @@ fun LoginScreen(
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(
-                            text = "Sign up",
+                            text = stringResource(R.string.signup),
                             color = Color(0xFF2563EB),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium

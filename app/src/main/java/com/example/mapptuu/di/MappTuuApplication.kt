@@ -5,4 +5,6 @@ import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
-class MappTuuApplication() : Application()
+class MappTuuApplication() : Application(){
+
+}

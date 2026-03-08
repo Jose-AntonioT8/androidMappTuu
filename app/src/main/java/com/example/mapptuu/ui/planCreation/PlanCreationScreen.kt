@@ -18,8 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.mapptuu.R
 import com.example.mapptuu.ui.component.Header
 
 @Composable
@@ -44,7 +46,7 @@ fun PlanCreationScreen (
                 value = viewModel.name,
                 singleLine = true,
                 isError = viewModel.isError,
-                label = { Text("Nombre") },
+                label = { Text(stringResource(R.string.name)) },
                 onValueChange = { viewModel.name = it }
 
             )
@@ -52,11 +54,11 @@ fun PlanCreationScreen (
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 8.dp),
-                value = viewModel.activitiesIdsInput,
+                value = viewModel.activitiesNamesInput,
                 singleLine = true,
                 isError = viewModel.isError,
-                label = { Text("Id de las actividades: ") },
-                onValueChange = { viewModel.activitiesIdsInput = it }
+                label = { Text(stringResource(R.string.name_activities)) },
+                onValueChange = { viewModel.activitiesNamesInput = it }
 
             )
             Row(

@@ -18,9 +18,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import com.example.mapptuu.R
 import com.example.mapptuu.ui.component.Header
 import com.google.firebase.Timestamp
 import kotlin.Unit
@@ -52,24 +54,24 @@ fun PlanDetailScreen(
                 name = uiState.name,
                 id = uiState.id,
                 imageRef = uiState.imageRef,
-                activitiesIds = uiState.activitiesIds,
                 createdAt = uiState.createdAt,
                 description = uiState.description,
                 ownerId = uiState.ownerId,
                 visibility = uiState.visibility,
                 rating = uiState.rating,
+                activityIds = uiState.activityIds,
             )
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onUpdatePlan(uiState.id)
             }
             )
-            { Text("Modificar plan") }
+            { Text(stringResource(R.string.modify_plan)) }
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 viewModel.delete(uiState.id)
                 onNavegationBack()
             }
             )
-            { Text("Borrar plan") }
+            { Text(stringResource(R.string.delete_plan)) }
             Button(
                 onClick = {
                     onNavegationBack()
@@ -77,7 +79,7 @@ fun PlanDetailScreen(
                 modifier = Modifier.fillMaxWidth()
 
             ) {
-                Text("Volver atrás")
+                Text(stringResource(R.string.back))
             }
         }
     }
@@ -91,7 +93,7 @@ fun PlanDetailScreen(
     modifier: Modifier,
 
     id:String,
-    activitiesIds:List<String>,
+    activityIds:List<String>,
     createdAt: Timestamp,
     description:String,
     imageRef:String,
@@ -109,8 +111,6 @@ fun PlanDetailScreen(
         Column(modifier = Modifier
             .padding(8.dp)
             .verticalScroll(rememberScrollState())){
-            Text(text="Id: $id", Modifier.padding(start = 10.dp))
-            Spacer(modifier = Modifier.height(8.dp))
             Text(text= name, Modifier.padding(start = 10.dp))
             Spacer(modifier = Modifier.height(8.dp))
             Row{
@@ -121,23 +121,21 @@ fun PlanDetailScreen(
                         .size(width = 220.dp, height = 340.dp)
                 )
                 Column {
-                    Text(text="ID de las actividades: ")
+                    Text(stringResource(R.string.activities))
                     Spacer(modifier = Modifier.height(8.dp))
-                    for (id in activitiesIds) {
+                    for (id in activityIds) {
                         Text(text = id)
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                     if (visibility){
-                        Text(text = "Público")
+                        Text(stringResource(R.string.is_public))
                     }else{
-                        Text(text = "Privado")
+                        Text(stringResource(R.string.is_private))
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Owner ID: $ownerId")
+                    Text(text = "$rating ★")
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Rating: $rating")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Created At: $createdAt")
+                    Text(text = stringResource(R.string.created_at)+": ${createdAt.toDate()}")
                 }
             }
 

@@ -15,7 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.mapptuu.R
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.mapptuu.ui.component.Header
 
@@ -54,7 +56,7 @@ fun ActivityCreationScreen (
                     value = viewModel.activityTypeId,
                     singleLine = true,
                     isError = viewModel.isError,
-                    label = { Text("Id del tipo de la actividad:") },
+                    label = { Text(stringResource(R.string.activity_type_id)) },
                     onValueChange = { viewModel.activityTypeId = it }
 
                 )
@@ -65,7 +67,7 @@ fun ActivityCreationScreen (
                     value = viewModel.longitude,
                     singleLine = true,
                     isError = viewModel.isError,
-                    label = { Text("Longitud: ") },
+                    label = { Text(stringResource(R.string.longitude)) },
                     onValueChange = { viewModel.longitude = it }
 
                 )
@@ -76,7 +78,7 @@ fun ActivityCreationScreen (
                     value = viewModel.latitude,
                     singleLine = true,
                     isError = viewModel.isError,
-                    label = { Text("Latitud: ") },
+                    label = { Text(stringResource(R.string.latitude)) },
                     onValueChange = { viewModel.latitude = it }
 
                 )
@@ -87,7 +89,7 @@ fun ActivityCreationScreen (
                     value = viewModel.description,
                     singleLine = false,
                     isError = viewModel.isError,
-                    label = { Text("Descripcion") },
+                    label = { Text(stringResource(R.string.description)) },
                     onValueChange = { viewModel.description = it }
 
                 )
@@ -99,14 +101,14 @@ fun ActivityCreationScreen (
                         onNavegationBack()
                     },
                 ) {
-                    Text("Crear")
+                    Text(stringResource(R.string.create))
                 }
                 Button(
                     onClick = {
                         onNavegationBack()
                     },
                 ) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         }

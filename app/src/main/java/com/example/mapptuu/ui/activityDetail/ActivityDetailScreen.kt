@@ -19,11 +19,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.mapptuu.R
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.google.firebase.Timestamp
+import kotlinx.coroutines.launch
 import kotlin.Unit
 
 @Composable
@@ -33,8 +37,10 @@ fun ActivityDetailScreen(
     onNavegationBack:()->Unit,
     onUpdateActivity: (String) -> Unit,
 
+
     ){
     val uiState by viewModel.uiState.collectAsState()
+    val scope = rememberCoroutineScope()
     Scaffold() {innerPading ->
     Column(modifier = Modifier
         .fillMaxSize()
@@ -58,13 +64,21 @@ fun ActivityDetailScreen(
             onUpdateActivity(uiState.id)
         }
         )
-        { Text("Modificar actividad") }
+        { Text(stringResource(R.string.modify_activity)) }
         Button(modifier = Modifier.fillMaxWidth(), onClick = {
-            viewModel.delete(uiState.id)
-            onNavegationBack()
+            scope.launch {
+                try {
+                    viewModel.delete(uiState.id)
+                    onNavegationBack()
+                } catch (e: Exception) {
+                    android.util.Log.e("ActivityDetail", "Error al borrar: ${e.message}", e)
+                    // Opción: mostrar mensaje al usuario o igualmente volver atrás
+                    onNavegationBack()
+                }
+            }
         }
         )
-        { Text("Borrar actividad") }
+        { Text(stringResource(R.string.delete_activity)) }
         Button(
             onClick = {
                 onNavegationBack()
@@ -72,7 +86,7 @@ fun ActivityDetailScreen(
             modifier = Modifier.fillMaxWidth()
 
         ) {
-            Text("Volver atrás")
+            Text(stringResource(R.string.back))
         }
     }
     }
@@ -105,7 +119,7 @@ fun ActivityDetailScreen(
         Column(modifier = Modifier
             .padding(8.dp)
             .verticalScroll(rememberScrollState())){
-            Text(text="Id: $id", Modifier.padding(start = 10.dp))
+            Text(text = "${stringResource(R.string.id)} $id", Modifier.padding(start = 10.dp))
             Spacer(modifier = Modifier.height(8.dp))
             Text(text= name, Modifier.padding(start = 10.dp))
             Spacer(modifier = Modifier.height(8.dp))
@@ -117,17 +131,17 @@ fun ActivityDetailScreen(
                         .size(width = 220.dp, height = 340.dp)
                 )
                 Column {
-                    Text(text="ID del tipo de actividad: $activityTypeId")
+                    Text(text = "${stringResource(R.string.activity_type_id)} $activityTypeId")
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text="Latitude: $latitude")
+                    Text(text = "${stringResource(R.string.latitude)} $latitude")
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Longitude: $longitude")
+                    Text(text = "${stringResource(R.string.longitude)} $longitude")
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Owner ID: $ownerId")
+                    Text(text = "${stringResource(R.string.owner)} $ownerId")
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Rating: $rating")
+                    Text(text = "${stringResource(R.string.rating)}: $rating")
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Created At: $createdAt")
+                    Text(text = "${stringResource(R.string.created_at)} $createdAt")
                 }
                 }
 

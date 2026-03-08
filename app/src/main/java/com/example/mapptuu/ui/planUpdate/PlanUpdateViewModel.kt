@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 data class DetailUiState(
     val id:String="",
-    val activitiesIds:List<String> = listOf(),
+    val activityIds:List<String> = listOf(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
     val imageRef:String="",
@@ -44,7 +44,7 @@ class PlanUpdateViewModel @Inject constructor(
     var visibility by mutableStateOf(false)
     var name by mutableStateOf("")
     var description by mutableStateOf("")
-    var activitiesIdsInput by mutableStateOf("")
+    var activitiesIdInput by mutableStateOf("")
 
     var createdAt= Timestamp.now()
 
@@ -63,7 +63,7 @@ class PlanUpdateViewModel @Inject constructor(
             plan.let{plan ->
                 name = plan.getOrNull()!!.name
                 description = plan.getOrNull()!!.description
-                activitiesIdsInput = plan.getOrNull()!!.activitiesIds.toString()
+                activitiesIdInput = plan.getOrNull()!!.activityIds.joinToString(", ")
                 imgRef = plan.getOrNull()!!.imgRef
                 ownerId = plan.getOrNull()!!.ownerId
                 rating = plan.getOrNull()!!.rating
@@ -79,8 +79,8 @@ class PlanUpdateViewModel @Inject constructor(
 
     }
     fun update(){
-        var idDeActividades: List<String> = listOf()
-        idDeActividades = activitiesIdsInput
+        var activityIds: List<String> = listOf()
+        activityIds = activitiesIdInput
             .split(',')
             .map { it.trim() }
             .filter { it.isNotEmpty() }
@@ -90,7 +90,7 @@ class PlanUpdateViewModel @Inject constructor(
                 name = name,
                 description = description,
                 imgRef = imgRef,
-                activitiesIds =idDeActividades,
+                activityIds = activityIds,
                 createdAt = createdAt,
                 visibility = visibility,
                 ownerId = ownerId,
@@ -104,7 +104,7 @@ class PlanUpdateViewModel @Inject constructor(
         name = this.name,
         id = this.id,
         imageRef = this.imgRef,
-        activitiesIds = this.activitiesIds,
+        activityIds = this.activityIds,
         createdAt = this.createdAt,
         description = this.description,
         ownerId = this.ownerId,

@@ -15,4 +15,10 @@ interface ActivityRepository {
     suspend fun refresh()
 
     suspend fun insert(activity: Activity)
+
+    suspend fun update(activity: Activity)
+
+
+
+
 }

@@ -18,6 +18,7 @@ import com.example.mapptuu.ui.planDetail.PlanDetailScreen
 import com.example.mapptuu.ui.planList.PlanListScreen
 import com.example.mapptuu.ui.planUpdate.PlanUpdateScreen
 import com.example.mapptuu.ui.signup.SignUpScreen
+import com.example.mapptuu.ui.profile.ProfileScreen
 
 
 import kotlinx.serialization.Serializable
@@ -374,4 +375,14 @@ fun NavGraphBuilder.registerPageDestination(
         SignUpScreen(navController)
 
     }
+}
+
+fun NavGraphBuilder.profileDestination(
+    navController: NavController
+){
+    composable<Route.Profile>{
+        ProfileScreen(navController)
+
+    }
+
 }

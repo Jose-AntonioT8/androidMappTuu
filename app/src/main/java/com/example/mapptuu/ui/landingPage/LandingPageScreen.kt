@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,7 +31,7 @@ fun LandingPageScreen(
     Box(modifier = modifier.fillMaxSize()) {
 
         Image(
-            painter = painterResource(id = R.drawable.fondorealista), // Reemplaza con tu nombre de archivo
+            painter = painterResource(id = R.drawable.fondorealista),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -45,28 +46,28 @@ fun LandingPageScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(24.dp), // Aumentamos el padding para más aire
+                    .padding(24.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Título de la aplicación con más énfasis
+                // Título de la aplicación
                 Text(
-                    text = "MappTuu",
-                    style = MaterialTheme.typography.displaySmall, // Estilo más grande
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.displaySmall,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Tu compañero de aventuras",
+                    text = stringResource(R.string.title),
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant, // Un color más suave
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.height(64.dp)) // Más espacio para separar el título
+                Spacer(modifier = Modifier.height(64.dp))
 
-                // Lógica para mostrar contenido según el estado de sesión
+
                 if (viewModel.isLogged) {
                     LoggedInContent(
                         onNavigateToActivities = onNavigateToActivities,
@@ -84,7 +85,7 @@ fun LandingPageScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .statusBarsPadding() // Evita que los logos queden debajo de la hora/batería
+                .statusBarsPadding()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top
@@ -92,22 +93,22 @@ fun LandingPageScreen(
             // Logo arriba a la izquierda
             Image(
                 painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Logo App",
+                contentDescription = stringResource(R.string.logo),
                 modifier = Modifier.size(50.dp)
             )
             IconButton(
                 onClick = {
                     if (viewModel.isLogged) {
-                        onNavigateToProfile() // Si está logeado, va al perfil
+                        onNavigateToProfile()
                     } else {
-                        onNavigateToLogin()   // Si no, va al login
+                        onNavigateToLogin()
                     }
                 },
                 modifier = Modifier.size(37.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.perso),
-                    contentDescription = "Perfil",
+                    contentDescription = stringResource(R.string.profile_desc),
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -124,16 +125,16 @@ private fun LoggedInContent(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp) // Espacio automático entre elementos
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         OptionCard(
-            title = "Explorar Actividades",
-            description = "Descubre lugares y experiencias únicas.",
+            title = stringResource(R.string.explore_activities),
+            description = stringResource(R.string.expri),
             onClick = onNavigateToActivities
         )
         OptionCard(
-            title = "Mis Planes",
-            description = "Organiza y gestiona tus próximas aventuras.",
+            title = stringResource(R.string.my_plans),
+            description = stringResource(R.string.org),
             onClick = onNavigateToPlans
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -142,11 +143,11 @@ private fun LoggedInContent(
             onClick = onLogOut,
             modifier = Modifier.fillMaxWidth(0.9f),
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.tertiary, // Un color diferente
+                containerColor = MaterialTheme.colorScheme.tertiary,
                 contentColor = MaterialTheme.colorScheme.onTertiary
             )
         ) {
-            Text("Cerrar Sesión", fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.logout), fontWeight = FontWeight.Bold)
         }
     }
 }
@@ -162,29 +163,28 @@ private fun LoggedOutContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Comienza tu viaje",
+            text = stringResource(R.string.journey),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(bottom = 24.dp)
         )
-        // Botón de acción principal
         Button(
             onClick = onNavigateToLogin,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text("Iniciar Sesión", fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.login), fontWeight = FontWeight.Bold)
         }
         Spacer(modifier = Modifier.height(12.dp))
-        // Botón de acción secundaria
+
         OutlinedButton(
             onClick = onNavigateToRegister,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text("Crear una cuenta")
+            Text(stringResource(R.string.create_account))
         }
     }
 }

@@ -9,6 +9,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.example.mapptuu.R
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import coil3.compose.AsyncImage
+import com.google.firebase.Timestamp
+import kotlinx.coroutines.launch
+import kotlin.Unit
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +40,54 @@ fun ActivityDetailScreen(
     viewModel: ActivityDetailViewModel = hiltViewModel(),
     onNavegationBack: () -> Unit,
     onUpdateActivity: (String) -> Unit,
-) {
+
+
+    ){
     val uiState by viewModel.uiState.collectAsState()
+    val scope = rememberCoroutineScope()
+    Scaffold() {innerPading ->
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(8.dp)
+        .padding(innerPading)) {
+        ActivityDetailScreen(
+
+            modifier = modifier.weight(1f),
+            name = uiState.name,
+            id = uiState.id,
+            imageRef = uiState.imageRef,
+            activityTypeId = uiState.activityTypeId,
+            createdAt = uiState.createdAt,
+            description = uiState.description,
+            latitude = uiState.latitude,
+            longitude = uiState.longitude,
+            ownerId = uiState.ownerId,
+            rating = uiState.rating,
+        )
+        Button(modifier = Modifier.fillMaxWidth(), onClick = {
+            onUpdateActivity(uiState.id)
+        }
+        )
+        { Text(stringResource(R.string.modify_activity)) }
+        Button(modifier = Modifier.fillMaxWidth(), onClick = {
+            scope.launch {
+                try {
+                    viewModel.delete(uiState.id)
+                    onNavegationBack()
+                } catch (e: Exception) {
+                    android.util.Log.e("ActivityDetail", "Error al borrar: ${e.message}", e)
+                    // Opción: mostrar mensaje al usuario o igualmente volver atrás
+                    onNavegationBack()
+                }
+            }
+        }
+        )
+        { Text(stringResource(R.string.delete_activity)) }
+        Button(
+            onClick = {
+                onNavegationBack()
+            },
+            modifier = Modifier.fillMaxWidth()
 
     Scaffold { innerPadding ->
         Column(
@@ -40,29 +96,7 @@ fun ActivityDetailScreen(
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            ActivityDetailContent(
-                modifier = Modifier.weight(1f),
-                name = uiState.name,
-                id = uiState.id,
-                imageRef = uiState.imageRef,
-                activityTypeId = uiState.activityTypeId,
-                createdAt = uiState.createdAt,
-                description = uiState.description,
-                latitude = uiState.latitude,
-                longitude = uiState.longitude,
-                ownerId = uiState.ownerId,
-                rating = uiState.rating,
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { onNavegationBack() },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text("Volver atrás", modifier = Modifier.padding(8.dp))
-            }
+            Text(stringResource(R.string.back))
         }
     }
 }

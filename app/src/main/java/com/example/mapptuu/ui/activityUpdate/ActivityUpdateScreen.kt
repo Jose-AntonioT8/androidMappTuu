@@ -13,7 +13,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.mapptuu.R
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.mapptuu.ui.component.Header
 
@@ -38,7 +40,7 @@ fun ActivityUpdateScreen(
                 value = viewModel.name,
                 singleLine = true,
                 isError = viewModel.isError,
-                label = { Text("Nombre") },
+                label = { Text(stringResource(R.string.name)) },
                 onValueChange = { viewModel.name = it }
 
             )
@@ -48,7 +50,7 @@ fun ActivityUpdateScreen(
                 value = viewModel.description,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("Descripcion") },
+                label = { Text(stringResource(R.string.description)) },
                 onValueChange = { viewModel.description = it }
             )
             OutlinedTextField(
@@ -57,7 +59,7 @@ fun ActivityUpdateScreen(
                 value = viewModel.activityTypeId,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("ID del tipo de actividad") },
+                label = { Text(stringResource(R.string.activity_type_id)) },
                 onValueChange = { viewModel.activityTypeId = it }
             )
             OutlinedTextField(
@@ -66,7 +68,7 @@ fun ActivityUpdateScreen(
                 value = viewModel.longitude,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("Longitud ") },
+                label = { Text(stringResource(R.string.longitude)) },
                 onValueChange = { viewModel.longitude = it }
             )
             OutlinedTextField(
@@ -75,7 +77,7 @@ fun ActivityUpdateScreen(
                 value = viewModel.latitude,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("Latitud ") },
+                label = { Text(stringResource(R.string.latitude)) },
                 onValueChange = { viewModel.latitude = it }
             )
             Row(modifier = Modifier.padding(8.dp)) {
@@ -85,14 +87,14 @@ fun ActivityUpdateScreen(
                         onNavigateToDetails(viewModel.activityId)
                     },
                 ) {
-                    Text("Actualizar")
+                    Text(stringResource(R.string.update))
                 }
                 Button(
                     onClick = {
                         onNavigateToDetails(viewModel.activityId)
                     },
                 ) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         }

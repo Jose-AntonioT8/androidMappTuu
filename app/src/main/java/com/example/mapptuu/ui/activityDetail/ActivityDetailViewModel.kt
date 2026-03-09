@@ -54,10 +54,9 @@ class ActivityDetailViewModel @Inject constructor(
     }
     val exceptionHandler = CoroutineExceptionHandler { _, exception ->
     }
-    fun delete(id:String){
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+    suspend fun delete(id:String){
             activityRepository.delete(id)
-        }
+
     }
 
 }

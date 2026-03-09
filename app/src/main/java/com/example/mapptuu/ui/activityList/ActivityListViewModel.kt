@@ -26,7 +26,7 @@
             get()= _uiState.asStateFlow()
         init {
             viewModelScope.launch {
-                _uiState.value = ListUiState.Loading
+
                 try {
                     activityRepository.observe().collect { result ->
                         if (result.isSuccess) {
@@ -52,7 +52,7 @@
                 } catch (e: Exception) {
                     _uiState.value = ListUiState.Error("Excepción al cargar actividades: ${e.message}")
                 }
-                activityRepository.refresh()
+
             }
         }
 

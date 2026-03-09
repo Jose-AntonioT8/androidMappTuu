@@ -20,9 +20,10 @@ import com.google.firebase.Timestamp
 
 
 
+
 data class DetailUiState(
     val id:String="",
-    val activitiesIds:List<String> = listOf(),
+    val activityIds:List<String> = listOf(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
     val imageRef:String="",
@@ -66,7 +67,7 @@ fun Plans.toDetailUiState(): DetailUiState = DetailUiState(
     name = this.name,
     id = this.id,
     imageRef = this.imgRef,
-    activitiesIds = this.activitiesIds,
+    activityIds = this.activityIds,
     createdAt = this.createdAt,
     description = this.description,
     ownerId = this.ownerId,

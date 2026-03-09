@@ -23,7 +23,7 @@ import com.google.firebase.Timestamp
 
 data class DetailUiState(
     val id:String="",
-    val activityIds:List<String> = listOf(),
+    val activityIds:List<String>? = listOf(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
     val imageRef:String="",

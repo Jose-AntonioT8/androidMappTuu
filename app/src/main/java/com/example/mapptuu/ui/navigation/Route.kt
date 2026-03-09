@@ -10,6 +10,7 @@ import com.example.mapptuu.ui.activityCreation.ActivityCreationScreen
 import com.example.mapptuu.ui.activityDetail.ActivityDetailScreen
 import com.example.mapptuu.ui.activityList.ActivityListScreen
 import com.example.mapptuu.ui.activityUpdate.ActivityUpdateScreen
+import com.example.mapptuu.ui.camera.CameraScreen
 import com.example.mapptuu.ui.landingPage.LandingPageScreen
 import com.example.mapptuu.ui.login.LoginScreen
 import com.example.mapptuu.ui.map.MapScreen
@@ -67,6 +68,9 @@ sealed class Route(val route:String) {
     @Serializable
     data object LandingPage:Route("landing_page")
 
+    @Serializable
+    data object Camera:Route("camera")
+
 
 }
 fun NavController.navigateToPlanDetail(id:String) {
@@ -115,6 +119,12 @@ fun NavController.navigateToLogin(){
 fun NavController.navigateToRegister(){
     this.navigate(Route.Register)
 }
+
+fun NavController.navigateToCamera(){
+    this.navigate(Route.Camera)
+}
+
+
 
 fun NavGraphBuilder.mapDestination(
     modifier: Modifier = Modifier,
@@ -201,7 +211,7 @@ fun NavGraphBuilder.activityListDestination(
     onNavigateToPlanList: () -> Unit,
     onNavigateToSetting: () -> Unit,
     onNavigateToMap: () -> Unit,
-    onNavigateToProfile: () -> Unit
+    onNavigateToProfile: () -> Unit,
 
 ) {
     composable<Route.ActivityList> {
@@ -378,11 +388,27 @@ fun NavGraphBuilder.registerPageDestination(
 }
 
 fun NavGraphBuilder.profileDestination(
-    navController: NavController
+    navController: NavController,
+    onNavigateToCamera: () -> Unit
 ){
     composable<Route.Profile>{
         ProfileScreen(navController)
 
     }
+    composable<Route.Camera>{
+        CameraScreen(navController)
 
+    }
+
+}
+fun NavGraphBuilder.cameraDestination(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+) {
+    composable<Route.Camera> {
+        CameraScreen(
+            modifier = modifier,
+            navController = navController
+        )
+    }
 }

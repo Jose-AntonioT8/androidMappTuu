@@ -10,7 +10,7 @@ import com.google.firebase.Timestamp
 data class PlansEntity(
     @PrimaryKey
     val id:String,
-    val activityIds:List<String>,
+    val activityIds:List<String>?,
     val createdAt:Timestamp,
     val description:String,
     val imgRef:String,

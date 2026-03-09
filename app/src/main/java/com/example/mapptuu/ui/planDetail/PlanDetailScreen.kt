@@ -86,7 +86,7 @@ fun PlanDetailContent(
     modifier: Modifier,
 
     id:String,
-    activityIds:List<String>,
+    activityIds:List<String>?,
     createdAt: Timestamp,
     description: String,
     imageRef: String,
@@ -177,7 +177,7 @@ fun PlanDetailContent(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                activityIds.forEach { actId ->
+                activityIds?.forEach { actId ->
                     Surface(
                         color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
                         shape = RoundedCornerShape(8.dp)

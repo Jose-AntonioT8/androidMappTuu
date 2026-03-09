@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 data class DetailUiState(
     val id:String="",
-    val activityIds:List<String> = listOf(),
+    val activityIds:List<String>? = listOf(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
     val imageRef:String="",
@@ -63,7 +63,8 @@ class PlanUpdateViewModel @Inject constructor(
             plan.let{plan ->
                 name = plan.getOrNull()!!.name
                 description = plan.getOrNull()!!.description
-                activitiesIdInput = plan.getOrNull()!!.activityIds.joinToString(", ")
+                activitiesIdInput = plan.getOrNull()?.activityIds?.joinToString(", ") ?: ""
+                createdAt = plan.getOrNull()!!.createdAt
                 imgRef = plan.getOrNull()!!.imgRef
                 ownerId = plan.getOrNull()!!.ownerId
                 rating = plan.getOrNull()!!.rating

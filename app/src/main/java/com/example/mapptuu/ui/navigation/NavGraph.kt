@@ -144,7 +144,13 @@ fun NavGraph(){
                     navController.navigateToSetting()
                 }
             )
-            profileDestination(navController)
+            profileDestination(
+                navController,
+                onNavigateToCamera = {
+                    navController.navigateToCamera()
+                }
+            )
+
 
 
 

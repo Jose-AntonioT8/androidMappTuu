@@ -49,6 +49,21 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.0")
+
+    // Worker Manager + Hilt
+    implementation("androidx.work:work-runtime-ktx:2.11.0")
+    implementation("androidx.hilt:hilt-work:1.2.0")
+
+    // PERMISOS EN COMPOSE
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+
+    // CAMARA
+    implementation("androidx.camera:camera-compose:1.5.2")
+    implementation("androidx.camera:camera-lifecycle:1.5.2")
+    implementation("androidx.camera:camera-camera2:1.5.2")
+    implementation("androidx.camera:camera-core:1.5.2")
+    implementation("androidx.camera.viewfinder:viewfinder-compose:1.5.2")
+
     // Room
     implementation(libs.androidx.room.runtime)
 

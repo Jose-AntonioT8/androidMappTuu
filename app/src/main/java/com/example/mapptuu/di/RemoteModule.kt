@@ -27,30 +27,33 @@ class RemoteModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(
-        authRepository: Lazy<AuthRepository>
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val requestBuilder = chain.request().newBuilder()
-
-                val token = runBlocking { authRepository.get().getCurrentUserToken() }
-
-                if (!token.isNullOrBlank()) {
-                    requestBuilder.addHeader("Authorization", "Bearer $token")
+    fun provideRetrofit(authRepository: Lazy<AuthRepository>): Retrofit {
+        val authenticatorInterceptor = Interceptor { chain ->
+            val request = chain.request()
+            var token: String? = null
+            try {
+                token = runBlocking(Dispatchers.IO) {
+                    authRepository.get().getCurrentUserToken()
                 }
-
-                chain.proceed(requestBuilder.build())
+            } catch (e: Exception) {
             }
-            .build()
-    }
 
-    @Provides
-    @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+            val authorizedRequest = if (!token.isNullOrBlank()) {
+                request.newBuilder()
+                    .header("Authorization", "Bearer $token")
+                    .build()
+            } else {
+                request
+            }
+
+            chain.proceed(authorizedRequest)
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(authenticatorInterceptor)
+            .build()
         return Retrofit.Builder()
             .baseUrl("https://vercel-node-mapp-tuu.vercel.app/")
-            .client(okHttpClient)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

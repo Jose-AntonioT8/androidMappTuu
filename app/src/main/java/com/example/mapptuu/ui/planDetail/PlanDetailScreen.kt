@@ -69,20 +69,14 @@ fun PlanDetailScreen(
             )
             { Text(stringResource(R.string.delete_plan)) }
             Button(
-                onClick = {
-                    onNavegationBack()
-                },
-                modifier = Modifier.fillMaxWidth()
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
                 onClick = { onNavegationBack() },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(stringResource(R.string.back))
             }
+            Spacer(modifier = Modifier.height(16.dp))
+
         }
     }
 }

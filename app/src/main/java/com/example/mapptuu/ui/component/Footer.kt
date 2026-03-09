@@ -57,7 +57,7 @@ fun Footer(
             icon = {
                 Image(
                     painter = painterResource(id = toggleActivityPlan.icon),
-                    contentDescription = stringResource(R.string.plans),,
+                    contentDescription = stringResource(R.string.plans),
                     Modifier.size(38.dp)
                 )
             },

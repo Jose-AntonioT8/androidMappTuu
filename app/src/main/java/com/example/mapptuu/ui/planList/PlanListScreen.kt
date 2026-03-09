@@ -168,6 +168,7 @@ private fun SearchBar(
                     Modifier.size(18.dp)
                 )
             }
+            /*
             Button(
                 modifier = Modifier.padding(start = 8.dp),
                 onClick = onCreate
@@ -175,7 +176,7 @@ private fun SearchBar(
                 Text(stringResource(R.string.create_plan))
             }
 
-
+*/
         }
     }
 

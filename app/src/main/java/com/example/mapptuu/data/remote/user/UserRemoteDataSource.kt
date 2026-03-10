@@ -78,13 +78,22 @@ class UserRemoteDataSource @Inject constructor(
         api.update(user.id, user.toRemote())
     }
 
+    override suspend fun updateProfilePicture(id: String?, uri: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getProfilePicture(id: String?): Flow<String?> {
+        TODO("Not yet implemented")
+    }
+
     private fun Users.toRemote(): UsersRemote {
         return UsersRemote(
             id = this.id,
             name = this.name,
             email = this.email,
             createdAt = this.createdAt,
-            )
+            photoUri = this.photoUri,
+        )
     }
     private fun Result<Users>.toUsers(): Users {
         return Users(
@@ -92,6 +101,7 @@ class UserRemoteDataSource @Inject constructor(
             name = this.getOrNull()!!.name,
             email = this.getOrNull()!!.email,
             createdAt = this.getOrNull()!!.createdAt,
+            photoUri = this.getOrNull()!!.photoUri,
         )
     }
     fun UsersRemote.toExternal():Users {
@@ -99,6 +109,10 @@ class UserRemoteDataSource @Inject constructor(
             id = this.id,
             name = this.name,
             email = this.email,
-            createdAt = this.createdAt)}
+            createdAt = this.createdAt,
+            photoUri = this.photoUri,
+        )
+        
+    }
 
 }

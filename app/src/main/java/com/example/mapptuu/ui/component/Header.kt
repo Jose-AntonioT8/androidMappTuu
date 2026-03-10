@@ -48,7 +48,7 @@ fun Header(
             }
             DropdownMenu(
                 expanded = menuExpanded,
-                onDismissRequest = { menuExpanded = false } // Cerrar si tocas fuera
+                onDismissRequest = { menuExpanded = false }
             ) {
                 DropdownMenuItem(
                     text = { Text(stringResource(R.string.profile)) },

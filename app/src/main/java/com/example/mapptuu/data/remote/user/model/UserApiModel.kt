@@ -18,4 +18,5 @@ data class UsersRemote(
     val createdAt:Timestamp,
     val email:String,
     val name:String,
+    val photoUri:String?,
 )

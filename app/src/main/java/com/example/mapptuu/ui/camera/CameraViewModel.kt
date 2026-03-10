@@ -14,14 +14,17 @@ import androidx.camera.core.SurfaceRequest
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.mapptuu.data.repository.AuthRepository
+import com.example.mapptuu.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -29,7 +32,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CameraViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val savedStateHandle: SavedStateHandle
+    private val userRepository: UserRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel(){
 
     private lateinit var processCameraProvider: ProcessCameraProvider
@@ -116,6 +120,17 @@ class CameraViewModel @Inject constructor(
 
     fun unbindCamera(){
         processCameraProvider.unbindAll()
+    }
+
+
+    private val currentUserEmail: String?
+        get() = authRepository.getCurrentUser()?.email
+
+    fun saveProfilePicture(uri: String) {
+        val email = currentUserEmail
+        viewModelScope.launch {
+            userRepository.updateProfilePicture(id = email, uri = uri)
+        }
     }
 
 }

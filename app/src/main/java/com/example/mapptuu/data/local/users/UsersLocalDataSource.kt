@@ -5,6 +5,7 @@ import com.example.mapptuu.data.model.Users
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -58,7 +59,22 @@ class UsersLocalDataSource @Inject constructor(
 
     }
 
-    override suspend fun update( user: Users) {
+    override suspend fun update(user: Users) {
         usersDao.update(user.toEntity())
+    }
+
+
+
+    override suspend fun updateProfilePicture(id: String?, uri: String) {
+        val email = id ?: return
+        usersDao.updateProfilePicture(email, uri)
+
+    }
+
+    //Aqui se trata a email como id
+    override fun getProfilePicture(id: String?): Flow<String?> {
+
+        val email = id ?: return flowOf(null)
+        return usersDao.getProfilePicture(email)
     }
 }

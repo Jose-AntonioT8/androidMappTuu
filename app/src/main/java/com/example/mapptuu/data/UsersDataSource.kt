@@ -16,4 +16,9 @@ interface UsersDataSource {
 
     suspend fun update(user: Users)
 
+    suspend fun updateProfilePicture(id: String?, uri: String)
+
+    fun getProfilePicture(id: String?): Flow<String?>
+
+
 }

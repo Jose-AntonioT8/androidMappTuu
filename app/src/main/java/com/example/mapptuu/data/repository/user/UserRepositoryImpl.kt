@@ -4,13 +4,13 @@ import com.example.mapptuu.data.UsersDataSource
 import com.example.mapptuu.data.model.Users
 import com.example.mapptuu.di.LocalDataSource
 import com.example.mapptuu.di.RemoteDataSource
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserRepositoryImpl@Inject constructor(
     @RemoteDataSource private val remoteDataSource: UsersDataSource,
-    @LocalDataSource private val localDataSource: UsersDataSource
+    @LocalDataSource private val localDataSource: UsersDataSource,
+
 ): UserRepository {
     override suspend fun readAll(): Result<List<Users>> {
         return remoteDataSource.readAll()
@@ -37,5 +37,13 @@ class UserRepositoryImpl@Inject constructor(
 
     override suspend fun insert(users: Users) {
         localDataSource.insert(users)
+    }
+
+    override fun getProfilePicture(id: String?): Flow<String?> {
+        return localDataSource.getProfilePicture(id)
+    }
+
+    override suspend fun updateProfilePicture(id: String?, uri: String) {
+        localDataSource.updateProfilePicture(id, uri)
     }
 }

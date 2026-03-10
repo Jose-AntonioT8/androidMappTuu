@@ -14,4 +14,11 @@ interface UserRepository {
     suspend fun refresh()
 
     suspend fun insert(users: Users)
+
+    fun getProfilePicture(id: String?): Flow<String?>
+
+    suspend fun updateProfilePicture(id: String?, uri: String)
+
+
+
 }

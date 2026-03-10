@@ -392,7 +392,9 @@ fun NavGraphBuilder.profileDestination(
     onNavigateToCamera: () -> Unit
 ){
     composable<Route.Profile>{
-        ProfileScreen(navController)
+        ProfileScreen(
+            navController
+        )
 
     }
     composable<Route.Camera>{

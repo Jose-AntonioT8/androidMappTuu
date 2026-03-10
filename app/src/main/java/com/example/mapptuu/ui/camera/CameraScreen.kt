@@ -52,11 +52,23 @@ fun CameraScreen(
     } else {
         capturedUri?.let { uri ->
             Box(modifier = modifier.fillMaxSize()) {
+
                 AsyncImage(
                     model = uri.toString(),
                     contentDescription = "Foto capturada",
                     modifier = Modifier.fillMaxSize()
                 )
+                Button(
+                    onClick = {
+                        viewModel.saveProfilePicture(uri.toString())
+                        navController.popBackStack()
+                    },
+                    modifier = Modifier
+                        .padding(66.dp)
+                        .align(Alignment.BottomCenter)
+                ) {
+                    Text("Usar como foto de perfil")
+                }
                 Button(
                     onClick = { viewModel.clearCapturedImage() },
                     modifier = Modifier
@@ -127,28 +139,6 @@ fun CameraPreview(
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun CameraPreviewScreen(
-    viewModel: CameraViewModel,
-    modifier: Modifier = Modifier
-) {
-    // ... tu CameraXViewfinder ya funcionando ...
-
-
-    Box(modifier = modifier) {
-        // preview de la cámara (CameraXViewfinder) aquí
-
-        Button(
-            onClick = { viewModel.captureImage() },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp)
-        ) {
-            Text("Capturar")
         }
     }
 }

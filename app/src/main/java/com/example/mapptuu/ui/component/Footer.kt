@@ -32,8 +32,7 @@ fun Footer(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    // 2. Lógica: ¿Qué botón muestro?
-    // Usamos activeRoute ("mapa" o "lista") para saber dónde estamos y qué mostrar
+
     val toggleItem = if (activeRoute == "mapa") {
         DynamicNavItem("lista", R.drawable.lista, Route.ActivityList, isToggleBtn = true)
     } else {
@@ -65,7 +64,6 @@ fun Footer(
             onClick = { onNavigate(toggleActivityPlan.label) }
         )
 
-        // Primero calculamos qué debe mostrar este botón
         val isMapActive = currentRoute == Route.Map.route
 
 

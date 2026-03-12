@@ -101,7 +101,7 @@ class ActivityUpdateViewModel @Inject constructor(
                 ownerId = ownerId,
                 rating = rating,
             )
-            activityRepository.insert(activity)
+            activityRepository.update(activity)
         }
     }
 

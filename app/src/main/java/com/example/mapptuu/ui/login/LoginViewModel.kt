@@ -1,9 +1,11 @@
 package com.example.mapptuu.ui.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.AuthResult
+import com.example.mapptuu.data.repository.user.UserRepository
 import com.google.firebase.auth.FirebaseAuthException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +26,8 @@ data class LoginUiState(
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -65,6 +68,13 @@ class LoginViewModel @Inject constructor(
 
             when (val result = authRepository.login(_uiState.value.email, _uiState.value.password)) {
                 is AuthResult.Success -> {
+                    val token = authRepository.getCurrentUserToken()
+                    try {
+                        userRepository.refresh()
+                    } catch (e: Exception) {
+
+                    }
+
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         isLoginSuccessful = true

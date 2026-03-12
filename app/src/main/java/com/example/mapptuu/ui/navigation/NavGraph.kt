@@ -49,7 +49,7 @@ fun NavGraph(){
                     navController.navigateToMap()
                 }
             ) {
-                navController.navigateToMap()
+                navController.navigateToProfile()
             }
             activityCreationDestination(contentModifier,
                 onNavegationBack={
@@ -72,6 +72,7 @@ fun NavGraph(){
             )
             planListDestination(
                 contentModifier,
+                navController = navController,
                 onNavigateToDetails = {
                     navController.navigateToPlanDetail(it)
                 },
@@ -87,7 +88,9 @@ fun NavGraph(){
                 onNavigateToMap = {
                     navController.navigateToMap()
                 },
-                navController = navController
+                onNavigateToProfile = {
+                    navController.navigateToProfile()
+                }
             )
             planDetailDestination(contentModifier,
                 onNavegationBack={

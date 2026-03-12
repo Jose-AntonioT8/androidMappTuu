@@ -179,7 +179,7 @@ private fun LoggedOutContent(
         Spacer(modifier = Modifier.height(12.dp))
 
         Button(
-            onClick = onNavigateToLogin,
+            onClick = onNavigateToRegister,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)

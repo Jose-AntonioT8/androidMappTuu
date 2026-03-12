@@ -27,24 +27,22 @@ class PlanListViewModel@Inject constructor(
         get()= _uiState.asStateFlow()
     init {
         viewModelScope.launch {
+            //Aqui refresca para traer datos de remoto a local
+            //TODO: Esto en un futuro haceerlo con workermanager
+            try {
+                _uiState.value = ListUiState.Loading
+                planRepository.refresh()
+            } catch (e: Exception) {
+                _uiState.value = ListUiState.Error("Error al refrescar planes: ${e.message}")
+            }
+
             try {
                 planRepository.observe().collect { result ->
                     if (result.isSuccess) {
                         val plans = result.getOrNull()!!
-                        if (plans.isNotEmpty()){
-                            val uiPlans = plans.asListUiState()
-                            fullList = uiPlans
-                            _uiState.value = ListUiState.Succes(uiPlans)
-                        }else {
-                            planRepository.refresh()
-                            planRepository.observe().collect { result ->
-                                val plans = result.getOrNull()!!
-                                if (plans.isNotEmpty()) {
-                                    val uiPlans = plans.asListUiState()
-                                    _uiState.value = ListUiState.Succes(uiPlans)
-                                }
-                            }
-                        }
+                        val uiPlans = plans.asListUiState()
+                        fullList = uiPlans
+                        _uiState.value = ListUiState.Succes(uiPlans)
                     } else {
                         val error = result.exceptionOrNull()?.message ?: "Error desconocido"
                         _uiState.value = ListUiState.Error("Error al cargar planes: $error")

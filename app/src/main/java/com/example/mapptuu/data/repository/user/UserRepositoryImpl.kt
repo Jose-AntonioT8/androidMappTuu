@@ -5,14 +5,22 @@ import com.example.mapptuu.data.local.users.toModel
 import com.example.mapptuu.data.model.Users
 import com.example.mapptuu.di.LocalDataSource
 import com.example.mapptuu.di.RemoteDataSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UserRepositoryImpl@Inject constructor(
     @RemoteDataSource private val remoteDataSource: UsersDataSource,
     @LocalDataSource private val localDataSource: UsersDataSource,
-
+    private val scope: CoroutineScope
 ): UserRepository {
+
+    init {
+        scope.launch {
+            refresh()
+        }
+    }
     override suspend fun readAll(): Result<List<Users>> {
         return remoteDataSource.readAll()
     }

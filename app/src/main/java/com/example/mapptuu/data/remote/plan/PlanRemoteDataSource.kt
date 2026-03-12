@@ -102,12 +102,13 @@ class PlanRemoteDataSource @Inject constructor(
     }
 
     private fun Plans.toRemote(): PlansRemote {
+        val millis = this.createdAt.seconds * 1000L + this.createdAt.nanoseconds / 1_000_000
         return PlansRemote(
             id = this.id,
             name = this.name,
             description = this.description,
             activityIds = this.activityIds,
-            createdAt = this.createdAt,
+            createdAt = millis,
             imgRef = this.imgRef,
             ownerId = this.ownerId,
             rating = this.rating,
@@ -129,13 +130,14 @@ class PlanRemoteDataSource @Inject constructor(
         )
     }
 
-    fun PlansRemote.toExternal():Plans {
+    fun PlansRemote.toExternal(): Plans {
+        val timestamp = com.google.firebase.Timestamp(java.util.Date(this.createdAt))
         return Plans(
             id = this.id,
             name = this.name,
             description = this.description,
             activityIds = this.activityIds,
-            createdAt = this.createdAt,
+            createdAt = timestamp,
             imgRef = this.imgRef,
             ownerId = this.ownerId,
             rating = this.rating,
@@ -144,12 +146,13 @@ class PlanRemoteDataSource @Inject constructor(
     }
 
     private fun PlansListItemRemote.toPlans(): Plans {
+        val timestamp = com.google.firebase.Timestamp(java.util.Date(this.createdAt))
         return Plans(
             id = this.id,
             name = this.name,
             description = this.description,
             activityIds = this.activityIds,
-            createdAt = this.createdAt,
+            createdAt = timestamp,
             imgRef = this.imgRef,
             ownerId = this.ownerId,
             rating = this.rating,

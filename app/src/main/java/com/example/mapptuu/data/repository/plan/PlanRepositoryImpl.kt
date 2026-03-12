@@ -1,7 +1,6 @@
 package com.example.mapptuu.data.repository.plan
 
 import com.example.mapptuu.data.PlansDataSource
-import com.example.mapptuu.data.model.ActivityTypes
 import com.example.mapptuu.data.model.Plans
 import com.example.mapptuu.di.LocalDataSource
 import com.example.mapptuu.di.RemoteDataSource

@@ -53,7 +53,7 @@ fun MapScreen(viewModel: MapViewModel = hiltViewModel(),
                     when (route) {
                         "lista" -> onNavigateToActivities()
                         "plans" -> onPlanList()
-                        "ajustes" -> onNavigateToSetting()
+                        "profile" -> onNavigateToProfile()
                     }
                 },
                 navController = navController

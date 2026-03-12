@@ -73,7 +73,7 @@ fun ActivityListScreen(
                     when (route) {
                         "mapa" -> onNavigateToMap()
                         "plans" -> onPlanList()
-                        "user" -> onNavigateToProfile()
+                        "profile" -> onNavigateToProfile()
                     }
                 },
                 navController = navController

@@ -55,6 +55,7 @@ fun PlanListScreen (
     onNavigateToSetting:() -> Unit,
     onNavigateToMap:() -> Unit,
     onNavigateActivityList:() -> Unit,
+    onNavigateToProfile: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PlanListViewModel = hiltViewModel(),
     navController: NavController
@@ -74,6 +75,7 @@ fun PlanListScreen (
                         "lista" -> onNavigateActivityList()
                         "mapa" -> onNavigateToMap()
                         "ajustes" -> onNavigateToSetting()
+                        "profile" -> onNavigateToProfile()
                     }
 
                 },

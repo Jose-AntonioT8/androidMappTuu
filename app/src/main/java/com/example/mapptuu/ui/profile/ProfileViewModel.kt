@@ -1,11 +1,15 @@
 package com.example.mapptuu.ui.profile
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Users
 import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.user.UserRepository
+import com.example.mapptuu.ui.activityList.asListUiState
+import com.example.mapptuu.ui.planList.ListUiState
+import com.example.mapptuu.ui.planList.asListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,6 +25,10 @@ class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {
+    private val _uiState : MutableStateFlow<ListUiState> =
+        MutableStateFlow( ListUiState.Initial)
+    val uiState : StateFlow<ListUiState>
+        get()= _uiState.asStateFlow()
 
 
     private val _showPhotoMenu = MutableStateFlow(false)

@@ -26,29 +26,26 @@
             get()= _uiState.asStateFlow()
         init {
             viewModelScope.launch {
+                //Aqui refresca para traer datos de remoto a local
+                 //TODO: Esto en un futuro haceerlo con workermanager
+                try {
+                    _uiState.value = ListUiState.Loading
+                    activityRepository.refresh()
+                } catch (e: Exception) {
+                    _uiState.value = ListUiState.Error("Error al refrescar actividades: ${e.message}")
+                }
 
                 try {
                     activityRepository.observe().collect { result ->
                         if (result.isSuccess) {
                             val activities = result.getOrNull()!!
-                            if (activities.isNotEmpty()){
-                                val uiActivities = activities.asListUiState()
-                                fullList = uiActivities
-                                _uiState.value = ListUiState.Succes(uiActivities)
-                            }else {
-                                activityRepository.refresh()
-                                activityRepository.observe().collect { result ->
-                                    val activities = result.getOrNull()!!
-                                    if (activities.isNotEmpty()) {
-                                        val uiActivities = activities.asListUiState()
-                                        _uiState.value = ListUiState.Succes(uiActivities)
-                                    }
-                                }                        }
-                        } else {
+                            val uiActivities = activities.asListUiState()
+                            fullList = uiActivities
+                            _uiState.value = ListUiState.Succes(uiActivities)
+                            } else {
                             val error = result.exceptionOrNull()?.message ?: "Error desconocido"
-                            _uiState.value = ListUiState.Error("Error al cargar actividades: $error")
+                            _uiState.value = ListUiState.Error("Error al cargar actividades: $error")                     }
                         }
-                    }
                 } catch (e: Exception) {
                     _uiState.value = ListUiState.Error("Excepción al cargar actividades: ${e.message}")
                 }

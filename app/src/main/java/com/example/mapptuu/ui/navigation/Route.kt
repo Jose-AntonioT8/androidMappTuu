@@ -308,6 +308,7 @@ fun NavGraphBuilder.planListDestination(
     onActivityList: () -> Unit,
     onNavigateToSetting: () -> Unit,
     onNavigateToMap: () -> Unit,
+    onNavigateToProfile: () -> Unit,
 
 ) {
     composable<Route.PlanList> {
@@ -326,10 +327,13 @@ fun NavGraphBuilder.planListDestination(
             onNavigateToSetting = {
                 onNavigateToSetting()
             },
-            navController = navController,
             onNavigateToMap = {
                 onNavigateToMap()
             },
+            onNavigateToProfile = {
+                onNavigateToProfile()
+            },
+            navController = navController,
         )
 
 

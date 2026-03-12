@@ -1,5 +1,6 @@
 package com.example.mapptuu.ui.login
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -22,6 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.mapptuu.R
 import com.example.mapptuu.ui.navigation.Route
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.res.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,7 +99,7 @@ fun LoginScreen(
                     text = stringResource(R.string.login),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF1E3A8A) // blue-900
+                    color = Color(0xFF1E3A8A)
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -164,13 +167,17 @@ fun LoginScreen(
                             PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         trailingIcon = {
-                            TextButton(
-                                onClick = { passwordVisible = !passwordVisible },
-                                modifier = Modifier.padding(0.dp)
-                            ) {
-                                Text(
-                                    text = if (passwordVisible) "👁️" else "👁️‍🗨️",
-                                    fontSize = 20.sp
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Image(
+                                    painter = painterResource(
+                                        if (passwordVisible)
+                                            R.drawable.ojoabierto
+                                        else
+                                            R.drawable.ojocerrado
+                                    ),
+                                    modifier = Modifier.size(24.dp),
+                                    contentDescription = "Visibilidad"
+
                                 )
                             }
                         },

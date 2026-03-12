@@ -4,22 +4,27 @@ package com.example.mapptuu.ui.profile
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.widget.TextView
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
@@ -37,8 +44,10 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.example.mapptuu.R
 import com.example.mapptuu.ui.component.Header
 import com.example.mapptuu.ui.navigation.navigateToCamera
+import com.example.mapptuu.ui.navigation.navigateToLandingPage
 
 @Composable
 fun ProfileScreen(
@@ -81,12 +90,16 @@ fun ProfileScreen(
     ){ innerPadding ->
         Box(modifier = modifier
             .fillMaxSize()
-            .padding(innerPadding)) {
+            .padding(innerPadding)
+            .background(Color(0xFFBFDBFE))
+        ) {
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 24.dp, bottom = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
                     modifier = Modifier
@@ -99,7 +112,7 @@ fun ProfileScreen(
                         .clickable {
                             viewModel.onTogglePhotoMenu()
                         },
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
 
                     if (profileImageUri != null) {
@@ -116,31 +129,100 @@ fun ProfileScreen(
 
 
                 }
-                Spacer(modifier = Modifier.size(16.dp))
 
-                Column {
-                    Row {
-                        Text(text = "Nombre de usuario")
-                        Text(userinfo?.name ?: "Nombre no disponible")
-                    }
+                Spacer(modifier = Modifier.size(48.dp))
 
-                    Row {
-                        Text("Correo electronico")
-                        Text(userinfo?.email ?: "Correo no disponible")
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Column {
+                        Text(text = "Nombre de usuario",
+                            fontSize = 16.sp,
+                            color = Color.Black
+                            )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.White, shape = RoundedCornerShape(12.dp))
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = userinfo?.name ?: "Cargando...",
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Column {
+                        Text(text = "Correo electronico",
+                            fontSize = 16.sp,
+                            color = Color.Black,
+
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.White, shape = RoundedCornerShape(12.dp))
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = userinfo?.email ?: "Cargando...",
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Column {
+                        Text(text = "Cuenta creada el",
+                            fontSize = 16.sp,
+                            color = Color.Black
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.White, shape = RoundedCornerShape(12.dp))
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text =java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+                                    .format(userinfo?.createdAt?.toDate() ?: java.util.Date()),
+                                fontSize = 16.sp,
+                                color = Color.Black,
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Button(
+                    onClick = { viewModel.onLogOut()
+                        navController.navigateToLandingPage()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFEF4444),
+                        contentColor = Color.White
+                    )
+
+                ) {
+                    Text(stringResource(R.string.logout), fontWeight = FontWeight.Bold)
                 }
 
                 if (showPhotoMenu) {
                     Popup(
                         alignment = Alignment.TopCenter,
                         onDismissRequest = { viewModel.onDismissPhotoMenu() },
-                        properties = PopupProperties(focusable = true)
+                        properties = PopupProperties(focusable = true),
                     ) {
                         Column(
                             modifier = Modifier
                                 .padding(top = 76.dp)
                                 .background(
-                                    Color.Transparent,
+                                    Color.White,
                                     shape = RoundedCornerShape(8.dp)
                                 )
                                 .padding(16.dp),

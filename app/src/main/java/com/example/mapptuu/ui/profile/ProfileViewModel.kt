@@ -69,4 +69,10 @@ class ProfileViewModel @Inject constructor(
         }
         _showPhotoMenu.value = false
     }
+    fun onLogOut() {
+        viewModelScope.launch {
+            authRepository.logout()
+
+        }
+    }
 }

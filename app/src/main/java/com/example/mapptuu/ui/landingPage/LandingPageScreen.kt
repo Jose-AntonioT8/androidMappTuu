@@ -174,12 +174,12 @@ private fun LoggedOutContent(
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text(stringResource(R.string.login), fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.login))
         }
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedButton(
-            onClick = onNavigateToRegister,
+        Button(
+            onClick = onNavigateToLogin,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
@@ -199,7 +199,7 @@ private fun OptionCard(
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(0.9f),
-        shape = MaterialTheme.shapes.large, // Bordes más redondeados
+        shape = MaterialTheme.shapes.large,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),

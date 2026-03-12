@@ -23,6 +23,7 @@ fun Users.toEntity(): UsersEntity {
         name = this.name,
         email = this.email,
         createdAt = this.createdAt,
+        photoUri = this.photoUri
 
     )
 }

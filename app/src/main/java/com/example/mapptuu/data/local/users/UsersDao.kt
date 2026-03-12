@@ -20,7 +20,7 @@ interface UsersDao {
     fun observeAll(): Flow<List<UsersEntity>>
 
     @Query("SELECT * FROM users WHERE id = :id")
-    suspend fun readUserById(id: String): UsersEntity?
+    suspend fun readUserById(id: String?): UsersEntity?
 
     @Update
     suspend fun update(user: UsersEntity)
@@ -30,6 +30,9 @@ interface UsersDao {
 
     @Query("SELECT photoUri FROM users WHERE email = :email")
     fun getProfilePicture(email: String): Flow<String?>
+
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    suspend fun readUserByEmail(email: String?): UsersEntity?
 
 
 }

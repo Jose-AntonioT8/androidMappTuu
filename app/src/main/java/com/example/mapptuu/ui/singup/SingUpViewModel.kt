@@ -1,9 +1,13 @@
 package com.example.mapptuu.ui.signup
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mapptuu.data.model.Users
 import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.AuthResult
+import com.example.mapptuu.data.repository.user.UserRepository
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuthException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +33,8 @@ data class SignUpUiState(
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SignUpUiState())
@@ -101,11 +106,26 @@ class SignUpViewModel @Inject constructor(
                 _uiState.value.password
             )) {
                 is AuthResult.Success -> {
+
+                    // Lo pasamos a Users
+                    val user = result.user
+
+                    val newUser = Users(
+                        id = user?.uid ?: "",
+                        name = _uiState.value.name,
+                        email = _uiState.value.email,
+                        createdAt = Timestamp.now(),
+                        photoUri = null,
+                    )
+                    //Aqui lo guardamos el usuario creado en local y remorto
+                    userRepository.insert(newUser)
+
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         successMessage = "Cuenta creada correctamente",
                         isSignUpSuccessful = true
                     )
+
                 }
                 is AuthResult.Error -> {
                     val errorMsg = getErrorMessage(result.exception)
@@ -121,7 +141,7 @@ class SignUpViewModel @Inject constructor(
     private fun validateEmail(email: String): String? {
         return when {
             email.isBlank() -> "El campo email es requerido"
-            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() ->
+            !Patterns.EMAIL_ADDRESS.matcher(email).matches() ->
                 "El email no es correcto"
             else -> null
         }

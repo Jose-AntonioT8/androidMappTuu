@@ -114,10 +114,11 @@ class ActivityRemoteDataSource  @Inject constructor(
     }
 
     private fun Activity.toRemote(): ActivityRemote {
+        val millis = this.createdAt.seconds * 1000L + this.createdAt.nanoseconds / 1_000_000
         return ActivityRemote(
             id = this.id,
             activityTypeId = this.activityTypeId,
-            createdAt = com.google.gson.JsonPrimitive(this.createdAt.toDate().time),
+            createdAt = millis,
             description = this.description,
             imageRef = this.imageRef,
             latitude = this.latitude,
@@ -142,11 +143,12 @@ class ActivityRemoteDataSource  @Inject constructor(
         )
 
     }
-    fun ActivityRemote.toExternal():Activity {
+    fun ActivityRemote.toExternal(): Activity {
+        val timestamp = Timestamp(Date(this.createdAt))
         return Activity(
             id = this.id,
             activityTypeId = this.activityTypeId,
-            createdAt = this.createdAt.toFirebaseTimestamp(),
+            createdAt = timestamp,
             description = this.description,
             imageRef = this.imageRef,
             latitude = this.latitude,
@@ -158,10 +160,11 @@ class ActivityRemoteDataSource  @Inject constructor(
     }
 
     fun ActivityListItemRemote.toActivity(): Activity {
+        val timestamp = Timestamp(Date(this.createdAt))
         return Activity(
             id = this.id,
             activityTypeId = this.activityTypeId,
-            createdAt = this.createdAt.toFirebaseTimestamp(),
+            createdAt = timestamp,
             description = this.description,
             imageRef = this.imageRef,
             latitude = this.latitude,

@@ -1,14 +1,19 @@
 package com.example.mapptuu.ui.profile
 
 
+import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.viewfinder.core.impl.ContentScale
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
@@ -41,16 +47,29 @@ fun ProfileScreen(
 
     modifier: Modifier = Modifier,
 ){
+    val context = LocalContext.current
+
     val showPhotoMenu by viewModel.showPhotoMenu.collectAsState()
     val profileImageUri by viewModel.profileImageUri.collectAsState()
+    val userinfo by viewModel.userinfo.collectAsState()
+
 
 
 
 
     val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
+        contract = ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
         if (uri != null) {
+            val contentResolver = context.contentResolver
+
+            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            try {
+                contentResolver.takePersistableUriPermission(uri, takeFlags)
+            } catch (e: Exception) {
+                Log.e("Error de permisos en profilescreen", e.toString())
+            }
+
             viewModel.onImageSelected(uri)
         }
     }
@@ -82,16 +101,35 @@ fun ProfileScreen(
                         },
                     contentAlignment = Alignment.Center
                 ) {
+
                     if (profileImageUri != null) {
                         AsyncImage(
                             model = profileImageUri,
                             contentDescription = "Foto de perfil",
                             modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
                         )
                     } else {
                         Text(text = "👤", fontSize = 48.sp)
                     }
+
+
+
                 }
+                Spacer(modifier = Modifier.size(16.dp))
+
+                Column {
+                    Row {
+                        Text(text = "Nombre de usuario")
+                        Text(userinfo?.name ?: "Nombre no disponible")
+                    }
+
+                    Row {
+                        Text("Correo electronico")
+                        Text(userinfo?.email ?: "Correo no disponible")
+                    }
+                }
+
                 if (showPhotoMenu) {
                     Popup(
                         alignment = Alignment.TopCenter,
@@ -116,7 +154,9 @@ fun ProfileScreen(
                                 Text("Desde cámara")
                             }
                             Button(onClick = {
-                                galleryLauncher.launch("image/*")
+                                galleryLauncher.launch(
+                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                )
                             }) {
                                 Text("Desde galería")
                             }

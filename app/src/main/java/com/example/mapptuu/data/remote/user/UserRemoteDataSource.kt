@@ -1,6 +1,7 @@
 package com.example.mapptuu.data.remote.user
 import com.example.mapptuu.data.remote.user.model.UsersRemote
 import com.example.mapptuu.data.UsersDataSource
+import com.example.mapptuu.data.local.users.UsersEntity
 import com.example.mapptuu.data.model.Users
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -8,6 +9,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
+import com.google.firebase.Timestamp
+import java.util.Date
 
 class UserRemoteDataSource @Inject constructor(
     private val api: UserApi,
@@ -51,7 +54,7 @@ class UserRemoteDataSource @Inject constructor(
         }
     }
 
-    override suspend fun readOne(id: String): Result<Users> {
+    override suspend fun readOne(id: String?): Result<Users> {
         try {
             val response = api.readOne(id)
             return response.body().let {
@@ -86,12 +89,19 @@ class UserRemoteDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
 
+
+
+    override suspend fun readUserByEmail(email: String?): UsersEntity? {
+        TODO("Not yet implemented")
+    }
+
     private fun Users.toRemote(): UsersRemote {
+        val millis = this.createdAt.seconds * 1000L + this.createdAt.nanoseconds / 1_000_000
         return UsersRemote(
             id = this.id,
             name = this.name,
             email = this.email,
-            createdAt = this.createdAt,
+            createdAt = millis,
             photoUri = this.photoUri,
         )
     }
@@ -104,15 +114,14 @@ class UserRemoteDataSource @Inject constructor(
             photoUri = this.getOrNull()!!.photoUri,
         )
     }
-    fun UsersRemote.toExternal():Users {
+    fun UsersRemote.toExternal(): Users {
+        val timestamp = Timestamp(Date(this.createdAt))
         return Users(
             id = this.id,
             name = this.name,
             email = this.email,
-            createdAt = this.createdAt,
+            createdAt = timestamp,
             photoUri = this.photoUri,
         )
-        
     }
-
 }

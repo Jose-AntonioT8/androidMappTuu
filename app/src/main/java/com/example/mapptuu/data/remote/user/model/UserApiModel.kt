@@ -1,22 +1,22 @@
 package com.example.mapptuu.data.remote.user.model
 
-import com.google.firebase.Timestamp
-
+import com.example.mapptuu.data.remote.IsoOrMillisLongAdapter
+import com.google.gson.annotations.JsonAdapter
 
 data class UsersListRemote(
-    val items:List<UsersListItemRemote>
+    val items: List<UsersListItemRemote>
 )
 
 data class UsersListItemRemote(
-    val id:String,
-    val createdAt: Timestamp,
-    val email:String,
-    val name:String,
+    val id: String,
+    @JsonAdapter(IsoOrMillisLongAdapter::class) val createdAt: Long,
+    val email: String,
+    val name: String,
 )
 data class UsersRemote(
-    val id:String,
-    val createdAt:Timestamp,
-    val email:String,
-    val name:String,
-    val photoUri:String?,
+    val id: String,
+    @JsonAdapter(IsoOrMillisLongAdapter::class) val createdAt: Long,
+    val email: String,
+    val name: String,
+    val photoUri: String?,
 )

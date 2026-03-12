@@ -54,7 +54,7 @@ fun LoginScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF2563EB) // blue-600
+                    containerColor = Color(0xFF2563EB)
                 )
             )
         }
@@ -62,7 +62,7 @@ fun LoginScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFBFDBFE)) // blue-200
+                .background(Color(0xFFBFDBFE))
                 .padding(paddingValues)
         ) {
             Column(
@@ -78,7 +78,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .size(96.dp)
                         .background(
-                            color = Color(0xFF60A5FA), // blue-400
+                            color = Color(0xFF60A5FA),
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center

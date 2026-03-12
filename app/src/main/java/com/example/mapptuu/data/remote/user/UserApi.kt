@@ -15,7 +15,7 @@ interface UserApi {
     @GET("/api/users")
     suspend fun readAll(): Response<UsersListRemote>
     @GET("/api/users/{id}")
-    suspend fun readOne(@Path("id") id: String): Response<UsersRemote>
+    suspend fun readOne(@Path("id") id: String?): Response<UsersRemote>
     @GET("/api/users?name={name}")
     suspend fun readOneByName(@Query("name") name: String): Response<List<UsersRemote>>
 

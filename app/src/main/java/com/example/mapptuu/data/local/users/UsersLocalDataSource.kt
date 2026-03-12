@@ -1,5 +1,6 @@
 package com.example.mapptuu.data.local.users
 
+import android.util.Log
 import com.example.mapptuu.data.UsersDataSource
 import com.example.mapptuu.data.model.Users
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +17,19 @@ class UsersLocalDataSource @Inject constructor(
     private val usersDao : UsersDao
 ): UsersDataSource {
     override suspend fun addAll(usersList: List<Users>) {
-        usersList.forEach { plans ->
-            val entity = plans.toEntity()
+        usersList.forEach { user ->
+            val entity = user.toEntity()
             withContext(Dispatchers.IO) {
+                val existingEntity = usersDao.readUserByEmail(user.email)
+                Log.d("UsersLocalDataSource", "email=${user.email} existingPhoto=${existingEntity?.photoUri}")
+                val entity = UsersEntity(
+                    id = user.id,
+                    createdAt = user.createdAt,
+                    email = user.email,
+                    name = user.name,
+                    photoUri = existingEntity?.photoUri
+                )
+
                 usersDao.insert(entity)
             }
         }
@@ -36,7 +47,9 @@ class UsersLocalDataSource @Inject constructor(
         return result
     }
 
-    override suspend fun readOne(id: String): Result<Users> {
+
+
+    override suspend fun readOne(id: String?): Result<Users> {
         val entity = usersDao.readUserById(id)
         return if (entity == null) {
             Result.failure(UsersNotFoundException())
@@ -77,4 +90,12 @@ class UsersLocalDataSource @Inject constructor(
         val email = id ?: return flowOf(null)
         return usersDao.getProfilePicture(email)
     }
+
+
+
+    override suspend fun readUserByEmail(email: String?): UsersEntity? {
+        return usersDao.readUserByEmail(email)
+    }
+
+
 }

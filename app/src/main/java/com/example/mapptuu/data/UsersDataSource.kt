@@ -1,5 +1,6 @@
 package com.example.mapptuu.data
 
+import com.example.mapptuu.data.local.users.UsersEntity
 import com.example.mapptuu.data.model.Users
 import kotlinx.coroutines.flow.Flow
 
@@ -8,7 +9,7 @@ interface UsersDataSource {
     suspend fun addAll(usersList: List<Users>)
     fun observe(): Flow<Result<List<Users>>>
     suspend fun readAll(): Result<List<Users>>
-    suspend fun readOne(id: String): Result<Users>
+    suspend fun readOne(id: String?): Result<Users>
     suspend fun isError()
     suspend fun insert(users: Users)
 
@@ -19,6 +20,8 @@ interface UsersDataSource {
     suspend fun updateProfilePicture(id: String?, uri: String)
 
     fun getProfilePicture(id: String?): Flow<String?>
+
+    suspend fun readUserByEmail(email: String?): UsersEntity?
 
 
 }

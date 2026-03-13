@@ -308,7 +308,10 @@ fun SignUpScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Link a Login
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Text(
                         stringResource(R.string.have_account),
                         color = Color(0xFF1E3A8A),

@@ -118,7 +118,7 @@ fun ProfileScreen(
                     if (profileImageUri != null) {
                         AsyncImage(
                             model = profileImageUri,
-                            contentDescription = "Foto de perfil",
+                            contentDescription = stringResource(R.string.profileFoto),
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
                         )
@@ -139,7 +139,7 @@ fun ProfileScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Column {
-                        Text(text = "Nombre de usuario",
+                        Text(text = stringResource(R.string.userName),
                             fontSize = 16.sp,
                             color = Color.Black
                             )
@@ -150,7 +150,7 @@ fun ProfileScreen(
                                 .padding(16.dp)
                         ) {
                             Text(
-                                text = userinfo?.name ?: "Cargando...",
+                                text = userinfo?.name ?: stringResource(R.string.loading),
                                 fontSize = 16.sp,
                                 color = Color.Black
                             )
@@ -158,7 +158,7 @@ fun ProfileScreen(
                     }
                     Spacer(modifier = Modifier.size(16.dp))
                     Column {
-                        Text(text = "Correo electronico",
+                        Text(text = stringResource(R.string.email),
                             fontSize = 16.sp,
                             color = Color.Black,
 
@@ -170,7 +170,7 @@ fun ProfileScreen(
                                 .padding(16.dp)
                         ) {
                             Text(
-                                text = userinfo?.email ?: "Cargando...",
+                                text = userinfo?.email ?: stringResource(R.string.loading),
                                 fontSize = 16.sp,
                                 color = Color.Black
                             )
@@ -178,7 +178,7 @@ fun ProfileScreen(
                     }
                     Spacer(modifier = Modifier.size(16.dp))
                     Column {
-                        Text(text = "Cuenta creada el",
+                        Text(text = stringResource(R.string.accountCreatedAt),
                             fontSize = 16.sp,
                             color = Color.Black
                         )
@@ -228,19 +228,19 @@ fun ProfileScreen(
                                 .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Cambiar foto de perfil:")
+                            Text(stringResource(R.string.changeProfilePhoto))
                             Button(onClick = {
                                 viewModel.onDismissPhotoMenu()
                                 navController.navigateToCamera()
                             }) {
-                                Text("Desde cámara")
+                                Text(stringResource(R.string.fromCamera))
                             }
                             Button(onClick = {
                                 galleryLauncher.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                                 )
                             }) {
-                                Text("Desde galería")
+                                Text(stringResource(R.string.fromGalery))
                             }
                         }
                     }

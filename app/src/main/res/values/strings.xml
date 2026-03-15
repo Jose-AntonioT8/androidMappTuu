@@ -47,13 +47,19 @@
     <string name="create_account">Crear una cuenta</string>
     <string name="have_account">¿Ya tienes una cuenta?</string>
     <string name="no_have_account">¿No tienes una cuenta?</string>
-
+    <string name="profileFoto">Foto de perfil</string>
     <string name="email_placeholder">tu@gmail.com</string>
     <string name="email">Correo electrónico</string>
     <string name="password_placeholder">************</string>
     <string name="password">Contraseña</string>
     <string name="user_placeholder">Usuario_mapptuu</string>
     <string name="repeat_password">Repetir contraseña</string>
+    <string name="userName">Nombre de usuario</string>
+    <string name="loading">Cargando...</string>
+    <string name="accountCreatedAt">Cuenta creada el </string>
+    <string name="changeProfilePhoto">Cambiar foto de perfil:</string>
+    <string name="fromCamera">Desde la cámara</string>
+    <string name="fromGalery">Desde la galería</string>
 
     <string name="journey">Comienza tu viaje</string>
     <string name="logo">Logo de la aplicación</string>

@@ -7,9 +7,15 @@
     <string name="expri">Discover unique places and experiences.</string>
     <string name="org">Organize and manage your next adventures.</string>
 
+    <string name="changeProfilePhoto">Change profile photo:</string>
+    <string name="fromCamera">From camera</string>
+    <string name="fromGalery">From galery</string>
+    <string name="profileFoto">Profile photo</string>
+    <string name="userName">User name</string>
 
+    <string name="loading">Loading...</string>
 
-
+    <string name="accountCreatedAt">Account created at </string>
 
     <string name="name">Name</string>
     <string name="description">Description</string>

@@ -4,7 +4,6 @@ package com.example.mapptuu.ui.profile
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import android.widget.TextView
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -48,12 +47,17 @@ import com.example.mapptuu.R
 import com.example.mapptuu.ui.component.Header
 import com.example.mapptuu.ui.navigation.navigateToCamera
 import com.example.mapptuu.ui.navigation.navigateToLandingPage
+import android.Manifest.permission.POST_NOTIFICATIONS
+import androidx.compose.runtime.LaunchedEffect
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel(),
-
     modifier: Modifier = Modifier,
 ){
     val context = LocalContext.current
@@ -61,9 +65,13 @@ fun ProfileScreen(
     val showPhotoMenu by viewModel.showPhotoMenu.collectAsState()
     val profileImageUri by viewModel.profileImageUri.collectAsState()
     val userinfo by viewModel.userinfo.collectAsState()
+    val notificationPermissionState = rememberPermissionState(permission = POST_NOTIFICATIONS)
 
-
-
+    LaunchedEffect(notificationPermissionState.status) {
+        if (!notificationPermissionState.status.isGranted) {
+            notificationPermissionState.launchPermissionRequest()
+        }
+    }
 
 
     val galleryLauncher = rememberLauncherForActivityResult(

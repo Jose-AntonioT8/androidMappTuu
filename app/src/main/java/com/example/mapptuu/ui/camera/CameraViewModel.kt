@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.user.UserRepository
+import com.example.mapptuu.utils.NotificationHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.awaitCancellation
@@ -33,7 +34,8 @@ import javax.inject.Inject
 class CameraViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val userRepository: UserRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val notificationHelper: NotificationHelper
 ) : ViewModel(){
 
     private lateinit var processCameraProvider: ProcessCameraProvider
@@ -95,11 +97,10 @@ class CameraViewModel @Inject constructor(
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val uri = outputFileResults.savedUri
                     _capturedImageUri.value = outputFileResults.savedUri as Uri
-                    // aquí ya tienes la foto guardada en galería (uri)
+                    // aquí ya se tiene la foto guardada en galería como (uri)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    // manejar error si quieres (log, estado, toast, etc.)
                 }
             }
         )
@@ -130,6 +131,7 @@ class CameraViewModel @Inject constructor(
         val email = currentUserEmail
         viewModelScope.launch {
             userRepository.updateProfilePicture(id = email, uri = uri)
+            notificationHelper.showProfilePictureUpdatedNotification()
         }
     }
 

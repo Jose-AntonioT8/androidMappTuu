@@ -100,7 +100,11 @@ class ActivityRemoteDataSource  @Inject constructor(
     }
 
     override suspend fun insert(activity: Activity) {
-        api.insert(activity.toRemote())
+        val response = api.insert(activity.toRemote())
+        if (!response.isSuccessful) {
+            throw RuntimeException("Error al crear actividad: ${response.code()}")
+        }
+        response.body()?.close()
     }
 
     override suspend fun delete(id: String) {

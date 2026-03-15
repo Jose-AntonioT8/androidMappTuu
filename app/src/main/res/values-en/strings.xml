@@ -77,4 +77,9 @@
     <string name="user">User</string>
     <string name="id">Id:</string>
     <string name="owner">Owner ID:</string>
+
+    <string name="notification_channel_profile_name">Profile updates</string>
+    <string name="notification_profile_picture_updated_title">Profile picture updated</string>
+    <string name="notification_profile_picture_updated_text">Your profile picture has been updated successfully.</string>
+
 </resources>

@@ -170,6 +170,11 @@ private fun SearchBar(
                         Modifier.size(18.dp)
                     )
             }
+            Button(
+                onClick = onCreate
+            ) {
+                Text(stringResource(R.string.create))
+            }
 
 
 

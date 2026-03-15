@@ -10,6 +10,7 @@ import com.example.mapptuu.data.repository.user.UserRepository
 import com.example.mapptuu.ui.activityList.asListUiState
 import com.example.mapptuu.ui.planList.ListUiState
 import com.example.mapptuu.ui.planList.asListUiState
+import com.example.mapptuu.utils.NotificationHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val notificationHelper: NotificationHelper
 ) : ViewModel() {
     private val _uiState : MutableStateFlow<ListUiState> =
         MutableStateFlow( ListUiState.Initial)
@@ -74,6 +76,7 @@ class ProfileViewModel @Inject constructor(
                 uri = uri.toString(),
                 id = currentUserEmail
             )
+            notificationHelper.showProfilePictureUpdatedNotification()
         }
         _showPhotoMenu.value = false
     }

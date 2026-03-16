@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 data class DetailUiState(
     val id:String="",
-    val activityIds:List<String>? = listOf(),
+    val activitiesIds:List<String>? = listOf(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
     val imageRef:String="",
@@ -60,7 +60,7 @@ class PlanUpdateViewModel @Inject constructor(
             plan.let{plan ->
                 name = plan.getOrNull()!!.name
                 description = plan.getOrNull()!!.description
-                activitiesIdInput = plan.getOrNull()?.activityIds?.joinToString(", ") ?: ""
+                activitiesIdInput = plan.getOrNull()?.activitiesIds?.joinToString(", ") ?: ""
                 createdAt = plan.getOrNull()!!.createdAt
                 imgRef = plan.getOrNull()!!.imgRef
                 ownerId = plan.getOrNull()!!.ownerId
@@ -77,8 +77,8 @@ class PlanUpdateViewModel @Inject constructor(
 
     }
     fun update(){
-        var activityIds: List<String> = listOf()
-        activityIds = activitiesIdInput
+        var activitiesIds: List<String> = listOf()
+        activitiesIds = activitiesIdInput
             .split(',')
             .map { it.trim() }
             .filter { it.isNotEmpty() }
@@ -88,7 +88,7 @@ class PlanUpdateViewModel @Inject constructor(
                 name = name,
                 description = description,
                 imgRef = imgRef,
-                activityIds = activityIds,
+                activitiesIds = activitiesIds,
                 createdAt = createdAt,
                 visibility = visibility,
                 ownerId = ownerId,
@@ -102,7 +102,7 @@ class PlanUpdateViewModel @Inject constructor(
         name = this.name,
         id = this.id,
         imageRef = this.imgRef,
-        activityIds = this.activityIds,
+        activitiesIds = this.activitiesIds,
         createdAt = this.createdAt,
         description = this.description,
         ownerId = this.ownerId,

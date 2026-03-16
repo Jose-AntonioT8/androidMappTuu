@@ -1,6 +1,7 @@
 package com.example.mapptuu.ui.activityDetail
 
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,6 +12,7 @@ import androidx.navigation.toRoute
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.repository.activity.ActivityRepository
+import com.example.mapptuu.data.repository.activityType.ActivityTypeRepository
 import com.example.mapptuu.ui.navigation.Route
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +24,7 @@ import com.google.firebase.Timestamp
 data class DetailUiState(
     val id:String="",
     val activityTypeId:String="",
+    val activityTypeName:String="",
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
     val imageRef:String="",
@@ -35,7 +38,8 @@ data class DetailUiState(
 @HiltViewModel
 class ActivityDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val activityRepository : ActivityRepository
+    private val activityRepository : ActivityRepository,
+    private val activityTypeRepository: ActivityTypeRepository,
 ): ViewModel() {
     private val _uiState : MutableStateFlow<DetailUiState> =
         MutableStateFlow(DetailUiState())
@@ -47,7 +51,14 @@ class ActivityDetailViewModel @Inject constructor(
             val activityId = route.id
             val activity = activityRepository.readOne(activityId)
             activity?.let{
-                _uiState.value = activity.getOrNull()!!.toDetailUiState()
+                val detail = activity.getOrNull()!!.toDetailUiState()
+                val activityTypeName = activityTypeRepository
+                    .readOne(detail.activityTypeId)
+                    .getOrNull()
+                    ?.name
+                    ?: detail.activityTypeId
+    Log.d("ActivityDetailViewModel", "Activity type name: $activityTypeName")
+                _uiState.value = detail.copy(activityTypeName = activityTypeName)
             }
 
         }

@@ -10,6 +10,7 @@ import javax.inject.Inject
 import androidx.navigation.toRoute
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Plans
+import com.example.mapptuu.data.repository.activity.ActivityRepository
 import com.example.mapptuu.data.repository.plan.PlanRepository
 import com.example.mapptuu.ui.navigation.Route
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -20,7 +21,8 @@ import com.google.firebase.Timestamp
 
 data class DetailUiState(
     val id:String="",
-    val activityIds:List<String>? = listOf(),
+    val activitiesIds:List<String>? = listOf(),
+    val activityNames: List<String> = emptyList(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
     val imageRef:String="",
@@ -33,7 +35,8 @@ data class DetailUiState(
 @HiltViewModel
 class ActivityDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val planRepository : PlanRepository
+    private val planRepository : PlanRepository,
+    private val activityRepository: ActivityRepository,
 ): ViewModel() {
     private val _uiState : MutableStateFlow<DetailUiState> =
         MutableStateFlow(DetailUiState())
@@ -45,7 +48,13 @@ class ActivityDetailViewModel @Inject constructor(
             val activityId = route.id
             val activity = planRepository.readOne(activityId)
             activity.let{
-                _uiState.value = activity.getOrNull()!!.toDetailUiState()
+                val detail = activity.getOrNull()!!.toDetailUiState()
+                val names = detail.activitiesIds
+                    .orEmpty()
+                    .map { id ->
+                        activityRepository.readOne(id).getOrNull()?.name ?: id
+                    }
+                _uiState.value = detail.copy(activityNames = names)
             }
 
         }
@@ -64,7 +73,7 @@ fun Plans.toDetailUiState(): DetailUiState = DetailUiState(
     name = this.name,
     id = this.id,
     imageRef = this.imgRef,
-    activityIds = this.activityIds,
+    activitiesIds = this.activitiesIds,
     createdAt = this.createdAt,
     description = this.description,
     ownerId = this.ownerId,

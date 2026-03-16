@@ -35,8 +35,8 @@ class PlanCreationViewModel @Inject constructor(
     val exceptionHandler = CoroutineExceptionHandler { _, exception ->
     }
     fun create(){
-        var activityIds: List<String> = listOf()
-        activityIds = activitiesNamesInput
+        var activitiesIds: List<String> = listOf()
+        activitiesIds = activitiesNamesInput
             .split(',')
             .map { it.trim() }
             .filter { it.isNotEmpty() }
@@ -49,7 +49,7 @@ class PlanCreationViewModel @Inject constructor(
                 createdAt = Timestamp.now(),
                 ownerId = authRepository.getCurrentUserToken()!!,
                 rating = 0F,
-                activityIds = activityIds,
+                activitiesIds = activitiesIds,
                 visibility = visibility,
             )
             planRepository.insert(plan)

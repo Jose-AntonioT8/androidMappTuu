@@ -10,7 +10,7 @@ import com.google.firebase.Timestamp
 data class PlansEntity(
     @PrimaryKey
     val id:String,
-    val activityIds:List<String>?,
+    val activitiesIds:List<String>?,
     val createdAt:Timestamp,
     val description:String,
     val imgRef:String,
@@ -25,7 +25,7 @@ fun Plans.toEntity(): PlansEntity {
         id = this.id,
         name = this.name,
         description = this.description,
-        activityIds = this.activityIds,
+        activitiesIds = this.activitiesIds,
         createdAt = this.createdAt,
         imgRef = this.imgRef,
         ownerId = this.ownerId,
@@ -39,7 +39,7 @@ fun PlansEntity.toModel(): Plans {
         id = this.id,
         name = this.name,
         description = this.description,
-        activityIds = this.activityIds,
+        activitiesIds = this.activitiesIds,
         createdAt = this.createdAt,
         imgRef = this.imgRef,
         ownerId = this.ownerId,

@@ -51,7 +51,7 @@ fun ActivityDetailScreen(
                 name = uiState.name,
                 id = uiState.id,
                 imageRef = uiState.imageRef,
-                activityTypeId = uiState.activityTypeId,
+                activityTypeName = uiState.activityTypeName,
                 createdAt = uiState.createdAt,
                 description = uiState.description,
                 latitude = uiState.latitude,
@@ -100,7 +100,7 @@ fun ActivityDetailScreen(
 fun ActivityDetailContent(
     modifier: Modifier,
     id: String,
-    activityTypeId: String,
+    activityTypeName: String,
     createdAt: Timestamp,
     description: String,
     imageRef: String,
@@ -145,7 +145,7 @@ fun ActivityDetailContent(
                     )
                 }
 
-                ActivityTypeBadge(text = activityTypeId.uppercase())
+                ActivityTypeBadge(text = activityTypeName.uppercase())
             }
 
             Spacer(modifier = Modifier.height(20.dp))

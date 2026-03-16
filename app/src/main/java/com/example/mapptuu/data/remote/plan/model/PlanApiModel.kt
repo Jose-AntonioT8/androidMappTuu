@@ -5,7 +5,7 @@ typealias PlanListRemote = List<PlansListItemRemote>
 
 data class PlansListItemRemote(
     val id: String,
-    val activityIds: List<String>,
+    val activitiesIds: List<String>,
     val createdAt: Long,
     val description: String,
     val imgRef: String,
@@ -17,7 +17,7 @@ data class PlansListItemRemote(
 
 data class PlansRemote(
     val id: String,
-    val activityIds: List<String>?,
+    val activitiesIds: List<String>?,
     val createdAt: Long,
     val description: String,
     val imgRef: String,

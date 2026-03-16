@@ -55,7 +55,7 @@ fun PlanDetailScreen(
                 ownerId = uiState.ownerId,
                 visibility = uiState.visibility,
                 rating = uiState.rating,
-                activityIds = uiState.activityIds,
+                activityNames = uiState.activityNames,
             )/*
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onUpdatePlan(uiState.id)
@@ -86,7 +86,7 @@ fun PlanDetailContent(
     modifier: Modifier,
 
     id:String,
-    activityIds:List<String>?,
+    activityNames: List<String>,
     createdAt: Timestamp,
     description: String,
     imageRef: String,
@@ -177,13 +177,13 @@ fun PlanDetailContent(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                activityIds?.forEach { actId ->
+                activityNames.forEach { actName ->
                     Surface(
                         color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text(
-                            text = actId,
+                            text = actName,
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Medium

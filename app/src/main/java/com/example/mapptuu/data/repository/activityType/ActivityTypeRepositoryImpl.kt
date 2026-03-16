@@ -16,7 +16,20 @@ class ActivityTypeRepositoryImpl  @Inject constructor(
     }
 
     override suspend fun readOne(id: String): Result<ActivityTypes> {
-        return localDataSource.readOne(id)
+        val localResult = localDataSource.readOne(id)
+        if (localResult.isSuccess) return localResult
+
+        // Si el local esta vacio, refresca y lo intenta de nuevo la busqueda por id
+        refresh()
+        val refreshedLocalResult = localDataSource.readOne(id)
+        if (refreshedLocalResult.isSuccess) return refreshedLocalResult
+
+        // hace el fetch al remoto y lo carga localmente
+        val remoteResult = remoteDataSource.readOne(id)
+        if (remoteResult.isSuccess) {
+            localDataSource.insert(remoteResult.getOrNull()!!)
+        }
+        return remoteResult
     }
 
     override fun observe(): Flow<Result<List<ActivityTypes>>> {

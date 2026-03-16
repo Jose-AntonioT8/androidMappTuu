@@ -4,7 +4,7 @@ import com.google.firebase.Timestamp
 
 data class Plans(
  val id:String,
- val activityIds: List<String>?,
+ val activitiesIds: List<String>?,
  val createdAt: Timestamp,
  val description:String,
  val imgRef:String,

@@ -82,4 +82,6 @@
     <string name="notification_profile_picture_updated_title">Profile picture updated</string>
     <string name="notification_profile_picture_updated_text">Your profile picture has been updated successfully.</string>
 
+    <string name="use_profile_picture">Use as profile picture</string>
+    <string name="another_photo">Another photo</string>
 </resources>

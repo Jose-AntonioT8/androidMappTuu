@@ -3,8 +3,10 @@ package com.example.mapptuu.ui.camera
 import android.Manifest
 import androidx.camera.compose.CameraXViewfinder
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -17,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
@@ -54,24 +57,28 @@ fun CameraScreen(
                     contentDescription = "Foto capturada",
                     modifier = Modifier.fillMaxSize()
                 )
-                Button(
-                    onClick = {
-                        viewModel.saveProfilePicture(uri.toString())
-                        navController.popBackStack()
-                    },
-                    modifier = Modifier
-                        .padding(66.dp)
-                        .align(Alignment.BottomCenter)
+                Column(
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                        .padding(bottom = 56.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+
                 ) {
-                    Text("Usar como foto de perfil")
-                }
-                Button(
-                    onClick = { viewModel.clearCapturedImage() },
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(16.dp)
-                ) {
-                    Text("Otra foto")
+                    Button(
+                        onClick = {
+                            viewModel.saveProfilePicture(uri.toString())
+                            navController.popBackStack()
+                        },
+                    ) {
+                        Text(stringResource(R.string.use_profile_picture))
+                    }
+                    Button(
+                        onClick = { viewModel.clearCapturedImage() },
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+
+                    ) {
+                        Text(stringResource(R.string.another_photo))
+                    }
                 }
             }
         } ?: CameraPreview(
@@ -103,7 +110,8 @@ fun CameraPreview(
                 surfaceRequest = request,
                 modifier = Modifier.matchParentSize()
             )
-            Row(modifier = Modifier.align(Alignment.BottomCenter)) {
+            Row(modifier = Modifier.align(Alignment.BottomCenter)
+                .padding(bottom = 56.dp)) {
                 Button(
                     onClick = { viewModel.captureImage() },
                     modifier = Modifier

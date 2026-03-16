@@ -75,4 +75,7 @@
     <string name="notification_channel_profile_name">Actualizaciones de perfil</string>
     <string name="notification_profile_picture_updated_title">Foto de perfil actualizada</string>
     <string name="notification_profile_picture_updated_text">Tu foto de perfil se ha actualizado correctamente.</string>
+
+    <string name="use_profile_picture">Usar como foto de perfil</string>
+    <string name="another_photo">Otra foto</string>
 </resources>

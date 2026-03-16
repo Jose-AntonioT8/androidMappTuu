@@ -109,6 +109,8 @@ fun NavController.navigateToMap(){
     this.navigate(Route.Map)
 }
 
+
+
 fun NavController.navigateToSetting(){
     this.navigate(Route.Setting)
 }
@@ -132,7 +134,8 @@ fun NavGraphBuilder.mapDestination(
     onNavigateToPlanList: () -> Unit,
     onNavigateToProfile: () -> Unit,
     onNavigateToActivities: () -> Unit,
-    onNavigateToSetting: () -> Unit
+    onNavigateToSetting: () -> Unit,
+    onNavigateToLanding: () -> Unit,
 ){
     composable<Route.Map>{
         MapScreen(
@@ -142,6 +145,7 @@ fun NavGraphBuilder.mapDestination(
             onNavigateToProfile = onNavigateToProfile,
             onNavigateToActivities = onNavigateToActivities,
             onNavigateToSetting = onNavigateToSetting,
+            onNavigateToLanding= onNavigateToLanding,
         )
     }
 
@@ -212,6 +216,7 @@ fun NavGraphBuilder.activityListDestination(
     onNavigateToSetting: () -> Unit,
     onNavigateToMap: () -> Unit,
     onNavigateToProfile: () -> Unit,
+    onNavigateToLanding: () -> Unit,
 
 ) {
     composable<Route.ActivityList> {
@@ -236,6 +241,9 @@ fun NavGraphBuilder.activityListDestination(
             onNavigateToProfile = {
                 onNavigateToProfile()
             },
+            onNavigateToLanding = {
+                onNavigateToLanding()
+            }
         )
 
 
@@ -309,7 +317,7 @@ fun NavGraphBuilder.planListDestination(
     onNavigateToSetting: () -> Unit,
     onNavigateToMap: () -> Unit,
     onNavigateToProfile: () -> Unit,
-
+    onNavigateToLanding: () -> Unit,
 ) {
     composable<Route.PlanList> {
 
@@ -332,6 +340,9 @@ fun NavGraphBuilder.planListDestination(
             },
             onNavigateToProfile = {
                 onNavigateToProfile()
+            },
+            onNavigateToLanding = {
+                onNavigateToLanding()
             },
             navController = navController,
         )
@@ -393,11 +404,15 @@ fun NavGraphBuilder.registerPageDestination(
 
 fun NavGraphBuilder.profileDestination(
     navController: NavController,
-    onNavigateToCamera: () -> Unit
+    onNavigateToCamera: () -> Unit,
+    onNavigateToLanding: () -> Unit,
 ){
     composable<Route.Profile>{
         ProfileScreen(
-            navController
+            navController,
+            onNavigateToLanding = {
+                navController.navigateToLandingPage()
+            },
         )
 
     }

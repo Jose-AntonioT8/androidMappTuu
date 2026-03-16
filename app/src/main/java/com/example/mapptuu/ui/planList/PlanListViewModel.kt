@@ -28,7 +28,6 @@ class PlanListViewModel@Inject constructor(
     init {
         viewModelScope.launch {
             //Aqui refresca para traer datos de remoto a local
-            //TODO: Esto en un futuro haceerlo con workermanager
             try {
                 _uiState.value = ListUiState.Loading
                 planRepository.refresh()

@@ -30,7 +30,7 @@ fun Header(
         title = { Text(text = title) },
         navigationIcon = {
             if (onBackClick != null) {
-                IconButton(onClick = onBackClick) {
+                IconButton(onClick = onMenuClick) {
                     Image(
                         painterResource(id = R.drawable.logo),
                         contentDescription = stringResource(R.string.logo),

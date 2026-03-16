@@ -56,7 +56,8 @@ fun ActivityListScreen(
     viewModel: ActivityListViewModel = hiltViewModel(),
     onNavigateToMap: () -> Unit,
     onNavigateToSetting: () -> Unit,
-    navController: NavController
+    navController: NavController,
+    onNavigateToLanding: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -64,7 +65,7 @@ fun ActivityListScreen(
     Scaffold(
 
         topBar = {
-            Header() {  }
+            Header(onMenuClick = onNavigateToLanding) {  }
         },
         bottomBar = {
             Footer(
@@ -86,7 +87,7 @@ fun ActivityListScreen(
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(8.dp)
+                .padding(top =0.dp, bottom = 8.dp)
         ) {
             SearchBar(
                 viewModel = viewModel,
@@ -170,6 +171,7 @@ private fun SearchBar(
                         Modifier.size(18.dp)
                     )
             }
+            Spacer(modifier = Modifier.width(8.dp))
             Button(
                 onClick = onCreate
             ) {

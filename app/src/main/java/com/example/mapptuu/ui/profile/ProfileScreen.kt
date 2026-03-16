@@ -48,6 +48,7 @@ import com.example.mapptuu.ui.component.Header
 import com.example.mapptuu.ui.navigation.navigateToCamera
 import com.example.mapptuu.ui.navigation.navigateToLandingPage
 import android.Manifest.permission.POST_NOTIFICATIONS
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.LaunchedEffect
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -59,6 +60,7 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
+    onNavigateToLanding: () -> Unit
 ){
     val context = LocalContext.current
 
@@ -93,7 +95,7 @@ fun ProfileScreen(
 
     Scaffold (
         topBar = {
-            Header(onBackClick = { navController.popBackStack() })
+            Header(onMenuClick = onNavigateToLanding, onBackClick = { navController.popBackStack() })
         },
     ){ innerPadding ->
         Box(modifier = modifier
@@ -194,7 +196,8 @@ fun ProfileScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(Color.White, shape = RoundedCornerShape(12.dp))
-                                .padding(16.dp)
+                                .padding(8.dp),
+                            contentAlignment = Alignment.CenterStart
                         ) {
                             Text(
                                 text =java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())

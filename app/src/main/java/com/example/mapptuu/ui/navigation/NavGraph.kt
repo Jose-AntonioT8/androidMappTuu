@@ -45,12 +45,16 @@ fun NavGraph(){
                 onNavigateToSetting = {
                     navController.navigateToSetting()
                 },
+                onNavigateToLanding = {
+                    navController.navigateToLandingPage()
+                },
                 onNavigateToMap = {
                     navController.navigateToMap()
-                }
-            ) {
+                },
+                onNavigateToProfile = {
                 navController.navigateToProfile()
-            }
+            },
+            )
             activityCreationDestination(contentModifier,
                 onNavegationBack={
                     navController.navigateToActivityList()
@@ -90,6 +94,9 @@ fun NavGraph(){
                 },
                 onNavigateToProfile = {
                     navController.navigateToProfile()
+                },
+                onNavigateToLanding = {
+                    navController.navigateToLandingPage()
                 }
             )
             planDetailDestination(contentModifier,
@@ -143,6 +150,9 @@ fun NavGraph(){
                     navController.navigateToActivityList()
                 },
 
+                onNavigateToLanding = {
+                    navController.navigateToLandingPage()
+                },
                 onNavigateToSetting = {
                     navController.navigateToSetting()
                 }
@@ -151,6 +161,9 @@ fun NavGraph(){
                 navController,
                 onNavigateToCamera = {
                     navController.navigateToCamera()
+                },
+                onNavigateToLanding = {
+                    navController.navigateToLandingPage()
                 }
             )
 

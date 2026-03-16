@@ -50,6 +50,7 @@ import com.example.mapptuu.ui.component.Footer
 import com.example.mapptuu.ui.component.Header
 @Composable
 fun PlanListScreen (
+    onNavigateToLanding:() -> Unit,
     onCreate:()->Unit,
     onShowDetail: (String) -> Unit,
     onNavigateToSetting:() -> Unit,
@@ -65,7 +66,7 @@ fun PlanListScreen (
 
     Scaffold(
         topBar = {
-            Header() {  }
+            Header(onMenuClick = onNavigateToLanding) {  }
         },
         bottomBar = {
             Footer(
@@ -84,11 +85,12 @@ fun PlanListScreen (
         }
     )
     { innerPadding ->
+
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(8.dp)
-                .padding(innerPadding)
+                .padding(top=64.dp, bottom=8.dp)
+
         ) {
             SearchBar(
                 viewModel = viewModel,
@@ -114,6 +116,7 @@ fun PlanListScreen (
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp)
+                            .padding(innerPadding)
                     )
                 }
 

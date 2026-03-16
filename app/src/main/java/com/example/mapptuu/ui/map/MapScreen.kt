@@ -32,7 +32,8 @@ fun MapScreen(viewModel: MapViewModel = hiltViewModel(),
               onPlanList: () -> Unit,
               onNavigateToSetting: () -> Unit,
               onNavigateToActivities: () -> Unit,
-              onNavigateToProfile: () -> Unit
+              onNavigateToProfile: () -> Unit,
+              onNavigateToLanding: () -> Unit,
 ) {
     val activities by viewModel.activities.collectAsState()
 
@@ -44,7 +45,7 @@ fun MapScreen(viewModel: MapViewModel = hiltViewModel(),
 
     Scaffold(
         topBar = {
-            Header() {  }
+            Header(onMenuClick = onNavigateToLanding) {  }
         },
         bottomBar = {
             Footer(

@@ -38,34 +38,5 @@ fun Header(
                 }
             }
         },
-        actions = {
-            IconButton(onClick = {
-                menuExpanded = true }){
-                Image(
-                    painterResource(id = R.drawable.menu_burguer),
-                    contentDescription = stringResource(R.string.menu),
-                )
-            }
-            DropdownMenu(
-                expanded = menuExpanded,
-                onDismissRequest = { menuExpanded = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text(stringResource(R.string.profile)) },
-                    onClick = {
-                        menuExpanded = false
-
-                    }
-                )
-                DropdownMenuItem(
-                    text = { Text(stringResource(R.string.settings)) },
-                    onClick = {
-                        menuExpanded = false
-
-                    }
-                )
-
-            }
-        }
     )
 }

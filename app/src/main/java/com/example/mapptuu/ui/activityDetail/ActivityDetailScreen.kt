@@ -60,7 +60,7 @@ fun ActivityDetailScreen(
                 rating = uiState.rating,
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))/*
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onUpdateActivity(uiState.id)
             }
@@ -80,7 +80,7 @@ fun ActivityDetailScreen(
                 }
             }
             )
-            { Text(stringResource(R.string.delete_activity)) }
+            { Text(stringResource(R.string.delete_activity)) }*/
             Button(
                 onClick = {
                     onNavegationBack()

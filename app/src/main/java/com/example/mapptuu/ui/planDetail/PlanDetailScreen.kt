@@ -56,7 +56,7 @@ fun PlanDetailScreen(
                 visibility = uiState.visibility,
                 rating = uiState.rating,
                 activityIds = uiState.activityIds,
-            )
+            )/*
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onUpdatePlan(uiState.id)
             }
@@ -67,7 +67,7 @@ fun PlanDetailScreen(
                 onNavegationBack()
             }
             )
-            { Text(stringResource(R.string.delete_plan)) }
+            { Text(stringResource(R.string.delete_plan)) }*/
             Button(
                 onClick = { onNavegationBack() },
                 modifier = Modifier.fillMaxWidth(),

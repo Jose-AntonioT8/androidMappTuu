@@ -4,13 +4,19 @@ import com.example.mapptuu.data.remote.activity.ActivityApi
 import com.example.mapptuu.data.remote.activityType.ActivityTypeApi
 import com.example.mapptuu.data.remote.plan.PlanApi
 import com.example.mapptuu.data.remote.user.UserApi
+import com.example.mapptuu.data.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.runBlocking
+import okhttp3.Interceptor
+
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -21,12 +27,38 @@ class RemoteModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    fun provideRetrofit(authRepository: Lazy<AuthRepository>): Retrofit {
+        val authenticatorInterceptor = Interceptor { chain ->
+            val request = chain.request()
+            var token: String? = null
+            try {
+                token = runBlocking(Dispatchers.IO) {
+                    authRepository.get().getCurrentUserToken()
+                }
+            } catch (e: Exception) {
+            }
+
+            val authorizedRequest = if (!token.isNullOrBlank()) {
+                request.newBuilder()
+                    .header("Authorization", "Bearer $token")
+                    .build()
+            } else {
+                request
+            }
+
+            chain.proceed(authorizedRequest)
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(authenticatorInterceptor)
+            .build()
         return Retrofit.Builder()
-            .baseUrl("https://vercel-node-mapp-tuu.vercel.app")
+            .baseUrl("https://vercel-node-mapp-tuu.vercel.app/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+
 
     @Provides
     @Singleton

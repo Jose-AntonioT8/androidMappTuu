@@ -15,4 +15,10 @@ interface PlanRepository {
     suspend fun refresh()
 
     suspend fun insert(plans: Plans)
+
+    suspend fun update(plans: Plans)
+
+
+
+
 }

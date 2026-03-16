@@ -14,6 +14,7 @@ data class UsersEntity(
     val createdAt:Timestamp,
     val email:String,
     val name:String,
+    val photoUri: String? = null,
 )
 
 fun Users.toEntity(): UsersEntity {
@@ -22,6 +23,8 @@ fun Users.toEntity(): UsersEntity {
         name = this.name,
         email = this.email,
         createdAt = this.createdAt,
+        photoUri = this.photoUri
+
     )
 }
 
@@ -31,6 +34,7 @@ fun UsersEntity.toModel(): Users {
         name = this.name,
         createdAt = this.createdAt,
         email = this.email,
+        photoUri = this.photoUri
     )
 }
 fun List<UsersEntity>.toModel(): List<Users> {

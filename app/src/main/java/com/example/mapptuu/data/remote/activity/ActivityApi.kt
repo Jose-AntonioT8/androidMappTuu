@@ -2,6 +2,7 @@ package com.example.mapptuu.data.remote.activity
 
 import com.example.mapptuu.data.remote.activity.model.ActivityListRemote
 import com.example.mapptuu.data.remote.activity.model.ActivityRemote
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -24,7 +25,7 @@ interface ActivityApi {
     suspend fun delete(@Path("id") id: String)
 
     @POST("/api/activities")
-    suspend fun insert(@Body activity: ActivityRemote): Response<ActivityRemote>
+    suspend fun insert(@Body activity: ActivityRemote): Response<ResponseBody>
 
     @PATCH("/api/activities/{id}")
     suspend fun update(@Path("id") id: String, @Body activity: ActivityRemote): Response<ActivityRemote>

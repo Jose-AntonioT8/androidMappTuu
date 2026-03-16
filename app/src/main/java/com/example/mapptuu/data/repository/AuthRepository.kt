@@ -49,6 +49,7 @@ class AuthRepository @Inject constructor(
         return try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             AuthResult.Success(result.user)
+
         } catch (e: Exception) {
             AuthResult.Error(e)
         }

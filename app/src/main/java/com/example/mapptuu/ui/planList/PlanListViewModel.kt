@@ -4,7 +4,6 @@ import com.example.mapptuu.data.repository.plan.PlanRepository
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Plans
@@ -19,30 +18,29 @@ import javax.inject.Inject
 class PlanListViewModel@Inject constructor(
     private val planRepository: PlanRepository,
 ): ViewModel() {
+    private var fullList: List<ListItemUiState> = emptyList()
+
     private val _uiState : MutableStateFlow<ListUiState> =
         MutableStateFlow( ListUiState.Initial)
     val uiState : StateFlow<ListUiState>
         get()= _uiState.asStateFlow()
     init {
         viewModelScope.launch {
-            _uiState.value = ListUiState.Loading
+            //Aqui refresca para traer datos de remoto a local
+            try {
+                _uiState.value = ListUiState.Loading
+                planRepository.refresh()
+            } catch (e: Exception) {
+                _uiState.value = ListUiState.Error("Error al refrescar planes: ${e.message}")
+            }
+
             try {
                 planRepository.observe().collect { result ->
                     if (result.isSuccess) {
                         val plans = result.getOrNull()!!
-                        if (plans.isNotEmpty()){
-                            val uiPlans = plans.asListUiState()
-                            _uiState.value = ListUiState.Succes(uiPlans)
-                        }else {
-                            planRepository.refresh()
-                            planRepository.observe().collect { result ->
-                                val plans = result.getOrNull()!!
-                                if (plans.isNotEmpty()) {
-                                    val uiPlans = plans.asListUiState()
-                                    _uiState.value = ListUiState.Succes(uiPlans)
-                                }
-                            }
-                        }
+                        val uiPlans = plans.asListUiState()
+                        fullList = uiPlans
+                        _uiState.value = ListUiState.Succes(uiPlans)
                     } else {
                         val error = result.exceptionOrNull()?.message ?: "Error desconocido"
                         _uiState.value = ListUiState.Error("Error al cargar planes: $error")
@@ -51,7 +49,6 @@ class PlanListViewModel@Inject constructor(
             } catch (e: Exception) {
                 _uiState.value = ListUiState.Error("Excepción al cargar planes: ${e.message}")
             }
-            planRepository.refresh()
         }
     }
 
@@ -71,15 +68,21 @@ class PlanListViewModel@Inject constructor(
         if(acceptSearch()){
             viewModelScope.launch {
                 _uiState.value = ListUiState.Loading
-                try {
-                    val nombre = busquedaParametros.toString()
-                    val plansByName = planRepository.readdOneByName(nombre)
-                    val respuestaCorrecta = ListUiState.Succes(
-                        plansByName.toModel()
-                    )
-                    _uiState.value = respuestaCorrecta
-                } catch (e: Exception) {
-                    _uiState.value = ListUiState.Error("Error al cargar, no hay ningun plan con ese nombre: ${e.message}")
+                val query = busquedaParametros.trim().lowercase()
+
+                val palabras = query.split("\\s+".toRegex()).filter { it.isNotEmpty()}
+
+
+                val resultadosFiltrados = fullList.filter { plan ->
+                    val nombrePlan = plan.name.lowercase()
+                    palabras.any{ palabras ->
+                        nombrePlan.contains(palabras)
+                    }
+                }
+                if (resultadosFiltrados.isEmpty()) {
+                    _uiState.value = ListUiState.Error("No se encontraron planes")
+                } else {
+                    _uiState.value = ListUiState.Succes(resultadosFiltrados)
                 }
             }
         } else {
@@ -100,6 +103,7 @@ sealed class ListUiState{
 data class ListItemUiState(
     val id:String,
     val name:String,
+    val rating: Float,
     val image: String
 )
 
@@ -110,7 +114,8 @@ fun Plans.asListItemUiState(): ListItemUiState{
     return ListItemUiState(
         id = this.id,
         name = this.name,
-        image = this.imgRef
+        image = this.imgRef,
+        rating = this.rating
     )
 }
 fun List<Plans>.asListUiState():List<ListItemUiState>

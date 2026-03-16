@@ -9,11 +9,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.mapptuu.R
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.mapptuu.ui.component.Header
 
 @Composable
 fun ActivityUpdateScreen(
@@ -21,17 +25,22 @@ fun ActivityUpdateScreen(
     viewModel : ActivityUpdateViewModel = hiltViewModel(),
     onNavigateToDetails:(String)->Unit
 ){
+    Scaffold (
+        topBar = {
+            Header() {  }
+        },
+    ){ innerPadding ->
     Card(
-        modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp)
+        modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp).padding(innerPadding)
     ) {
-        Column(modifier = Modifier.padding(8.dp)  .verticalScroll(rememberScrollState())) {
+        Column(modifier = Modifier.padding(8.dp).verticalScroll(rememberScrollState())) {
             OutlinedTextField(
                 modifier = Modifier
-                    .fillMaxWidth()                    .padding(start = 8.dp),
+                    .fillMaxWidth().padding(start = 8.dp),
                 value = viewModel.name,
                 singleLine = true,
                 isError = viewModel.isError,
-                label = { Text("Nombre") },
+                label = { Text(stringResource(R.string.name)) },
                 onValueChange = { viewModel.name = it }
 
             )
@@ -41,7 +50,7 @@ fun ActivityUpdateScreen(
                 value = viewModel.description,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("Descripcion") },
+                label = { Text(stringResource(R.string.description)) },
                 onValueChange = { viewModel.description = it }
             )
             OutlinedTextField(
@@ -50,7 +59,7 @@ fun ActivityUpdateScreen(
                 value = viewModel.activityTypeId,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("ID del tipo de actividad") },
+                label = { Text(stringResource(R.string.activity_type_id)) },
                 onValueChange = { viewModel.activityTypeId = it }
             )
             OutlinedTextField(
@@ -59,7 +68,7 @@ fun ActivityUpdateScreen(
                 value = viewModel.longitude,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("Longitud ") },
+                label = { Text(stringResource(R.string.longitude)) },
                 onValueChange = { viewModel.longitude = it }
             )
             OutlinedTextField(
@@ -68,27 +77,28 @@ fun ActivityUpdateScreen(
                 value = viewModel.latitude,
                 singleLine = false,
                 isError = viewModel.isError,
-                label = { Text("Latitud ") },
+                label = { Text(stringResource(R.string.latitude)) },
                 onValueChange = { viewModel.latitude = it }
             )
-            Row(modifier = Modifier.padding(8.dp)){
+            Row(modifier = Modifier.padding(8.dp)) {
                 Button(
-                    onClick={
+                    onClick = {
                         viewModel.update()
                         onNavigateToDetails(viewModel.activityId)
                     },
-                ){
-                    Text("Actualizar")
+                ) {
+                    Text(stringResource(R.string.update))
                 }
                 Button(
-                    onClick={
+                    onClick = {
                         onNavigateToDetails(viewModel.activityId)
                     },
-                ){
-                    Text("Cancelar")
+                ) {
+                    Text(stringResource(R.string.cancel))
                 }
             }
         }
+    }
 
     }
 }

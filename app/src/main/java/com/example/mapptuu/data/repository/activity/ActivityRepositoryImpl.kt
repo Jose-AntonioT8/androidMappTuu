@@ -6,9 +6,8 @@ import com.example.mapptuu.di.LocalDataSource
 import com.example.mapptuu.di.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.collections.addAll
-import kotlin.text.insert
 
 
 class ActivityRepositoryImpl  @Inject constructor(
@@ -16,6 +15,13 @@ class ActivityRepositoryImpl  @Inject constructor(
     @LocalDataSource private val localDataSource: ActivityDataSource,
     private val scope: CoroutineScope
 ): ActivityRepository {
+
+    init {
+        scope.launch {
+            refresh()
+        }
+    }
+
     override suspend fun readAll(): Result<List<Activity>> {
         return remoteDataSource.readAll()
     }
@@ -34,17 +40,30 @@ class ActivityRepositoryImpl  @Inject constructor(
     }
 
     override suspend fun delete(id: String) {
+        remoteDataSource.delete(id)
         localDataSource.delete(id)
     }
 
     override suspend fun refresh() {
+        android.util.Log.d("ActivityRepository", "refresh() iniciado")
         val resultRemoteActivity = remoteDataSource.readAll()
         if (resultRemoteActivity.isSuccess) {
             localDataSource.addAll(resultRemoteActivity.getOrNull()!!)
+            android.util.Log.d("ActivityRepository", "refresh() bien")
+        }
+        else{
+            android.util.Log.d("ActivityRepository", "refresh() mal")
         }
     }
 
     override suspend fun insert(activity: Activity) {
+        remoteDataSource.insert(activity)
         localDataSource.insert(activity)
+    }
+
+    override suspend fun update(activity: Activity) {
+        remoteDataSource.update(activity)
+        localDataSource.update(activity)
+
     }
 }

@@ -1,4 +1,4 @@
-package com.example.mapptuu.ui.signup
+package com.example.mapptuu.ui.singup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.mapptuu.ui.navigation.Route
+import androidx.compose.ui.res.stringResource
+import com.example.mapptuu.R
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,7 +31,7 @@ fun SignUpScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    // Navegar cuando el registro sea exitoso
+
     LaunchedEffect(uiState.isSignUpSuccessful) {
         if (uiState.isSignUpSuccessful) {
             navController.navigate(Route.LandingPage)
@@ -44,14 +47,14 @@ fun SignUpScreen(
                 navigationIcon = {
                     TextButton(onClick = { navController.popBackStack() }) {
                         Text(
-                            text = "← Volver",
+                            stringResource(R.string.back),
                             color = Color.Black,
                             fontSize = 16.sp
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF2563EB) // blue-600
+                    containerColor = Color(0xFF2563EB)
                 )
             )
         }
@@ -59,7 +62,7 @@ fun SignUpScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFBFDBFE)) // blue-200
+                .background(Color(0xFFBFDBFE))
                 .padding(paddingValues)
         ) {
             Column(
@@ -70,12 +73,12 @@ fun SignUpScreen(
             ) {
                 Spacer(modifier = Modifier.height(40.dp))
 
-                // Avatar circular simple
+
                 Box(
                     modifier = Modifier
                         .size(96.dp)
                         .background(
-                            color = Color(0xFF60A5FA), // blue-400
+                            color = Color(0xFF60A5FA),
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
@@ -90,7 +93,7 @@ fun SignUpScreen(
 
                 // Título
                 Text(
-                    text = "Sign Up",
+                    stringResource(R.string.create_account),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF1E3A8A) // blue-900
@@ -103,7 +106,7 @@ fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Email",
+                        stringResource(R.string.email),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF1E3A8A),
@@ -114,7 +117,7 @@ fun SignUpScreen(
                         value = uiState.email,
                         onValueChange = { viewModel.onEmailChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("user1.mapptuu@gmail.com") },
+                        placeholder = { Text(stringResource(R.string.email_placeholder),) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         isError = uiState.emailError != null,
@@ -142,7 +145,7 @@ fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Name",
+                        text = stringResource(R.string.name),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF1E3A8A),
@@ -153,7 +156,7 @@ fun SignUpScreen(
                         value = uiState.name,
                         onValueChange = { viewModel.onNameChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("maptuu_user") },
+                        placeholder = { Text(stringResource(R.string.user_placeholder),) },
                         singleLine = true,
                         isError = uiState.nameError != null,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -180,7 +183,7 @@ fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Password",
+                        text = stringResource(R.string.password),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF1E3A8A),
@@ -191,7 +194,7 @@ fun SignUpScreen(
                         value = uiState.password,
                         onValueChange = { viewModel.onPasswordChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("************") },
+                        placeholder = { Text(stringResource(R.string.password_placeholder)) },
                         singleLine = true,
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -220,7 +223,7 @@ fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Repeat password",
+                        stringResource(R.string.repeat_password),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF1E3A8A),
@@ -231,7 +234,7 @@ fun SignUpScreen(
                         value = uiState.repeatPassword,
                         onValueChange = { viewModel.onRepeatPasswordChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("************") },
+                        placeholder = { stringResource(R.string.password_placeholder) },
                         singleLine = true,
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -275,7 +278,7 @@ fun SignUpScreen(
                         )
                     } else {
                         Text(
-                            text = "Sign up",
+                            text = stringResource(R.string.create_account),
                             fontWeight = FontWeight.SemiBold
                         )
                     }
@@ -306,9 +309,12 @@ fun SignUpScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Link a Login
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Text(
-                        text = "Already have an account? ",
+                        stringResource(R.string.have_account),
                         color = Color(0xFF1E3A8A),
                         fontSize = 14.sp
                     )
@@ -317,7 +323,7 @@ fun SignUpScreen(
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(
-                            text = "Log in",
+                            text = stringResource(R.string.login),
                             color = Color(0xFF2563EB),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium

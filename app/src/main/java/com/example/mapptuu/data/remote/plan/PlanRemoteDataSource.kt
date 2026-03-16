@@ -71,22 +71,16 @@ class PlanRemoteDataSource @Inject constructor(
 
     override suspend fun readOneByName(name: String): Result<List<Plans>> {
         try {
-            Log.d(TAG_PLAN, "Iniciando readOneByName(name=$name)")
             val response = api.readOneByName(name)
-            Log.d(TAG_PLAN, "Response code: ${response.code()}, isSuccessful: ${response.isSuccessful}")
             return if (response.isSuccessful) {
                 val body = response.body()!!
-                Log.d(TAG_PLAN, "Body obtenido, items: ${body.size}")
                 val finalList = body.map { it.toPlans() }
-                Log.d(TAG_PLAN, "readOneByName() completado, final list size: ${finalList.size}")
                 Result.success(finalList)
             } else {
                 val errorMsg = "Error code: ${response.code()}"
-                Log.e(TAG_PLAN, errorMsg)
                 Result.failure(RuntimeException(errorMsg))
             }
         } catch (e: Exception) {
-            Log.e(TAG_PLAN, "Excepción en readOneByName(): ${e.message}", e)
             return Result.failure(e)
         }
     }
@@ -108,12 +102,13 @@ class PlanRemoteDataSource @Inject constructor(
     }
 
     private fun Plans.toRemote(): PlansRemote {
+        val millis = this.createdAt.seconds * 1000L + this.createdAt.nanoseconds / 1_000_000
         return PlansRemote(
             id = this.id,
             name = this.name,
             description = this.description,
             activitiesIds = this.activitiesIds,
-            createdAt = this.createdAt,
+            createdAt = millis,
             imgRef = this.imgRef,
             ownerId = this.ownerId,
             rating = this.rating,
@@ -135,13 +130,14 @@ class PlanRemoteDataSource @Inject constructor(
         )
     }
 
-    fun PlansRemote.toExternal():Plans {
+    fun PlansRemote.toExternal(): Plans {
+        val timestamp = com.google.firebase.Timestamp(java.util.Date(this.createdAt))
         return Plans(
             id = this.id,
             name = this.name,
             description = this.description,
             activitiesIds = this.activitiesIds,
-            createdAt = this.createdAt,
+            createdAt = timestamp,
             imgRef = this.imgRef,
             ownerId = this.ownerId,
             rating = this.rating,
@@ -150,12 +146,13 @@ class PlanRemoteDataSource @Inject constructor(
     }
 
     private fun PlansListItemRemote.toPlans(): Plans {
+        val timestamp = com.google.firebase.Timestamp(java.util.Date(this.createdAt))
         return Plans(
             id = this.id,
             name = this.name,
             description = this.description,
             activitiesIds = this.activitiesIds,
-            createdAt = this.createdAt,
+            createdAt = timestamp,
             imgRef = this.imgRef,
             ownerId = this.ownerId,
             rating = this.rating,

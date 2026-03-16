@@ -1,5 +1,6 @@
 package com.example.mapptuu.ui.login
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -19,7 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.mapptuu.R
 import com.example.mapptuu.ui.navigation.Route
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.res.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,14 +50,14 @@ fun LoginScreen(
                 navigationIcon = {
                     TextButton(onClick = { navController.popBackStack() }) {
                         Text(
-                            text = "← Volver",
+                            text = stringResource(R.string.back),
                             color = Color.Black,
                             fontSize = 16.sp
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF2563EB) // blue-600
+                    containerColor = Color(0xFF2563EB)
                 )
             )
         }
@@ -60,7 +65,7 @@ fun LoginScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFBFDBFE)) // blue-200
+                .background(Color(0xFFBFDBFE))
                 .padding(paddingValues)
         ) {
             Column(
@@ -76,7 +81,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .size(96.dp)
                         .background(
-                            color = Color(0xFF60A5FA), // blue-400
+                            color = Color(0xFF60A5FA),
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
@@ -91,10 +96,10 @@ fun LoginScreen(
 
                 // Título
                 Text(
-                    text = "Login",
+                    text = stringResource(R.string.login),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF1E3A8A) // blue-900
+                    color = Color(0xFF1E3A8A)
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -104,7 +109,7 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Email",
+                        text = stringResource(R.string.email),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF1E3A8A),
@@ -115,7 +120,7 @@ fun LoginScreen(
                         value = uiState.email,
                         onValueChange = { viewModel.onEmailChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("tu@gmail.com") },
+                        placeholder = { Text(stringResource(R.string.email_placeholder)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         isError = uiState.emailError != null,
@@ -143,7 +148,7 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Password",
+                        text = stringResource(R.string.password),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF1E3A8A),
@@ -154,7 +159,7 @@ fun LoginScreen(
                         value = uiState.password,
                         onValueChange = { viewModel.onPasswordChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("************") },
+                        placeholder = { Text(stringResource(R.string.password_placeholder)) },
                         singleLine = true,
                         visualTransformation = if (passwordVisible)
                             VisualTransformation.None
@@ -162,13 +167,17 @@ fun LoginScreen(
                             PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         trailingIcon = {
-                            TextButton(
-                                onClick = { passwordVisible = !passwordVisible },
-                                modifier = Modifier.padding(0.dp)
-                            ) {
-                                Text(
-                                    text = if (passwordVisible) "👁️" else "👁️‍🗨️",
-                                    fontSize = 20.sp
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Image(
+                                    painter = painterResource(
+                                        if (passwordVisible)
+                                            R.drawable.ojoabierto
+                                        else
+                                            R.drawable.ojocerrado
+                                    ),
+                                    modifier = Modifier.size(24.dp),
+                                    contentDescription = "Visibilidad"
+
                                 )
                             }
                         },
@@ -212,7 +221,7 @@ fun LoginScreen(
                         )
                     } else {
                         Text(
-                            text = "Log in",
+                            text = stringResource(R.string.login),
                             fontWeight = FontWeight.SemiBold
                         )
                     }
@@ -231,9 +240,12 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Link a Sign Up
-                Row {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Text(
-                        text = "Don't have an account? ",
+                        text = stringResource(R.string.no_have_account),
                         color = Color(0xFF1E3A8A),
                         fontSize = 14.sp
                     )
@@ -242,7 +254,7 @@ fun LoginScreen(
                         contentPadding = PaddingValues(0.dp)
                     ) {
                         Text(
-                            text = "Sign up",
+                            text = stringResource(R.string.signup),
                             color = Color(0xFF2563EB),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium

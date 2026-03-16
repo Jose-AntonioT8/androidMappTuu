@@ -1,16 +1,13 @@
 package com.example.mapptuu.ui.planUpdate
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.model.Plans
-import com.example.mapptuu.data.repository.activity.ActivityRepository
 import com.example.mapptuu.data.repository.plan.PlanRepository
 import com.example.mapptuu.ui.navigation.Route
 import com.google.firebase.Timestamp
@@ -25,7 +22,7 @@ import javax.inject.Inject
 
 data class DetailUiState(
     val id:String="",
-    val activitiesIds:List<String> = listOf(),
+    val activitiesIds:List<String>? = listOf(),
     val createdAt: Timestamp=Timestamp.now(),
     val description:String="",
     val imageRef:String="",
@@ -44,7 +41,7 @@ class PlanUpdateViewModel @Inject constructor(
     var visibility by mutableStateOf(false)
     var name by mutableStateOf("")
     var description by mutableStateOf("")
-    var activitiesIdsInput by mutableStateOf("")
+    var activitiesIdInput by mutableStateOf("")
 
     var createdAt= Timestamp.now()
 
@@ -63,7 +60,8 @@ class PlanUpdateViewModel @Inject constructor(
             plan.let{plan ->
                 name = plan.getOrNull()!!.name
                 description = plan.getOrNull()!!.description
-                activitiesIdsInput = plan.getOrNull()!!.activitiesIds.toString()
+                activitiesIdInput = plan.getOrNull()?.activitiesIds?.joinToString(", ") ?: ""
+                createdAt = plan.getOrNull()!!.createdAt
                 imgRef = plan.getOrNull()!!.imgRef
                 ownerId = plan.getOrNull()!!.ownerId
                 rating = plan.getOrNull()!!.rating
@@ -79,8 +77,8 @@ class PlanUpdateViewModel @Inject constructor(
 
     }
     fun update(){
-        var idDeActividades: List<String> = listOf()
-        idDeActividades = activitiesIdsInput
+        var activitiesIds: List<String> = listOf()
+        activitiesIds = activitiesIdInput
             .split(',')
             .map { it.trim() }
             .filter { it.isNotEmpty() }
@@ -90,7 +88,7 @@ class PlanUpdateViewModel @Inject constructor(
                 name = name,
                 description = description,
                 imgRef = imgRef,
-                activitiesIds =idDeActividades,
+                activitiesIds = activitiesIds,
                 createdAt = createdAt,
                 visibility = visibility,
                 ownerId = ownerId,

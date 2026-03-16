@@ -1,5 +1,6 @@
 package com.example.mapptuu.di
 
+import android.content.Context
 import com.example.mapptuu.data.ActivityDataSource
 import com.example.mapptuu.data.ActivityTypesDataSource
 import com.example.mapptuu.data.PlansDataSource
@@ -20,31 +21,37 @@ import com.example.mapptuu.data.repository.plan.PlanRepository
 import com.example.mapptuu.data.repository.plan.PlanRepositoryImpl
 import com.example.mapptuu.data.repository.user.UserRepository
 import com.example.mapptuu.data.repository.user.UserRepositoryImpl
+import com.example.mapptuu.utils.NotificationHelper
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-// NEW MODULE for @Provides
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule { // Renamed from your original AppModule, now an object
+object AppModule {
 
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
     }
+
+    @Provides
+    @Singleton
+    fun provideNotificationHelper(@ApplicationContext context: Context): NotificationHelper {
+        return NotificationHelper(context)
+    }
 }
 
-// RENAMED MODULE for @Binds
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class BindingsModule { // Renamed to avoid confusion
+abstract class BindingsModule {
 
     @Binds
     @Singleton

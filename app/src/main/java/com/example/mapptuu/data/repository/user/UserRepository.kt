@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     suspend fun readAll(): Result<List<Users>>
-    suspend fun readOne(id:String): Result<Users>
+    suspend fun readOne(id: String?): Result<Users>
 
 
     fun observe(): Flow<Result<List<Users>>>
@@ -14,4 +14,18 @@ interface UserRepository {
     suspend fun refresh()
 
     suspend fun insert(users: Users)
+
+    fun getProfilePicture(id: String?): Flow<String?>
+
+    suspend fun updateProfilePicture(id: String?, uri: String)
+
+    suspend fun readUserByEmail(email: String?): Users?
+
+
+
+
+
+
+
+
 }

@@ -1,3 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MappTuu</string>
+
+
+    <string name="title">Tu compañero de aventuras</string>
+    <string name="explore_activities">Explorar Actividades</string>
+    <string name="expri">Descubre lugares y experiencias únicas.</string>
+    <string name="org">Organiza y gestiona tus próximas aventuras.</string>
+
+
+
+    <string name="name">Nombre</string>
+    <string name="description">Descripción</string>
+    <string name="search">Buscar</string>
+    <string name="create">Crear</string>
+    <string name="cancel">Cancelar</string>
+    <string name="update">Actualizar</string>
+    <string name="back">Volver atrás</string>
+
+    <string name="activity_type_id">Id del tipo de la actividad:</string>
+    <string name="activities">Actividades</string>
+    <string name="latitude">Latitud:</string>
+    <string name="longitude">Longitud:</string>
+    <string name="modify_activity">Modificar actividad</string>
+    <string name="delete_activity">Borrar actividad</string>
+    <string name="activities_ids">Id de las actividades:</string>
+
+    <string name="rating">Calificación</string>
+    <string name="created_at">Creado el</string>
+
+    <string name="my_plans">Mis planes</string>
+    <string name="create_plan">Crear plan</string>
+    <string name="plan">Plan</string>
+    <string name="modify_plan">Modificar plan</string>
+    <string name="delete_plan">Borrar plan</string>
+    <string name="is_public">Publico</string>
+    <string name="is_private">Privado</string>
+    <string name="name_activities">Nombre de las actividades</string>
+
+    <string name="profile">Perfil</string>
+    <string name="settings">Ajustes</string>
+
+    <string name="logout">Cerrar Sesión</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="signup">Registrarse</string>
+    <string name="create_account">Crear una cuenta</string>
+    <string name="have_account">¿Ya tienes una cuenta?</string>
+    <string name="no_have_account">¿No tienes una cuenta?</string>
+    <string name="profileFoto">Foto de perfil</string>
+    <string name="email_placeholder">tu@gmail.com</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password_placeholder">************</string>
+    <string name="password">Contraseña</string>
+    <string name="user_placeholder">Usuario_mapptuu</string>
+    <string name="repeat_password">Repetir contraseña</string>
+    <string name="userName">Nombre de usuario</string>
+    <string name="loading">Cargando...</string>
+    <string name="accountCreatedAt">Cuenta creada el </string>
+    <string name="changeProfilePhoto">Cambiar foto de perfil:</string>
+    <string name="fromCamera">Desde la cámara</string>
+    <string name="fromGalery">Desde la galería</string>
+
+    <string name="journey">Comienza tu viaje</string>
+    <string name="logo">Logo de la aplicación</string>
+    <string name="profile_desc">Perfil</string>
+    <string name="menu">Menú</string>
+    <string name="plans">Planes</string>
+    <string name="map_list">Mapa o lista</string>
+    <string name="user">Usuario</string>
+    <string name="id">Id:</string>
+    <string name="owner">ID del propietario:</string>
+
+
+    <string name="notification_channel_profile_name">Actualizaciones de perfil</string>
+    <string name="notification_profile_picture_updated_title">Foto de perfil actualizada</string>
+    <string name="notification_profile_picture_updated_text">Tu foto de perfil se ha actualizado correctamente.</string>
+
+    <string name="use_profile_picture">Usar como foto de perfil</string>
+    <string name="another_photo">Otra foto</string>
 </resources>

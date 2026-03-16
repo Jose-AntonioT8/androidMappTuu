@@ -10,13 +10,16 @@ import com.example.mapptuu.ui.activityCreation.ActivityCreationScreen
 import com.example.mapptuu.ui.activityDetail.ActivityDetailScreen
 import com.example.mapptuu.ui.activityList.ActivityListScreen
 import com.example.mapptuu.ui.activityUpdate.ActivityUpdateScreen
+import com.example.mapptuu.ui.camera.CameraScreen
 import com.example.mapptuu.ui.landingPage.LandingPageScreen
 import com.example.mapptuu.ui.login.LoginScreen
+import com.example.mapptuu.ui.map.MapScreen
 import com.example.mapptuu.ui.planCreation.PlanCreationScreen
 import com.example.mapptuu.ui.planDetail.PlanDetailScreen
 import com.example.mapptuu.ui.planList.PlanListScreen
 import com.example.mapptuu.ui.planUpdate.PlanUpdateScreen
-import com.example.mapptuu.ui.signup.SignUpScreen
+import com.example.mapptuu.ui.singup.SignUpScreen
+import com.example.mapptuu.ui.profile.ProfileScreen
 
 
 import kotlinx.serialization.Serializable
@@ -45,7 +48,16 @@ sealed class Route(val route:String) {
     data object PlanCreation:Route("plan_creation")
 
     @Serializable
+    data object Setting:Route("setting")
+
+    @Serializable
     data class PlanUpdate(val id:String):Route(route = "plan_update[$id]")
+
+    @Serializable
+    data object Profile: Route("profile")
+
+    @Serializable
+    data object Map: Route("map")
 
     @Serializable
     data object Login: Route("login")
@@ -55,6 +67,9 @@ sealed class Route(val route:String) {
 
     @Serializable
     data object LandingPage:Route("landing_page")
+
+    @Serializable
+    data object Camera:Route("camera")
 
 
 }
@@ -85,11 +100,55 @@ fun NavController.navigateToActivityList(){
 fun NavController.navigateToLandingPage(){
     this.navigate(Route.LandingPage)
 }
+
+fun NavController.navigateToProfile(){
+    this.navigate(Route.Profile)
+}
+
+fun NavController.navigateToMap(){
+    this.navigate(Route.Map)
+}
+
+
+
+fun NavController.navigateToSetting(){
+    this.navigate(Route.Setting)
+}
+
 fun NavController.navigateToLogin(){
     this.navigate(Route.Login)
 }
 fun NavController.navigateToRegister(){
     this.navigate(Route.Register)
+}
+
+fun NavController.navigateToCamera(){
+    this.navigate(Route.Camera)
+}
+
+
+
+fun NavGraphBuilder.mapDestination(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    onNavigateToPlanList: () -> Unit,
+    onNavigateToProfile: () -> Unit,
+    onNavigateToActivities: () -> Unit,
+    onNavigateToSetting: () -> Unit,
+    onNavigateToLanding: () -> Unit,
+){
+    composable<Route.Map>{
+        MapScreen(
+            modifier = modifier,
+            navController = navController,
+            onPlanList = onNavigateToPlanList,
+            onNavigateToProfile = onNavigateToProfile,
+            onNavigateToActivities = onNavigateToActivities,
+            onNavigateToSetting = onNavigateToSetting,
+            onNavigateToLanding= onNavigateToLanding,
+        )
+    }
+
 }
 
 fun NavGraphBuilder.activityCreationDestination(
@@ -150,29 +209,47 @@ fun NavGraphBuilder.activityUpdateDestination(
 }
 fun NavGraphBuilder.activityListDestination(
     modifier: Modifier = Modifier,
+    navController: NavController,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToCreation: () -> Unit,
-    onNavigateToPlanList: () -> Unit
+    onNavigateToPlanList: () -> Unit,
+    onNavigateToSetting: () -> Unit,
+    onNavigateToMap: () -> Unit,
+    onNavigateToProfile: () -> Unit,
+    onNavigateToLanding: () -> Unit,
 
 ) {
     composable<Route.ActivityList> {
 
         ActivityListScreen(
-            modifier = modifier,
             onCreate = {
                 onNavigateToCreation()
+            },
+            onShowDetail = { id ->
+                onNavigateToDetails(id)
             },
             onPlanList = {
                 onNavigateToPlanList()
             },
-            onShowDetail = { id ->
-                onNavigateToDetails(id)
+            onNavigateToSetting = {
+                onNavigateToSetting()
+            },
+            onNavigateToMap = {
+                onNavigateToMap()
+            },
+            navController = navController,
+            onNavigateToProfile = {
+                onNavigateToProfile()
+            },
+            onNavigateToLanding = {
+                onNavigateToLanding()
             }
         )
 
 
     }
 }
+
 
 
 fun NavGraphBuilder.planCreationDestination(
@@ -233,10 +310,14 @@ fun NavGraphBuilder.planUpdateDestination(
 }
 fun NavGraphBuilder.planListDestination(
     modifier: Modifier = Modifier,
+    navController: NavController,
     onNavigateToDetails: (String) -> Unit,
     onNavigateToCreation: () -> Unit,
-    onActivityList: () -> Unit
-
+    onActivityList: () -> Unit,
+    onNavigateToSetting: () -> Unit,
+    onNavigateToMap: () -> Unit,
+    onNavigateToProfile: () -> Unit,
+    onNavigateToLanding: () -> Unit,
 ) {
     composable<Route.PlanList> {
 
@@ -245,12 +326,25 @@ fun NavGraphBuilder.planListDestination(
             onCreate = {
                 onNavigateToCreation()
             },
-            onActivityList = {
-                onActivityList()
-            },
             onShowDetail = { id ->
                 onNavigateToDetails(id)
-            }
+            },
+            onNavigateActivityList = {
+                onActivityList()
+            },
+            onNavigateToSetting = {
+                onNavigateToSetting()
+            },
+            onNavigateToMap = {
+                onNavigateToMap()
+            },
+            onNavigateToProfile = {
+                onNavigateToProfile()
+            },
+            onNavigateToLanding = {
+                onNavigateToLanding()
+            },
+            navController = navController,
         )
 
 
@@ -264,6 +358,7 @@ fun NavGraphBuilder.landingPageDestination(
     onNavigateToRegister: () -> Unit,
     onNavigateToActivities:() -> Unit,
     onNavigateToPlans:() -> Unit,
+    onNavigateToProfile: () -> Unit,
 
 ){
     composable<Route.LandingPage> {
@@ -280,8 +375,10 @@ fun NavGraphBuilder.landingPageDestination(
             },
             onNavigateToPlans = {
                 onNavigateToPlans()
+            },
+            onNavigateToProfile = {
+                onNavigateToProfile()
             }
-
         )
     }
 }
@@ -302,5 +399,37 @@ fun NavGraphBuilder.registerPageDestination(
     composable<Route.Register>{
         SignUpScreen(navController)
 
+    }
+}
+
+fun NavGraphBuilder.profileDestination(
+    navController: NavController,
+    onNavigateToCamera: () -> Unit,
+    onNavigateToLanding: () -> Unit,
+){
+    composable<Route.Profile>{
+        ProfileScreen(
+            navController,
+            onNavigateToLanding = {
+                navController.navigateToLandingPage()
+            },
+        )
+
+    }
+    composable<Route.Camera>{
+        CameraScreen(navController)
+
+    }
+
+}
+fun NavGraphBuilder.cameraDestination(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+) {
+    composable<Route.Camera> {
+        CameraScreen(
+            modifier = modifier,
+            navController = navController
+        )
     }
 }

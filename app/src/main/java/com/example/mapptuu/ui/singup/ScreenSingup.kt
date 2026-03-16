@@ -1,4 +1,4 @@
-package com.example.mapptuu.ui.signup
+package com.example.mapptuu.ui.singup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import com.example.mapptuu.ui.navigation.Route
 import androidx.compose.ui.res.stringResource
 import com.example.mapptuu.R
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

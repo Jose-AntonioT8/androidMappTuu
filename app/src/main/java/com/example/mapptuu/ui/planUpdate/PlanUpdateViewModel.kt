@@ -1,16 +1,13 @@
 package com.example.mapptuu.ui.planUpdate
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.model.Plans
-import com.example.mapptuu.data.repository.activity.ActivityRepository
 import com.example.mapptuu.data.repository.plan.PlanRepository
 import com.example.mapptuu.ui.navigation.Route
 import com.google.firebase.Timestamp

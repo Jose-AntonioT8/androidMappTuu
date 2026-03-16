@@ -1,4 +1,4 @@
-package com.example.mapptuu.ui.signup
+package com.example.mapptuu.ui.singup
 
 import android.util.Patterns
 import androidx.lifecycle.ViewModel

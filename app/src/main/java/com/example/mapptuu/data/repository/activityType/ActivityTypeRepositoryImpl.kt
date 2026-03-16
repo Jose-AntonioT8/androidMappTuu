@@ -1,15 +1,11 @@
 package com.example.mapptuu.data.repository.activityType
 
 import com.example.mapptuu.data.ActivityTypesDataSource
-import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.model.ActivityTypes
 import com.example.mapptuu.di.LocalDataSource
 import com.example.mapptuu.di.RemoteDataSource
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-import kotlin.collections.addAll
-import kotlin.text.insert
 
 class ActivityTypeRepositoryImpl  @Inject constructor(
     @RemoteDataSource private val remoteDataSource: ActivityTypesDataSource,

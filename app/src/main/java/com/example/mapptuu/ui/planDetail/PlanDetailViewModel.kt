@@ -18,9 +18,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import com.google.firebase.Timestamp
 
-
-
-
 data class DetailUiState(
     val id:String="",
     val activityIds:List<String>? = listOf(),

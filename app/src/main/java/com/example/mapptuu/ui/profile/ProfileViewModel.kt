@@ -1,15 +1,12 @@
 package com.example.mapptuu.ui.profile
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Users
 import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.user.UserRepository
-import com.example.mapptuu.ui.activityList.asListUiState
 import com.example.mapptuu.ui.planList.ListUiState
-import com.example.mapptuu.ui.planList.asListUiState
 import com.example.mapptuu.utils.NotificationHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,8 +1,5 @@
 package com.example.mapptuu.ui.planCreation
 
-
-
-
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,13 +11,11 @@ import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.plan.PlanRepository
 import com.example.mapptuu.ui.planDetail.DetailUiState
 import com.google.firebase.Timestamp
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

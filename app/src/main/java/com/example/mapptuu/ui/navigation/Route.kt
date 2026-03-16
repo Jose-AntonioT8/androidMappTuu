@@ -18,7 +18,7 @@ import com.example.mapptuu.ui.planCreation.PlanCreationScreen
 import com.example.mapptuu.ui.planDetail.PlanDetailScreen
 import com.example.mapptuu.ui.planList.PlanListScreen
 import com.example.mapptuu.ui.planUpdate.PlanUpdateScreen
-import com.example.mapptuu.ui.signup.SignUpScreen
+import com.example.mapptuu.ui.singup.SignUpScreen
 import com.example.mapptuu.ui.profile.ProfileScreen
 
 

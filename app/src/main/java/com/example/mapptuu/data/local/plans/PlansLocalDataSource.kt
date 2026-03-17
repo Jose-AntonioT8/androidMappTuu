@@ -58,9 +58,10 @@ class PlansLocalDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun insert(plans: Plans) {
+    override suspend fun insert(plans: Plans): Plans {
         val entity = plans.toEntity()
         plansDao.insert(entity)
+        return plans
     }
 
 

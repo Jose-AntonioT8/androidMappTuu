@@ -12,6 +12,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -23,8 +24,16 @@ import com.example.mapptuu.ui.component.Header
 fun ActivityUpdateScreen(
     modifier : Modifier = Modifier,
     viewModel : ActivityUpdateViewModel = hiltViewModel(),
-    onNavigateToDetails:(String)->Unit
+    onNavigateToList:()->Unit
 ){
+    LaunchedEffect(viewModel.updateCompleted) {
+        viewModel.updateCompleted.collect { done ->
+            if (done) {
+                viewModel.consumeUpdateCompleted()
+                onNavigateToList()
+            }
+        }
+    }
     Scaffold (
         topBar = {
             Header() {  }
@@ -84,14 +93,13 @@ fun ActivityUpdateScreen(
                 Button(
                     onClick = {
                         viewModel.update()
-                        onNavigateToDetails(viewModel.activityId)
                     },
                 ) {
                     Text(stringResource(R.string.update))
                 }
                 Button(
                     onClick = {
-                        onNavigateToDetails(viewModel.activityId)
+                        onNavigateToList()
                     },
                 ) {
                     Text(stringResource(R.string.cancel))

@@ -60,9 +60,10 @@ class ActivityLocalDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun insert(activity: Activity) {
+    override suspend fun insert(activity: Activity): Activity {
         val entity = activity.toEntity()
         activityDao.insert(entity)
+        return activity
     }
 
 

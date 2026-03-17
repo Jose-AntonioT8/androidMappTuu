@@ -54,9 +54,10 @@ class PlanRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insert(plans: Plans) {
-        remoteDataSource.insert(plans)
-        localDataSource.insert(plans)
+    override suspend fun insert(plans: Plans): Plans {
+        val created = remoteDataSource.insert(plans)
+        localDataSource.insert(created)
+        return created
     }
 
     override suspend fun update(plans: Plans) {

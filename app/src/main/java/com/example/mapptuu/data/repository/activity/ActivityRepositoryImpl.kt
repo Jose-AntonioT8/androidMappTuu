@@ -56,9 +56,10 @@ class ActivityRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun insert(activity: Activity) {
-        remoteDataSource.insert(activity)
-        localDataSource.insert(activity)
+    override suspend fun insert(activity: Activity): Activity {
+        val created = remoteDataSource.insert(activity)
+        localDataSource.insert(created)
+        return created
     }
 
     override suspend fun update(activity: Activity) {

@@ -1,6 +1,7 @@
 package com.example.mapptuu.data.remote.plan
 
 import com.example.mapptuu.data.remote.plan.model.PlanListRemote
+import com.example.mapptuu.data.remote.plan.model.PlanUpsertRemote
 import com.example.mapptuu.data.remote.plan.model.PlansRemote
 import retrofit2.Response
 import retrofit2.http.Body
@@ -16,7 +17,7 @@ interface PlanApi {
     suspend fun readAll(): Response<PlanListRemote>
     @GET("/api/plans/{id}")
     suspend fun readOne(@Path("id") id: String): Response<PlansRemote>
-    @GET("/api/plans?name={name}")
+    @GET("/api/plans")
     suspend fun readOneByName(@Query("name") name: String): Response<PlanListRemote>
 
 
@@ -24,9 +25,9 @@ interface PlanApi {
     suspend fun delete(@Path("id") id: String)
 
     @POST("/api/plans")
-    suspend fun insert(@Body plans: PlansRemote): Response<PlansRemote>
+    suspend fun insert(@Body plans: PlanUpsertRemote): Response<PlansRemote>
 
     @PATCH("/api/plans/{id}")
-    suspend fun update(@Path("id") id: String, @Body plans: PlansRemote): Response<PlansRemote>
+    suspend fun update(@Path("id") id: String, @Body plans: PlanUpsertRemote): Response<PlansRemote>
 
 }

@@ -4,7 +4,9 @@ import com.example.mapptuu.data.ActivityDataSource
 import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.remote.activity.model.ActivityRemote
 import com.example.mapptuu.data.remote.activity.model.ActivityListItemRemote
+import com.example.mapptuu.data.remote.activity.model.ActivityUpsertRemote
 import com.google.firebase.Timestamp
+import com.google.gson.JsonPrimitive
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import java.util.Date
@@ -99,12 +101,13 @@ class ActivityRemoteDataSource  @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun insert(activity: Activity) {
-        val response = api.insert(activity.toRemote())
+    override suspend fun insert(activity: Activity): Activity {
+        val response = api.insert(activity.toUpsertRemote())
         if (!response.isSuccessful) {
             throw RuntimeException("Error al crear actividad: ${response.code()}")
         }
-        response.body()?.close()
+        val body = response.body() ?: throw RuntimeException("Respuesta vacía al crear actividad")
+        return body.toExternal()
     }
 
     override suspend fun delete(id: String) {
@@ -114,15 +117,14 @@ class ActivityRemoteDataSource  @Inject constructor(
     override suspend fun update(
         activity: Activity
     ) {
-        api.update(activity.id, activity.toRemote())
+        api.update(activity.id, activity.toUpsertRemote())
     }
 
-    private fun Activity.toRemote(): ActivityRemote {
+    private fun Activity.toUpsertRemote(): ActivityUpsertRemote {
         val millis = this.createdAt.seconds * 1000L + this.createdAt.nanoseconds / 1_000_000
-        return ActivityRemote(
-            id = this.id,
+        return ActivityUpsertRemote(
             activityTypeId = this.activityTypeId,
-            createdAt = millis,
+            createdAt = JsonPrimitive(millis),
             description = this.description,
             imageRef = this.imageRef,
             latitude = this.latitude,
@@ -148,7 +150,7 @@ class ActivityRemoteDataSource  @Inject constructor(
 
     }
     fun ActivityRemote.toExternal(): Activity {
-        val timestamp = Timestamp(Date(this.createdAt))
+        val timestamp = this.createdAt.toFirebaseTimestamp()
         return Activity(
             id = this.id,
             activityTypeId = this.activityTypeId,

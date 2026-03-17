@@ -194,16 +194,13 @@ fun NavGraphBuilder.activityDetailDestination(
 
 fun NavGraphBuilder.activityUpdateDestination(
     modifier:Modifier = Modifier,
-    onNavigateToDetails:(String)->Unit,
+    onNavigateToList:()->Unit,
 ){
     composable<Route.ActivityUpdate>{
             backStackEntry ->
         ActivityUpdateScreen (
             modifier = modifier,
-            onNavigateToDetails={
-                    id ->
-                onNavigateToDetails(id)
-            }
+            onNavigateToList = onNavigateToList
         )
     }
 }
@@ -295,16 +292,13 @@ fun NavGraphBuilder.planDetailDestination(
 
 fun NavGraphBuilder.planUpdateDestination(
     modifier:Modifier = Modifier,
-    onNavigateToDetails:(String)->Unit,
+    onNavigateToList:()->Unit,
 ){
     composable<Route.PlanUpdate>{
             backStackEntry ->
         PlanUpdateScreen(
             modifier = modifier,
-            onNavigateToDetails={
-                    id ->
-                onNavigateToDetails(id)
-            }
+            onNavigateToList = onNavigateToList
         )
     }
 }

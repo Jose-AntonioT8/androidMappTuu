@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,8 +28,16 @@ import com.example.mapptuu.ui.component.Header
 fun PlanUpdateScreen(
     modifier : Modifier = Modifier,
     viewModel : PlanUpdateViewModel = hiltViewModel(),
-    onNavigateToDetails:(String)->Unit
+    onNavigateToList:()->Unit
 ){
+    LaunchedEffect(viewModel.updateCompleted) {
+        viewModel.updateCompleted.collect { done ->
+            if (done) {
+                viewModel.consumeUpdateCompleted()
+                onNavigateToList()
+            }
+        }
+    }
     Scaffold(
         topBar = {
             Header() {  }
@@ -83,14 +92,13 @@ fun PlanUpdateScreen(
                 Button(
                     onClick = {
                         viewModel.update()
-                        onNavigateToDetails(viewModel.planId)
                     },
                 ) {
                     Text(stringResource(R.string.update))
                 }
                 Button(
                     onClick = {
-                        onNavigateToDetails(viewModel.planId)
+                        onNavigateToList()
                     },
                 ) {
                     Text(stringResource(R.string.cancel))

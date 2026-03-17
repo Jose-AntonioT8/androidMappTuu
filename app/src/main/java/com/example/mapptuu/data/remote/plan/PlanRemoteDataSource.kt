@@ -3,8 +3,14 @@ package com.example.mapptuu.data.remote.plan
 
 import com.example.mapptuu.data.PlansDataSource
 import com.example.mapptuu.data.model.Plans
+import com.example.mapptuu.data.remote.plan.model.PlanUpsertRemote
 import com.example.mapptuu.data.remote.plan.model.PlansRemote
 import com.example.mapptuu.data.remote.plan.model.PlansListItemRemote
+import com.google.firebase.Timestamp
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import java.util.Date
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -89,8 +95,13 @@ class PlanRemoteDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun insert(plans: Plans) {
-        api.insert(plans.toRemote())
+    override suspend fun insert(plans: Plans): Plans {
+        val response = api.insert(plans.toUpsertRemote())
+        if (!response.isSuccessful) {
+            throw RuntimeException("Error al crear plan: ${response.code()}")
+        }
+        val body = response.body() ?: throw RuntimeException("Respuesta vacía al crear plan")
+        return body.toExternal()
     }
 
     override suspend fun delete(id: String) {
@@ -98,17 +109,16 @@ class PlanRemoteDataSource @Inject constructor(
     }
 
     override suspend fun update( plans: Plans) {
-        api.update(plans.id, plans.toRemote())
+        api.update(plans.id, plans.toUpsertRemote())
     }
 
-    private fun Plans.toRemote(): PlansRemote {
+    private fun Plans.toUpsertRemote(): PlanUpsertRemote {
         val millis = this.createdAt.seconds * 1000L + this.createdAt.nanoseconds / 1_000_000
-        return PlansRemote(
-            id = this.id,
+        return PlanUpsertRemote(
             name = this.name,
             description = this.description,
             activitiesIds = this.activitiesIds,
-            createdAt = millis,
+            createdAt = JsonPrimitive(millis),
             imgRef = this.imgRef,
             ownerId = this.ownerId,
             rating = this.rating,
@@ -131,7 +141,7 @@ class PlanRemoteDataSource @Inject constructor(
     }
 
     fun PlansRemote.toExternal(): Plans {
-        val timestamp = com.google.firebase.Timestamp(java.util.Date(this.createdAt))
+        val timestamp = this.createdAt.toFirebaseTimestamp()
         return Plans(
             id = this.id,
             name = this.name,
@@ -158,5 +168,27 @@ class PlanRemoteDataSource @Inject constructor(
             rating = this.rating,
             visibility = this.visibility
         )
+    }
+
+    private fun JsonElement.toFirebaseTimestamp(): Timestamp {
+        return if (this.isJsonPrimitive && this.asJsonPrimitive.isNumber) {
+            Timestamp(Date(this.asLong))
+        } else if (this.isJsonObject) {
+            val obj: JsonObject = this.asJsonObject
+            val seconds = when {
+                obj.has("seconds") -> obj.get("seconds").asLong
+                obj.has("_seconds") -> obj.get("_seconds").asLong
+                else -> 0L
+            }
+            val nanos = when {
+                obj.has("nanoseconds") -> obj.get("nanoseconds").asInt
+                obj.has("_nanoseconds") -> obj.get("_nanoseconds").asInt
+                else -> 0
+            }
+            val millis = seconds * 1000 + (nanos / 1_000_000)
+            Timestamp(Date(millis))
+        } else {
+            Timestamp.now()
+        }
     }
 }

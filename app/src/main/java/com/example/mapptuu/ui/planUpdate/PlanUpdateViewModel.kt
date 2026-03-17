@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,6 +53,9 @@ class PlanUpdateViewModel @Inject constructor(
     private val _uiState : MutableStateFlow<DetailUiState> =
         MutableStateFlow(DetailUiState())
     val uiState : StateFlow<DetailUiState> = _uiState.asStateFlow()
+
+    private val _updateCompleted = MutableStateFlow(false)
+    val updateCompleted: StateFlow<Boolean> = _updateCompleted.asStateFlow()
     init {
         viewModelScope.launch {
             val route = savedStateHandle.toRoute<Route.PlanUpdate>()
@@ -82,7 +86,7 @@ class PlanUpdateViewModel @Inject constructor(
             .split(',')
             .map { it.trim() }
             .filter { it.isNotEmpty() }
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val plan = Plans(
                 id = planId,
                 name = name,
@@ -94,8 +98,13 @@ class PlanUpdateViewModel @Inject constructor(
                 ownerId = ownerId,
                 rating = rating,
             )
-            planRepository.insert(plan)
+            planRepository.update(plan)
+            _updateCompleted.update { true }
         }
+    }
+
+    fun consumeUpdateCompleted() {
+        _updateCompleted.update { false }
     }
 
     fun Plans.toDetailUiState(): DetailUiState = DetailUiState(

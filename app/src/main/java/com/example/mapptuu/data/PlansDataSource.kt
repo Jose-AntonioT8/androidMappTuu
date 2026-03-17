@@ -12,7 +12,7 @@ interface PlansDataSource {
 
     suspend fun readOneByName(name: String): Result<List<Plans>>
     suspend fun isError()
-    suspend fun insert(plans: Plans)
+    suspend fun insert(plans: Plans): Plans
 
     suspend fun delete(id:String)
 

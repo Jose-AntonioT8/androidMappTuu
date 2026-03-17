@@ -69,9 +69,8 @@ fun NavGraph(){
                 }
             )
             activityUpdateDestination(contentModifier,
-                onNavigateToDetails={
-                    navController.navigateToActivityDetail(it)
-
+                onNavigateToList = {
+                    navController.navigateToActivityList()
                 }
             )
             planListDestination(
@@ -113,8 +112,8 @@ fun NavGraph(){
                 }
             )
             planUpdateDestination(contentModifier,
-                onNavigateToDetails= {
-                    navController.navigateToPlanDetail(it)
+                onNavigateToList = {
+                    navController.navigateToPlanList()
                 }
             )
             landingPageDestination(contentModifier,

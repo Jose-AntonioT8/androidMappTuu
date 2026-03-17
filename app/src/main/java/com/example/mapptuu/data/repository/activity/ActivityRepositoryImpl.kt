@@ -23,7 +23,7 @@ class ActivityRepositoryImpl  @Inject constructor(
     }
 
     override suspend fun readAll(): Result<List<Activity>> {
-        return remoteDataSource.readAll()
+        return localDataSource.readAll()
     }
 
     override suspend fun readOne(id: String): Result<Activity> {

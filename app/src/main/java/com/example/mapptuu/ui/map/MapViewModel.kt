@@ -6,10 +6,12 @@ import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.repository.activity.ActivityRepository
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -27,18 +29,15 @@ class MapViewModel @Inject constructor(
         loadActivity()
     }
 
-    fun loadActivity(){
+    fun loadActivity() {
         viewModelScope.launch {
-            val result = activityRepository.readAll()
-            result.onSuccess {
-                activityList -> _activities.value = activityList
-            }.onFailure {
-
+            val result = withContext(Dispatchers.IO) {
+                activityRepository.readAll()
             }
-
+            result.onSuccess { activityList ->
+                _activities.value = activityList
+            }
         }
-
-
     }
 
 }

@@ -52,7 +52,6 @@ fun ActivityUpdateScreen(
     Card(
         modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp).padding(innerPadding)
     ) {
-        val focusManager = LocalFocusManager.current
         var expanded by remember { mutableStateOf(false) }
         val activityTypes = viewModel.activityTypes
         val selectedTypeName = activityTypes.firstOrNull { it.id == viewModel.activityTypeId }?.name
@@ -78,6 +77,8 @@ fun ActivityUpdateScreen(
                 label = { Text(stringResource(R.string.description)) },
                 onValueChange = { viewModel.description = it }
             )
+            //lista en forma desplegable para elegir un tipo de actividad
+
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded },
@@ -92,24 +93,23 @@ fun ActivityUpdateScreen(
                     singleLine = true,
                     isError = viewModel.isError,
                     label = { Text(stringResource(R.string.activity_type_id)) },
+                    //icono para hacer el dropdown
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier
-                        .menuAnchor()
                         .fillMaxWidth(),
                 )
                 ExposedDropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                 ) {
+                    //el texto que muestra es el nombre del tipo de actividad y guarda el id para enviarlo al remote
                     activityTypes.forEach { type ->
                         DropdownMenuItem(
                             text = { Text(type.name) },
                             onClick = {
                                 viewModel.activityTypeId = type.id
                                 expanded = false
-                                focusManager.clearFocus()
-                            },
-                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                            }
                         )
                     }
                 }

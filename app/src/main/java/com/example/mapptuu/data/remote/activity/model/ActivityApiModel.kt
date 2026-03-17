@@ -31,10 +31,10 @@ data class ActivityRemote(
     val rating: Float
 )
 
-/**
- * Body para crear/actualizar sin enviar `id`.
- * El `id` debe venir del backend (docRef.id) y no del cliente.
- */
+
+ // Body para crear/actualizar sin enviar `id`.
+ // El `id` debe venir del backend (docRef.id) y no del cliente.
+
 data class ActivityUpsertRemote(
     val activityTypeId: String,
     val createdAt: JsonElement,

@@ -198,11 +198,11 @@ class ActivityRemoteDataSource  @Inject constructor(
                 obj.has("_nanoseconds") -> obj.get("_nanoseconds").asInt
                 else -> 0
             }
-            // Convert seconds/nanos to Date millis
+            // Convertidor de seconds/nanos a Date millis para guardarlo correctamente
             val millis = seconds * 1000 + (nanos / 1_000_000)
             Timestamp(Date(millis))
         } else {
-            // Fallback to now if unexpected
+            // Fallback a ahora si hay algun error
             Timestamp.now()
         }
     }

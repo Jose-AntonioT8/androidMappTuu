@@ -63,7 +63,6 @@ class PlanUpdateViewModel @Inject constructor(
     val updateCompleted: StateFlow<Boolean> = _updateCompleted.asStateFlow()
     init {
         viewModelScope.launch {
-            // Actividades disponibles para el selector (cache local, con refresh remoto en background)
             activityRepository.refresh()
             activityRepository.observe().collectLatest { result ->
                 if (result.isSuccess) {

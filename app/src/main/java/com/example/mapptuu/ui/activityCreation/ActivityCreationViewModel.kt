@@ -53,8 +53,6 @@ class ActivityCreationViewModel @Inject constructor(
             }
         }
     }
-    val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-    }
     fun create(){
         viewModelScope.launch {
             val activity = Activity(

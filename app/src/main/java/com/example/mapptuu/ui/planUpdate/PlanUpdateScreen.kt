@@ -57,7 +57,6 @@ fun PlanUpdateScreen(
     Card(
         modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp).padding(innerPadding)
     ) {
-        val focusManager = LocalFocusManager.current
         var expanded by remember { mutableStateOf(false) }
 
         Column(
@@ -82,11 +81,18 @@ fun PlanUpdateScreen(
                     .fillMaxWidth()
                     .padding(start = 8.dp),
             ) {
-                val selectedCount = viewModel.selectedActivityIds.size
-                val fieldValue = if (selectedCount == 0) {
-                    ""
-                } else {
-                    stringResource(R.string.name_activities) + ": " + selectedCount
+                //actividades para mostrar en el dropdown
+                val selectedNames = viewModel.activities
+                    .filter { viewModel.selectedActivityIds.contains(it.id) }
+                    .map { it.name }
+                    .toList()
+                //cuando seleccionemos 2 o mas actividades se concatenaran con ,
+                val fullText = selectedNames.joinToString(", ")
+                //si hay mas de 35 caracteres, se borran tres y se ponen tres puntos, para que quede mejor
+                val fieldValue = when {
+                    selectedNames.isEmpty() -> ""
+                    fullText.length <= 35 -> fullText
+                    else -> fullText.take(32) + "…"
                 }
 
                 OutlinedTextField(
@@ -96,18 +102,18 @@ fun PlanUpdateScreen(
                     singleLine = true,
                     isError = viewModel.isError,
                     label = { Text(stringResource(R.string.name_activities)) },
+                    //icono para hacer el dropdown
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier
                         .menuAnchor()
                         .fillMaxWidth(),
                 )
-
+                //en este caso es de multiple seleccion
                 ExposedDropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                 ) {
                     viewModel.activities
-                        .sortedBy { it.name.lowercase() }
                         .forEach { activity ->
                             val checked = viewModel.selectedActivityIds.contains(activity.id)
                             DropdownMenuItem(
@@ -120,9 +126,7 @@ fun PlanUpdateScreen(
                                 },
                                 onClick = {
                                     viewModel.toggleActivitySelection(activity.id)
-                                    focusManager.clearFocus()
-                                },
-                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                }
                             )
                         }
                 }

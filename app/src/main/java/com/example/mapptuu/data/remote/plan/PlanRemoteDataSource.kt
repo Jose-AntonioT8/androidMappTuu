@@ -156,7 +156,7 @@ class PlanRemoteDataSource @Inject constructor(
     }
 
     private fun PlansListItemRemote.toPlans(): Plans {
-        val timestamp = com.google.firebase.Timestamp(java.util.Date(this.createdAt))
+        val timestamp = Timestamp(Date(this.createdAt))
         return Plans(
             id = this.id,
             name = this.name,

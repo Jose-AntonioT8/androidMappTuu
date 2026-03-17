@@ -29,10 +29,10 @@ data class PlansRemote(
     val visibility: Boolean
 )
 
-/**
- * Body para crear/actualizar sin enviar `id`.
- * El `id` debe venir del backend (docRef.id) y no del cliente.
- */
+
+ // Body para crear/actualizar sin enviar `id`.
+ // El `id` debe venir del backend (docRef.id) y no del cliente.
+
 data class PlanUpsertRemote(
     val activitiesIds: List<String>?,
     val createdAt: JsonElement,

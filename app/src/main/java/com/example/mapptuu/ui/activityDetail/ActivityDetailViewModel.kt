@@ -57,14 +57,12 @@ class ActivityDetailViewModel @Inject constructor(
                     .getOrNull()
                     ?.name
                     ?: detail.activityTypeId
-    Log.d("ActivityDetailViewModel", "Activity type name: $activityTypeName")
                 _uiState.value = detail.copy(activityTypeName = activityTypeName)
             }
 
         }
     }
-    val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-    }
+
     suspend fun delete(id:String){
             activityRepository.delete(id)
 

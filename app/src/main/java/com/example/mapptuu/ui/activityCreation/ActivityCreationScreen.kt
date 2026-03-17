@@ -20,13 +20,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.mapptuu.R
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.platform.LocalFocusManager
 import com.example.mapptuu.ui.component.Header
 
@@ -47,7 +45,6 @@ fun ActivityCreationScreen (
             modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp)
                 .padding(innerPadding)
         ) {
-            val focusManager = LocalFocusManager.current
             var expanded by remember { mutableStateOf(false) }
             val activityTypes = viewModel.activityTypes
             val selectedTypeName = activityTypes.firstOrNull { it.id == viewModel.activityTypeId }?.name
@@ -65,6 +62,7 @@ fun ActivityCreationScreen (
                     onValueChange = { viewModel.name = it }
 
                 )
+                //lista en forma desplegable para elegir un tipo de actividad
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = !expanded },
@@ -79,9 +77,9 @@ fun ActivityCreationScreen (
                         singleLine = true,
                         isError = viewModel.isError,
                         label = { Text(stringResource(R.string.activity_type_id)) },
+                        //icono para hacer el dropdown
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                         modifier = Modifier
-                            .menuAnchor()
                             .fillMaxWidth(),
                     )
                     ExposedDropdownMenu(
@@ -89,14 +87,13 @@ fun ActivityCreationScreen (
                         onDismissRequest = { expanded = false },
                     ) {
                         activityTypes.forEach { type ->
+                            //el texto que muestra es el nombre del tipo de actividad y guarda el id para enviarlo al remote
                             DropdownMenuItem(
                                 text = { Text(type.name) },
                                 onClick = {
                                     viewModel.activityTypeId = type.id
                                     expanded = false
-                                    focusManager.clearFocus()
-                                },
-                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                }
                             )
                         }
                     }

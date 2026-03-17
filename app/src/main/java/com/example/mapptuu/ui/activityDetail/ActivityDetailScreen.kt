@@ -60,7 +60,7 @@ fun ActivityDetailScreen(
                 rating = uiState.rating,
             )
 
-            Spacer(modifier = Modifier.height(16.dp))/*
+            Spacer(modifier = Modifier.height(16.dp))
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onUpdateActivity(uiState.id)
             }
@@ -74,13 +74,12 @@ fun ActivityDetailScreen(
                         onNavegationBack()
                     } catch (e: Exception) {
                         android.util.Log.e("ActivityDetail", "Error al borrar: ${e.message}", e)
-                        // Opción: mostrar mensaje al usuario o igualmente volver atrás
                         onNavegationBack()
                     }
                 }
             }
             )
-            { Text(stringResource(R.string.delete_activity)) }*/
+            { Text(stringResource(R.string.delete_activity)) }
             Button(
                 onClick = {
                     onNavegationBack()

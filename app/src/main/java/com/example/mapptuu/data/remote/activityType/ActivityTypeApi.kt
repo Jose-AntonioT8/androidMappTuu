@@ -1,7 +1,6 @@
 package com.example.mapptuu.data.remote.activityType
 
 import com.example.mapptuu.data.remote.activityType.model.ActivityTypesRemote
-import com.example.mapptuu.data.remote.activityType.model.ActivityTypesListRemote
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -13,10 +12,10 @@ import retrofit2.http.Query
 
 interface ActivityTypeApi  {
     @GET("/api/activityTypes")
-    suspend fun readAll(): Response<ActivityTypesListRemote>
+    suspend fun readAll(): Response<List<ActivityTypesRemote>>
     @GET("/api/activityTypes/{id}")
     suspend fun readOne(@Path("id") id: String): Response<ActivityTypesRemote>
-    @GET("/api/activityTypes?name={name}")
+    @GET("/api/activityTypes")
     suspend fun readOneByName(@Query("name") name: String): Response<List<ActivityTypesRemote>>
 
 

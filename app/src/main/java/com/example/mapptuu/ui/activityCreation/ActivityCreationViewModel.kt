@@ -37,11 +37,18 @@ class ActivityCreationViewModel @Inject constructor(
         get()= _uiState.asStateFlow()
     init {
         viewModelScope.launch {
-            // Al entrar en creación, refresca remoto → guarda en local → observa local
+            val remoteResult = activityTypeRepository.readAll()
+            if (remoteResult.isSuccess) {
+                activityTypes = remoteResult.getOrNull().orEmpty()
+            }
+
             activityTypeRepository.refresh()
             activityTypeRepository.observe().collectLatest { result ->
                 if (result.isSuccess) {
-                    activityTypes = result.getOrNull().orEmpty()
+                    val local = result.getOrNull().orEmpty()
+                    activityTypes = (activityTypes + local)
+                        .distinctBy { it.id }
+                        .sortedBy { it.name.lowercase() }
                 }
             }
         }

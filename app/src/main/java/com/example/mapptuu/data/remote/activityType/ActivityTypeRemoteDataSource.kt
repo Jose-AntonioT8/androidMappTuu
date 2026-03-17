@@ -2,7 +2,6 @@ package com.example.mapptuu.data.remote.activityType
 
 import com.example.mapptuu.data.ActivityTypesDataSource
 import com.example.mapptuu.data.model.ActivityTypes
-import com.example.mapptuu.data.remote.activityType.model.ActivityTypesListItemRemote
 import com.example.mapptuu.data.remote.activityType.model.ActivityTypesRemote
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -35,8 +34,8 @@ class ActivityTypeRemoteDataSource   @Inject constructor(
         try {
             val response = api.readAll()
             return if (response.isSuccessful) {
-                val body = response.body() ?: return Result.success(emptyList())
-                Result.success(body.items.map { it.toExternal() })
+                val body = response.body().orEmpty()
+                Result.success(body.map { it.toExternal() })
             } else {
                 Result.failure(RuntimeException("Error code: ${response.code()}"))
             }
@@ -88,15 +87,6 @@ class ActivityTypeRemoteDataSource   @Inject constructor(
             color = this.color,
             description = this.description,
             name = this.name
-        )
-    }
-
-    private fun ActivityTypesListItemRemote.toExternal(): ActivityTypes {
-        return ActivityTypes(
-            id = this.id,
-            color = this.color,
-            description = this.description,
-            name = this.name,
         )
     }
 }

@@ -7,7 +7,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.example.mapptuu.data.model.Activity
 import com.example.mapptuu.data.model.Plans
+import com.example.mapptuu.data.repository.activity.ActivityRepository
 import com.example.mapptuu.data.repository.plan.PlanRepository
 import com.example.mapptuu.ui.navigation.Route
 import com.google.firebase.Timestamp
@@ -16,6 +18,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,13 +39,15 @@ data class DetailUiState(
 @HiltViewModel
 class PlanUpdateViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val planRepository: PlanRepository
+    private val planRepository: PlanRepository,
+    private val activityRepository: ActivityRepository,
 ): ViewModel() {
     var isError =false
     var visibility by mutableStateOf(false)
     var name by mutableStateOf("")
     var description by mutableStateOf("")
-    var activitiesIdInput by mutableStateOf("")
+    var activities by mutableStateOf<List<Activity>>(emptyList())
+    var selectedActivityIds by mutableStateOf<Set<String>>(emptySet())
 
     var createdAt= Timestamp.now()
 
@@ -58,13 +63,23 @@ class PlanUpdateViewModel @Inject constructor(
     val updateCompleted: StateFlow<Boolean> = _updateCompleted.asStateFlow()
     init {
         viewModelScope.launch {
+            // Actividades disponibles para el selector (cache local, con refresh remoto en background)
+            activityRepository.refresh()
+            activityRepository.observe().collectLatest { result ->
+                if (result.isSuccess) {
+                    activities = result.getOrNull().orEmpty()
+                }
+            }
+        }
+
+        viewModelScope.launch {
             val route = savedStateHandle.toRoute<Route.PlanUpdate>()
             planId = route.id
             val plan = planRepository.readOne(planId)
             plan.let{plan ->
                 name = plan.getOrNull()!!.name
                 description = plan.getOrNull()!!.description
-                activitiesIdInput = plan.getOrNull()?.activitiesIds?.joinToString(", ") ?: ""
+                selectedActivityIds = plan.getOrNull()?.activitiesIds?.toSet() ?: emptySet()
                 createdAt = plan.getOrNull()!!.createdAt
                 imgRef = plan.getOrNull()!!.imgRef
                 ownerId = plan.getOrNull()!!.ownerId
@@ -81,18 +96,13 @@ class PlanUpdateViewModel @Inject constructor(
 
     }
     fun update(){
-        var activitiesIds: List<String> = listOf()
-        activitiesIds = activitiesIdInput
-            .split(',')
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
         viewModelScope.launch(exceptionHandler) {
             val plan = Plans(
                 id = planId,
                 name = name,
                 description = description,
                 imgRef = imgRef,
-                activitiesIds = activitiesIds,
+                activitiesIds = selectedActivityIds.toList(),
                 createdAt = createdAt,
                 visibility = visibility,
                 ownerId = ownerId,
@@ -118,6 +128,12 @@ class PlanUpdateViewModel @Inject constructor(
         visibility = this.visibility,
         rating = this.rating,
     )
+
+    fun toggleActivitySelection(activityId: String) {
+        selectedActivityIds =
+            if (selectedActivityIds.contains(activityId)) selectedActivityIds - activityId
+            else selectedActivityIds + activityId
+    }
 
 }
 

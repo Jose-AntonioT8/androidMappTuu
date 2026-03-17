@@ -8,8 +8,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Activity
+import com.example.mapptuu.data.model.ActivityTypes
 import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.activity.ActivityRepository
+import com.example.mapptuu.data.repository.activityType.ActivityTypeRepository
 import com.example.mapptuu.ui.activityDetail.DetailUiState
 import com.google.firebase.Timestamp
 
@@ -18,6 +20,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,14 +28,23 @@ import javax.inject.Inject
 class ActivityCreationViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val activityRepository: ActivityRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val activityTypeRepository: ActivityTypeRepository,
 ): ViewModel() {
     private val _uiState : MutableStateFlow<DetailUiState> =
         MutableStateFlow(DetailUiState())
     val uiState : StateFlow<DetailUiState>
         get()= _uiState.asStateFlow()
     init {
-
+        viewModelScope.launch {
+            // Al entrar en creación, refresca remoto → guarda en local → observa local
+            activityTypeRepository.refresh()
+            activityTypeRepository.observe().collectLatest { result ->
+                if (result.isSuccess) {
+                    activityTypes = result.getOrNull().orEmpty()
+                }
+            }
+        }
     }
     val exceptionHandler = CoroutineExceptionHandler { _, exception ->
     }
@@ -59,6 +71,7 @@ class ActivityCreationViewModel @Inject constructor(
     var activityTypeId by mutableStateOf("")
     var longitude by mutableStateOf("")
     var latitude by mutableStateOf("")
+    var activityTypes by mutableStateOf<List<ActivityTypes>>(emptyList())
 
 }
 

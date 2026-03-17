@@ -2,6 +2,7 @@ package com.example.mapptuu.data.remote.activityType
 
 import com.example.mapptuu.data.ActivityTypesDataSource
 import com.example.mapptuu.data.model.ActivityTypes
+import com.example.mapptuu.data.remote.activityType.model.ActivityTypesListItemRemote
 import com.example.mapptuu.data.remote.activityType.model.ActivityTypesRemote
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -33,16 +34,9 @@ class ActivityTypeRemoteDataSource   @Inject constructor(
     override suspend fun readAll(): Result<List<ActivityTypes>> {
         try {
             val response = api.readAll()
-            val finalList = mutableListOf<ActivityTypes>()
             return if (response.isSuccessful) {
-                val body = response.body()!!
-                for (result in body.items) {
-                    val remoteActivityTypes = readOne(id = result.id)
-                    remoteActivityTypes.let {
-                        finalList.add(remoteActivityTypes.toActivityTypes())
-                    }
-                }
-                Result.success(finalList)
+                val body = response.body() ?: return Result.success(emptyList())
+                Result.success(body.items.map { it.toExternal() })
             } else {
                 Result.failure(RuntimeException("Error code: ${response.code()}"))
             }
@@ -88,22 +82,21 @@ class ActivityTypeRemoteDataSource   @Inject constructor(
         )
     }
 
-    fun Result<ActivityTypes>.toActivityTypes(): ActivityTypes {
-        return ActivityTypes(
-            id = this.getOrNull()!!.id,
-            description = this.getOrNull()!!.description,
-            name = this.getOrNull()!!.name,
-            color = this.getOrNull()!!.color
-
-            )
-    }
-
     fun ActivityTypesRemote.toExternal():ActivityTypes {
         return ActivityTypes(
             id = this.id,
             color = this.color,
             description = this.description,
             name = this.name
+        )
+    }
+
+    private fun ActivityTypesListItemRemote.toExternal(): ActivityTypes {
+        return ActivityTypes(
+            id = this.id,
+            color = this.color,
+            description = this.description,
+            name = this.name,
         )
     }
 }

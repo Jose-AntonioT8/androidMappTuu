@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.mapptuu.data.model.Activity
+import com.example.mapptuu.data.model.ActivityTypes
 import com.example.mapptuu.data.repository.activity.ActivityRepository
+import com.example.mapptuu.data.repository.activityType.ActivityTypeRepository
 import com.example.mapptuu.ui.navigation.Route
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +21,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,7 +43,8 @@ data class DetailUiState(
 @HiltViewModel
 class ActivityUpdateViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val activityRepository : ActivityRepository
+    private val activityRepository : ActivityRepository,
+    private val activityTypeRepository: ActivityTypeRepository,
 ): ViewModel() {
     var isError =false
     var activityId = ""
@@ -85,6 +89,16 @@ class ActivityUpdateViewModel @Inject constructor(
 
 
         }
+
+        viewModelScope.launch {
+            // Al entrar en edición, refresca remoto → guarda en local → observa local
+            activityTypeRepository.refresh()
+            activityTypeRepository.observe().collectLatest { result ->
+                if (result.isSuccess) {
+                    activityTypes = result.getOrNull().orEmpty()
+                }
+            }
+        }
     }
     val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         isError = true
@@ -125,6 +139,8 @@ class ActivityUpdateViewModel @Inject constructor(
      ownerId = this.ownerId,
      rating = this.rating,
  )
+
+    var activityTypes by mutableStateOf<List<ActivityTypes>>(emptyList())
 
 }
 

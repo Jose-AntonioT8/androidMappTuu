@@ -10,6 +10,7 @@ import javax.inject.Inject
 import androidx.navigation.toRoute
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Plans
+import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.activity.ActivityRepository
 import com.example.mapptuu.data.repository.plan.PlanRepository
 import com.example.mapptuu.ui.navigation.Route
@@ -29,13 +30,15 @@ data class DetailUiState(
     val visibility:Boolean=false,
     val name:String="",
     val ownerId:String="",
-    val rating:Float=0F
+    val rating:Float=0F,
+    val isOwner: Boolean = false
 )
 
 @HiltViewModel
 class ActivityDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val planRepository : PlanRepository,
+    private val authRepository: AuthRepository,
     private val activityRepository: ActivityRepository,
 ): ViewModel() {
     private val _uiState : MutableStateFlow<DetailUiState> =
@@ -55,7 +58,13 @@ class ActivityDetailViewModel @Inject constructor(
                         activityRepository.readOne(id).getOrNull()?.name ?: id
                     }
                 _uiState.value = detail.copy(activityNames = names)
-            }
+
+            val currentUserToken = authRepository.getCurrentUser()?.uid
+            val isOwner = detail.ownerId == currentUserToken
+                _uiState.value = detail.copy(
+                    isOwner = isOwner
+                )
+        }
 
         }
     }

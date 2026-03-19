@@ -61,25 +61,30 @@ fun ActivityDetailScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                onUpdateActivity(uiState.id)
-            }
-            )
-            { Text(stringResource(R.string.modify_activity)) }
 
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                scope.launch {
-                    try {
-                        viewModel.delete(uiState.id)
-                        onNavegationBack()
-                    } catch (e: Exception) {
-                        android.util.Log.e("ActivityDetail", "Error al borrar: ${e.message}", e)
-                        onNavegationBack()
+            if (uiState.isOwner) {
+                Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                    onUpdateActivity(uiState.id)
+                }
+                )
+                { Text(stringResource(R.string.modify_activity)) }
+
+                Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                    scope.launch {
+                        try {
+                            viewModel.delete(uiState.id)
+                            onNavegationBack()
+                        } catch (e: Exception) {
+                            android.util.Log.e("ActivityDetail", "Error al borrar: ${e.message}", e)
+                            onNavegationBack()
+                        }
                     }
                 }
+                )
+                { Text(stringResource(R.string.delete_activity)) }
+
             }
-            )
-            { Text(stringResource(R.string.delete_activity)) }
+
             Button(
                 onClick = {
                     onNavegationBack()

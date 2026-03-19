@@ -57,17 +57,20 @@ fun PlanDetailScreen(
                 rating = uiState.rating,
                 activityNames = uiState.activityNames,
             )
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                onUpdatePlan(uiState.id)
+            if(uiState.isOwner){
+                Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                    onUpdatePlan(uiState.id)
+                }
+                )
+                { Text(stringResource(R.string.modify_plan)) }
+                Button(modifier = Modifier.fillMaxWidth(), onClick = {
+                    viewModel.delete(uiState.id)
+                    onNavegationBack()
+                }
+                )
+                { Text(stringResource(R.string.delete_plan)) }
             }
-            )
-            { Text(stringResource(R.string.modify_plan)) }
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                viewModel.delete(uiState.id)
-                onNavegationBack()
-            }
-            )
-            { Text(stringResource(R.string.delete_plan)) }
+
             Button(
                 onClick = { onNavegationBack() },
                 modifier = Modifier.fillMaxWidth(),

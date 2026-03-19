@@ -11,6 +11,7 @@ import javax.inject.Inject
 import androidx.navigation.toRoute
 import androidx.lifecycle.viewModelScope
 import com.example.mapptuu.data.model.Activity
+import com.example.mapptuu.data.repository.AuthRepository
 import com.example.mapptuu.data.repository.activity.ActivityRepository
 import com.example.mapptuu.data.repository.activityType.ActivityTypeRepository
 import com.example.mapptuu.ui.navigation.Route
@@ -32,13 +33,15 @@ data class DetailUiState(
     val longitude:String="",
     val name:String="",
     val ownerId:String="",
-    val rating:Float=0F
+    val rating:Float=0F,
+    val isOwner: Boolean = false
 )
 
 @HiltViewModel
 class ActivityDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val activityRepository : ActivityRepository,
+    val authRepository: AuthRepository,
     private val activityTypeRepository: ActivityTypeRepository,
 ): ViewModel() {
     private val _uiState : MutableStateFlow<DetailUiState> =
@@ -49,23 +52,29 @@ class ActivityDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val route = savedStateHandle.toRoute<Route.ActivityDetail>()
             val activityId = route.id
-            val activity = activityRepository.readOne(activityId)
-            activity?.let{
-                val detail = activity.getOrNull()!!.toDetailUiState()
+            val activityResult = activityRepository.readOne(activityId)
+            
+            activityResult?.getOrNull()?.let { activity ->
+                val detail = activity.toDetailUiState()
                 val activityTypeName = activityTypeRepository
                     .readOne(detail.activityTypeId)
                     .getOrNull()
                     ?.name
                     ?: detail.activityTypeId
-                _uiState.value = detail.copy(activityTypeName = activityTypeName)
+                
+                val currentUserToken = authRepository.getCurrentUser()?.uid
+                val isOwner = detail.ownerId == currentUserToken
+                
+                _uiState.value = detail.copy(
+                    activityTypeName = activityTypeName,
+                    isOwner = isOwner
+                )
             }
-
         }
     }
 
     suspend fun delete(id:String){
-            activityRepository.delete(id)
-
+        activityRepository.delete(id)
     }
 
 }

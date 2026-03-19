@@ -86,7 +86,7 @@ fun PlanListScreen (
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(top=64.dp, bottom=8.dp)
+                .padding(top=64.dp, bottom=80.dp)
 
         ) {
             SearchBar(

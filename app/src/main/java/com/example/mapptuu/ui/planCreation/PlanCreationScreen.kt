@@ -90,6 +90,7 @@ fun PlanCreationScreen (
                     //icono para hacer el dropdown
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier
+                        //sin el menuAnchor el desplegable no se desplega
                         .menuAnchor()
                         .fillMaxWidth(),
                 )
@@ -144,7 +145,10 @@ fun PlanCreationScreen (
 
             )
         }
-        Row(modifier = Modifier.padding(8.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,) {
             Button(
                 onClick = {
                     viewModel.create()

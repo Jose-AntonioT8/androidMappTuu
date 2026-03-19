@@ -1,5 +1,6 @@
 package com.example.mapptuu.ui.activityUpdate
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -96,6 +97,8 @@ fun ActivityUpdateScreen(
                     //icono para hacer el dropdown
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier
+                        //sin el menuAnchor el desplegable no se desplega
+                        .menuAnchor()
                         .fillMaxWidth(),
                 )
                 ExposedDropdownMenu(
@@ -132,7 +135,10 @@ fun ActivityUpdateScreen(
                 label = { Text(stringResource(R.string.latitude)) },
                 onValueChange = { viewModel.latitude = it }
             )
-            Row(modifier = Modifier.padding(8.dp)) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,) {
                 Button(
                     onClick = {
                         viewModel.update()

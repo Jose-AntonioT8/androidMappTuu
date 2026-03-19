@@ -2,6 +2,7 @@ package com.example.mapptuu.ui.activityCreation
 
 
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -47,6 +49,7 @@ fun ActivityCreationScreen (
         ) {
             var expanded by remember { mutableStateOf(false) }
             val activityTypes = viewModel.activityTypes
+            //El valor del tipo de la actividad se guarda en el viewModel para enviarlo y se muestra en el campo, si hay un nombre seleccionado se busca el id para enviar el id del tipo de actividad
             val selectedTypeName = activityTypes.firstOrNull { it.id == viewModel.activityTypeId }?.name
                 ?: viewModel.activityTypeId
 
@@ -69,6 +72,7 @@ fun ActivityCreationScreen (
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 8.dp),
+
                 ) {
                     OutlinedTextField(
                         value = selectedTypeName,
@@ -80,7 +84,10 @@ fun ActivityCreationScreen (
                         //icono para hacer el dropdown
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                         modifier = Modifier
+                            //sin el menuAnchor el desplegable no se desplega
+                            .menuAnchor()
                             .fillMaxWidth(),
+
                     )
                     ExposedDropdownMenu(
                         expanded = expanded,
@@ -132,7 +139,12 @@ fun ActivityCreationScreen (
 
                 )
             }
-            Row(modifier = Modifier.padding(8.dp)) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+
+            ) {
                 Button(
                     onClick = {
                         viewModel.create()

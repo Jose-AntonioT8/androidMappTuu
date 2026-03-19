@@ -54,6 +54,10 @@ class ActivityCreationViewModel @Inject constructor(
         }
     }
     fun create(){
+        if(name.isBlank() || description.isBlank() || activityTypeId.isBlank() || latitude.isBlank() || longitude.isBlank()){
+            isError = true
+            return
+        }
         viewModelScope.launch {
             val activity = Activity(
                 id = "",

@@ -44,6 +44,10 @@ class PlanCreationViewModel @Inject constructor(
         }
     }
     fun create(){
+        if(name.isBlank() || description.isBlank() || selectedActivityIds.isEmpty()){
+            isError = true
+            return
+        }
         viewModelScope.launch {
             val plan = Plans(
                 id = "",

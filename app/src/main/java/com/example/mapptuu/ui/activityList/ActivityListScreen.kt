@@ -89,6 +89,13 @@ fun ActivityListScreen(
                 .padding(innerPadding)
                 .padding(top =0.dp, bottom = 8.dp)
         ) {
+            Text(
+                text = stringResource(R.string.activities),
+                modifier = Modifier.padding(start = 16.dp),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             SearchBar(
                 viewModel = viewModel,
                 onPlanList = onPlanList,
@@ -285,4 +292,3 @@ private fun ActivityList(
         }
     }
 }
-

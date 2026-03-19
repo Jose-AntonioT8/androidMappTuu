@@ -89,6 +89,11 @@ fun PlanListScreen (
                 .padding(top=64.dp, bottom=80.dp)
 
         ) {
+            Text(stringResource(R.string.plan),
+                modifier = Modifier.padding(start = 16.dp),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(16.dp))
             SearchBar(
                 viewModel = viewModel,
                 onActivityList = onNavigateActivityList,

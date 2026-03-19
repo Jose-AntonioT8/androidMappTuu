@@ -30,8 +30,8 @@
     <string name="created_at">Creado el</string>
 
     <string name="my_plans">Mis planes</string>
-    <string name="create_plan">Crear plan</string>
-    <string name="plan">Plan</string>
+    <string name="create_plan">Crear</string>
+    <string name="plan">Planes</string>
     <string name="modify_plan">Modificar plan</string>
     <string name="delete_plan">Borrar plan</string>
     <string name="is_public">Publico</string>

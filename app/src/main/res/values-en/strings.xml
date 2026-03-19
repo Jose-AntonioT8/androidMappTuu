@@ -37,8 +37,8 @@
     <string name="created_at">Created at</string>
 
     <string name="my_plans">My plans</string>
-    <string name="create_plan">Create plan</string>
-    <string name="plan">Plan</string>
+    <string name="create_plan">Create</string>
+    <string name="plan">Plans</string>
     <string name="modify_plan">Modify plan</string>
     <string name="delete_plan">Delete plan</string>
     <string name="is_public">Public</string>

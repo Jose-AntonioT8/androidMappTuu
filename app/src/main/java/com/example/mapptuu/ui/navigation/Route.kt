@@ -60,6 +60,9 @@ sealed class Route(val route:String) {
     data object Map: Route("map")
 
     @Serializable
+    data object LocationPicker : Route("location_picker")
+
+    @Serializable
     data object Login: Route("login")
 
     @Serializable
@@ -110,7 +113,6 @@ fun NavController.navigateToMap(){
 }
 
 
-
 fun NavController.navigateToSetting(){
     this.navigate(Route.Setting)
 }
@@ -151,8 +153,32 @@ fun NavGraphBuilder.mapDestination(
 
 }
 
+fun NavGraphBuilder.locationPickerDestination(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+) {
+    composable<Route.LocationPicker> {
+        val caller = navController.previousBackStackEntry?.savedStateHandle
+        val initialLat = caller?.get<String>("picker_initial_lat")
+        val initialLng = caller?.get<String>("picker_initial_lng")
+
+        com.example.mapptuu.ui.map.LocationPickerScreen(
+            modifier = modifier,
+            initialLat = initialLat,
+            initialLng = initialLng,
+            onCancel = { navController.popBackStack() },
+            onConfirm = { lat, lng ->
+                caller?.set("picked_lat", lat)
+                caller?.set("picked_lng", lng)
+                navController.popBackStack()
+            },
+        )
+    }
+}
+
 fun NavGraphBuilder.activityCreationDestination(
     modifier:Modifier = Modifier,
+    navController: NavController,
     onNavegationBack:()->Unit,
 
     ){
@@ -162,6 +188,13 @@ fun NavGraphBuilder.activityCreationDestination(
             backStackEntry ->
         ActivityCreationScreen (
             modifier = modifier,
+            pickedLat = backStackEntry.savedStateHandle.get<String>("picked_lat"),
+            pickedLng = backStackEntry.savedStateHandle.get<String>("picked_lng"),
+            onOpenLocationPicker = { currentLat, currentLng ->
+                backStackEntry.savedStateHandle.set("picker_initial_lat", currentLat)
+                backStackEntry.savedStateHandle.set("picker_initial_lng", currentLng)
+                navController.navigate(Route.LocationPicker)
+            },
             onNavegationBack={
                 onNavegationBack()
             })
@@ -194,12 +227,20 @@ fun NavGraphBuilder.activityDetailDestination(
 
 fun NavGraphBuilder.activityUpdateDestination(
     modifier:Modifier = Modifier,
+    navController: NavController,
     onNavigateToList:()->Unit,
 ){
     composable<Route.ActivityUpdate>{
             backStackEntry ->
         ActivityUpdateScreen (
             modifier = modifier,
+            pickedLat = backStackEntry.savedStateHandle.get<String>("picked_lat"),
+            pickedLng = backStackEntry.savedStateHandle.get<String>("picked_lng"),
+            onOpenLocationPicker = { currentLat, currentLng ->
+                backStackEntry.savedStateHandle.set("picker_initial_lat", currentLat)
+                backStackEntry.savedStateHandle.set("picker_initial_lng", currentLng)
+                navController.navigate(Route.LocationPicker)
+            },
             onNavigateToList = onNavigateToList
         )
     }

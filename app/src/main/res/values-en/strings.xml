@@ -35,6 +35,7 @@
 
     <string name="rating">Rating</string>
     <string name="created_at">Created at</string>
+    <string name="selectInMap">Select in map</string>
 
     <string name="my_plans">My plans</string>
     <string name="create_plan">Create</string>
@@ -44,7 +45,9 @@
     <string name="is_public">Public</string>
     <string name="is_private">Private</string>
     <string name="name_activities">Name of the activities</string>
-
+    <string name="ubication">Ubication</string>
+    <string name="confirm">Confirm</string>
+    <string name="selectUbication">Select ubication</string>
 
 
 

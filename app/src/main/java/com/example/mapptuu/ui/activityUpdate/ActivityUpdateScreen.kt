@@ -23,7 +23,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.mapptuu.R
@@ -35,8 +34,20 @@ import com.example.mapptuu.ui.component.Header
 fun ActivityUpdateScreen(
     modifier : Modifier = Modifier,
     viewModel : ActivityUpdateViewModel = hiltViewModel(),
+    pickedLat: String? = null,
+    pickedLng: String? = null,
+    onOpenLocationPicker: (currentLat: String, currentLng: String) -> Unit,
     onNavigateToList:()->Unit
 ){
+    //Si se selecciona una latitud y longitud se guarda en el viewModel si no son nulas o no estan vacias, la logica es que si una esta vacia, no son datos validos
+    //este launchedeffect sirve para que el if se ejecute solo cuando cambien los valores de pickedLat o pickedLng
+    LaunchedEffect(pickedLat, pickedLng) {
+        if (!pickedLat.isNullOrBlank() && !pickedLng.isNullOrBlank()) {
+            viewModel.latitude = pickedLat
+            viewModel.longitude = pickedLng
+        }
+    }
+
     LaunchedEffect(viewModel.updateCompleted) {
         viewModel.updateCompleted.collect { done ->
             if (done) {
@@ -120,21 +131,28 @@ fun ActivityUpdateScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .padding(start = 8.dp).fillMaxWidth(),
-                value = viewModel.longitude,
-                singleLine = false,
+                //campo de texto que muestra el valor de la ubicacion, si hemos elegido alguna ubicacion, muestra su latitud y longitud, si no, no
+                value = if (viewModel.latitude.isNotBlank() && viewModel.longitude.isNotBlank()) {
+                    "${viewModel.latitude}, ${viewModel.longitude}"
+                } else {
+                    ""
+                },
+                singleLine = true,
                 isError = viewModel.isError,
-                label = { Text(stringResource(R.string.longitude)) },
-                onValueChange = { viewModel.longitude = it }
+                readOnly = true,
+                label = { Text(stringResource(R.string.ubication)+" (lat, lng)") },
+                onValueChange = { }
             )
-            OutlinedTextField(
+            Button(
                 modifier = Modifier
                     .padding(start = 8.dp).fillMaxWidth(),
-                value = viewModel.latitude,
-                singleLine = false,
-                isError = viewModel.isError,
-                label = { Text(stringResource(R.string.latitude)) },
-                onValueChange = { viewModel.latitude = it }
-            )
+                onClick = {
+                    //se llama a la pantalla para elegir ubicacion y le pasamos los valores actuales de longitud y latitud del viewmodel que se enviará para actualizar la actividad
+                    onOpenLocationPicker(viewModel.latitude, viewModel.longitude)
+                },
+            ) {
+                Text(stringResource(R.string.selectInMap))
+            }
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 8.dp),

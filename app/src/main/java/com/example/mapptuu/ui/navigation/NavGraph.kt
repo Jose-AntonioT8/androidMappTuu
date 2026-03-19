@@ -56,6 +56,7 @@ fun NavGraph(){
             },
             )
             activityCreationDestination(contentModifier,
+                navController = navController,
                 onNavegationBack={
                     navController.navigateToActivityList()
                 },
@@ -69,6 +70,7 @@ fun NavGraph(){
                 }
             )
             activityUpdateDestination(contentModifier,
+                navController = navController,
                 onNavigateToList = {
                     navController.navigateToActivityList()
                 }
@@ -155,6 +157,11 @@ fun NavGraph(){
                 onNavigateToSetting = {
                     navController.navigateToSetting()
                 }
+            )
+
+            locationPickerDestination(
+                modifier = contentModifier,
+                navController = navController,
             )
             profileDestination(
                 navController,
